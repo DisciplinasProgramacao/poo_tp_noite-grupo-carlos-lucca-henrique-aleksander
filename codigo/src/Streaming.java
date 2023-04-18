@@ -2,6 +2,8 @@ package src;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 
 public class Streaming {
     public Cliente clienteLogado;
@@ -25,10 +27,41 @@ public class Streaming {
         return "Série cadastrada";
     }
 
-    public ArrayList<Serie> buscaSerieGenero(String genero){}
+    public ArrayList<Serie> buscaSerieGenero(String genero){
+        ArrayList<Serie> listaPorGenero = new ArrayList<>();
+        for (Map.Entry<String, Serie> entry: series.entrySet()) {
+            //String chave = entry.getKey();
+            Serie serie = entry.getValue();
+            if (serie.getGenero().contains(genero)) {
+                listaPorGenero.add(serie);
+            }
+        }
+        return listaPorGenero;
+    }
+    
+    public ArrayList<Serie> buscaSerieNome(String nome){
+        ArrayList<Serie> listaPorNome = new ArrayList<>();
+        for (Map.Entry<String, Serie> entry: series.entrySet()) {
+           //String chave = entry.getKey();
+           Serie serie = entry.getValue();
+           if (serie.getNome().equals(nome)) {
+            listaPorNome.add(serie);
+           }
+        }
+        return listaPorNome;
+    }
+    public ArrayList<Serie> buscaSerieIdioma(String idioma){
+        ArrayList<Serie> listaPorIdioma = new ArrayList<>();
+        for (Map.Entry<String, Serie> entry : series.entrySet()) {
+            //String chave = entry.getKey();
+            Serie serie = entry.getValue();
+            if (serie.getIdioma().contains(idioma)) {
+                listaPorIdioma.add(serie);
+            }
+        }
+        return listaPorIdioma;
+    }
 
-    public ArrayList<Serie> buscaSerieNome(String nome){}
-    public ArrayList<Serie> buscaSerieIdioma(String idioma){}
 
     public String login(String nomeUsuario, String senha){
         if(clientes.containsKey(nomeUsuario)) {
