@@ -76,16 +76,16 @@ public class Streaming {
 
     }
 
-    public boolean adicionarSerieFutura(Serie serie){
-        clienteLogado.adicionarSerieFutura(serie);
-    }
+    // public boolean adicionarSerieFutura(Serie serie){
+    //     clienteLogado.adicionarSerieFutura(serie);
+    // }
 
-    public boolean terminarSerie(String identificador){
-        Serie serieTerminada = series.get(identificador);
-        clienteLogado.terminarSerie(serieTerminada);
-    }
+    // public boolean terminarSerie(String identificador){
+    //     Serie serieTerminada = series.get(identificador);
+    //     clienteLogado.terminarSerie(serieTerminada);
+    // }
 
-    public void iniciarSerie(String identificador){}
+    // public void iniciarSerie(String identificador){}
 
 
 
