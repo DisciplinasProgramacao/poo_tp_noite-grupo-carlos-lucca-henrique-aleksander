@@ -1,4 +1,4 @@
-package src;
+package codigo.src;
 
 import java.util.ArrayList;
 
@@ -43,12 +43,4 @@ public class Serie {
         return assistidaPorClientes;
     }
 
-    public boolean possuiGenero(String generoString) {
-        for (String genero : genero) {
-            if (genero.equals(generoString)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

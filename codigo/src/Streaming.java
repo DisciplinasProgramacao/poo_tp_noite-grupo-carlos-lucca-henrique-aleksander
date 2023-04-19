@@ -1,4 +1,4 @@
-package src;
+package codigo.src;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,16 +6,16 @@ import java.util.Map;
 
 
 public class Streaming {
-    public Cliente clienteLogado;
-    public HashMap<String, Cliente> clientes;
-    public HashMap<String, Serie> series;
+    private Cliente clienteLogado;
+    private HashMap<String, Cliente> clientes;
+    private HashMap<String, Serie> series;
 
-    public String cadastrarCliente(String nomeUsuario, String nome, String senha){
-        if(clientes.containsKey(nomeUsuario)){
+    public String cadastrarCliente(String nome, String senha, String email){
+        if(clientes.containsKey(email)){
             return "Já existe uma conta com esse nome de usuário";
         }
-        Cliente cliente = new Cliente(nomeUsuario, nome, senha);
-        clientes.put(nomeUsuario, cliente);
+        Cliente cliente = new Cliente(nome, senha, email);
+        clientes.put(email, cliente);
         return "Usuário cadastrado com sucesso!";
     }
 
@@ -30,7 +30,6 @@ public class Streaming {
     public ArrayList<Serie> buscaSerieGenero(String genero){
         ArrayList<Serie> listaPorGenero = new ArrayList<>();
         for (Map.Entry<String, Serie> entry: series.entrySet()) {
-            //String chave = entry.getKey();
             Serie serie = entry.getValue();
             if (serie.getGenero().contains(genero)) {
                 listaPorGenero.add(serie);
@@ -42,7 +41,6 @@ public class Streaming {
     public ArrayList<Serie> buscaSerieNome(String nome){
         ArrayList<Serie> listaPorNome = new ArrayList<>();
         for (Map.Entry<String, Serie> entry: series.entrySet()) {
-           //String chave = entry.getKey();
            Serie serie = entry.getValue();
            if (serie.getNome().equals(nome)) {
             listaPorNome.add(serie);
@@ -53,7 +51,6 @@ public class Streaming {
     public ArrayList<Serie> buscaSerieIdioma(String idioma){
         ArrayList<Serie> listaPorIdioma = new ArrayList<>();
         for (Map.Entry<String, Serie> entry : series.entrySet()) {
-            //String chave = entry.getKey();
             Serie serie = entry.getValue();
             if (serie.getIdioma().contains(idioma)) {
                 listaPorIdioma.add(serie);
@@ -80,10 +77,12 @@ public class Streaming {
     //     clienteLogado.adicionarSerieFutura(serie);
     // }
 
-    // public boolean terminarSerie(String identificador){
-    //     Serie serieTerminada = series.get(identificador);
-    //     clienteLogado.terminarSerie(serieTerminada);
-    // }
+    public void terminarSerie(String identificador){
+         Serie serieTerminada = series.get(identificador);
+         if(serieTerminada!=null){
+            clienteLogado.terminarSerie(serieTerminada);
+         }
+     }
 
     // public void iniciarSerie(String identificador){}
 
