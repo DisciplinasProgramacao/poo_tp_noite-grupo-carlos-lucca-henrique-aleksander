@@ -15,6 +15,7 @@ public class Streaming {
     private Cliente clienteLogado;
     private HashMap<String, Cliente> clientes;
     private HashMap<String, Serie> series;
+    private HashMap<String, Filme> filmes;
 
     public Streaming(){
         clienteLogado = null;
@@ -75,10 +76,27 @@ public class Streaming {
             throw new RuntimeException(e);
         }
     }
+    private void lerArquivoFilmes() throws FileNotFoundException {
+        try (BufferedReader br = new BufferedReader(new FileReader("filmes.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(";");
+                String identificador = values[0];
+                String nome = values[1];
+                String lancamento = values[2];
+                int duracao = Integer.parseInt(values[3]);
+                Filme novoFilme = new Filme(nome, identificador, LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),duracao);
+                cadastrarFilme(novoFilme);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void iniciar() throws FileNotFoundException {
         lerArquivoClientes();
         lerArquivoSeries();
         lerArquivoAudiencia();
+        lerArquivoFilmes();
     }
 
     public String cadastrarCliente(String nome, String senha, String nomeUsuario){
@@ -90,6 +108,14 @@ public class Streaming {
         return "Usuário cadastrado com sucesso!";
     }
 
+    public String cadastrarFilme(Filme filme){
+        if(filmes.containsKey(filme.getIdentificador())){
+            return "Filme já cadastrado no sistema";
+        }
+        filmes.put(filme.getIdentificador(), filme);
+        return "Filme cadastrado";
+    }
+
     public String cadastrarSerie(Serie serie){
         if(series.containsKey(serie.getIdentificador())){
             return "Serie já cadastrada no sistema";
@@ -98,7 +124,7 @@ public class Streaming {
         return "Série cadastrada";
     }
 
-    public ArrayList<Serie> buscaSerieGenero(String genero){
+    public ArrayList<Serie> buscaSerieGeneroSerie(String genero){
         ArrayList<Serie> listaPorGenero = new ArrayList<>();
         for (Map.Entry<String, Serie> entry: series.entrySet()) {
             Serie serie = entry.getValue();
@@ -109,7 +135,7 @@ public class Streaming {
         return listaPorGenero;
     }
     
-    public ArrayList<Serie> buscaSerieNome(String nome){
+    public ArrayList<Serie> buscaSerieNomeSerie(String nome){
         ArrayList<Serie> listaPorNome = new ArrayList<>();
         for (Map.Entry<String, Serie> entry: series.entrySet()) {
            Serie serie = entry.getValue();
@@ -119,7 +145,7 @@ public class Streaming {
         }
         return listaPorNome;
     }
-    public ArrayList<Serie> buscaSerieIdioma(String idioma){
+    public ArrayList<Serie> buscaSerieIdiomaSerie(String idioma){
         ArrayList<Serie> listaPorIdioma = new ArrayList<>();
         for (Map.Entry<String, Serie> entry : series.entrySet()) {
             Serie serie = entry.getValue();
