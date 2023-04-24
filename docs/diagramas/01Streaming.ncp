@@ -12,7 +12,7 @@
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
         <Member type="Field">private String senha</Member>
-        <Member type="Field">private String email</Member>
+        <Member type="Field">private String nomeUsuario</Member>
         <Member type="Field">private ArrayList &lt;Serie&gt; seriesFuturas</Member>
         <Member type="Field">private ArrayList&lt;Serie&gt; seriesAssistidas</Member>
         <Member type="Method">public void adicionarSerieFutura(Serie serie)</Member>
@@ -44,10 +44,10 @@
         <Member type="Field">private Cliente clienteLogado</Member>
         <Member type="Field">private hashMap series</Member>
         <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieGenero(String genero)</Member>
-        <Member type="Method">public String cadastrarCliente(String nome, String senha, String email)</Member>
+        <Member type="Method">public String cadastrarCliente(String nome, String senha, String nomeUsuario)</Member>
         <Member type="Method">public String cadastrarSerie(Serie serie)</Member>
         <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieIdioma(String idioma)</Member>
-        <Member type="Method">public String login(String email, String senha)</Member>
+        <Member type="Method">public String login(String nomeUsuario, String senha)</Member>
         <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieNome(String nome)</Member>
         <Member type="Method">public void terminarSerie(String identificador)</Member>
         <Modifier>None</Modifier>

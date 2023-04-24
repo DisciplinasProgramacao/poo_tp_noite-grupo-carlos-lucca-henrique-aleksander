@@ -1,9 +1,11 @@
-package codigo.src;
+package src;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SeriesTeste {
@@ -16,7 +18,7 @@ public class SeriesTeste {
     }
     @Test
     public void testAdicionarAssistido() {
-        Serie serie = new Serie("Attack on Titan", idioma, genero, "001", 0);
+        Serie serie = new Serie("Attack on Titan", idioma, genero, "001", 0, LocalDate.now() );
         assertEquals(0, serie.getAssistidaPorClientes());
         serie.adicionaAssistido();
         assertEquals(1, serie.getAssistidaPorClientes());

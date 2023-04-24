@@ -1,20 +1,21 @@
-package codigo.src;
+package src;
+
 import java.util.*;
 
 public class Cliente
  {
     private String nome;
     private String senha;
-    private String email;
+    private String nomeUsuario;
     private ArrayList<Serie> seriesFuturas;
     private ArrayList<Serie> seriesAssistidas;
 
 
 
-    public Cliente(String nome, String senha, String email){
+    public Cliente(String nome, String senha, String nomeUsuario){
         this.nome=nome;
         this.senha=senha;
-        this.email=email;
+        this.nomeUsuario = nomeUsuario;
         this.seriesFuturas = new ArrayList<>();
         this.seriesAssistidas = new ArrayList<>();
     }
@@ -22,11 +23,22 @@ public class Cliente
     
 
     public void adicionarSerieFutura(Serie serie){
-        this.seriesFuturas.add(serie);
+        boolean contemSerie = seriesFuturas.contains(serie);
+        if(!contemSerie) {
+            this.seriesFuturas.add(serie);
+        }
 
     }
-  
-    public void terminarSerie(Serie serie){
+
+     public String getNome() {
+         return nome;
+     }
+
+     public String getNomeUsuario() {
+         return nomeUsuario;
+     }
+
+     public void terminarSerie(Serie serie){
         if(!seriesAssistidas.contains(serie)){
             this.seriesAssistidas.add(serie);
             serie.adicionaAssistido();
