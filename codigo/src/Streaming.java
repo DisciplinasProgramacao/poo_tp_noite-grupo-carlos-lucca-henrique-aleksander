@@ -88,8 +88,9 @@ public class Streaming {
                 String nome = values[1];
                 String lancamento = values[2];
                 int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme = new Filme(nome, identificador, null, null,
-                        LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
+                Midia novoFilme= new Filme(nome, identificador, null, null,
+                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),duracao);
+              
                 cadastrarMidia(novoFilme);
             }
         } catch (IOException e) {
