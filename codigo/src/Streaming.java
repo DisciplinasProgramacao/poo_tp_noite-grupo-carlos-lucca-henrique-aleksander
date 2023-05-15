@@ -13,14 +13,13 @@ import java.util.Map;
 public class Streaming {
     private Cliente clienteLogado;
     private HashMap<String, Cliente> clientes;
-    private HashMap<String, Serie> series;
     private HashMap<String, Midia> midias;
 
     public Streaming() {
         clienteLogado = null;
         this.midias = new HashMap<>();
         this.clientes = new HashMap<>();
-        this.series = new HashMap<>();
+ 
     }
 
     private void lerArquivoClientes() throws FileNotFoundException {
@@ -115,7 +114,7 @@ public class Streaming {
     }
 
     public String cadastrarMidia(Midia midia) {
-        if (series.containsKey(midia.getIdentificador())) {
+        if (midias.containsKey(midia.getIdentificador())) {
             return "Midia já cadastrada no sistema";
         }
         midias.put(midia.getIdentificador(), midia);
@@ -123,39 +122,83 @@ public class Streaming {
     }
 
     // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Serie> buscaSerieGeneroSerie(String genero) {
-        ArrayList<Serie> listaPorGenero = new ArrayList<>();
-        for (Map.Entry<String, Serie> entry : series.entrySet()) {
-            Serie serie = entry.getValue();
-            if (serie.getGenero().contains(genero)) {
-                listaPorGenero.add(serie);
+    public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
+        ArrayList<Midia> listaPorGenero = new ArrayList<>();
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (midia.getGenero().contains(genero)) {
+                listaPorGenero.add(midia);
             }
         }
         return listaPorGenero;
     }
 
     // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Serie> buscaSerieNomeSerie(String nome) {
-        ArrayList<Serie> listaPorNome = new ArrayList<>();
-        for (Map.Entry<String, Serie> entry : series.entrySet()) {
-            Serie serie = entry.getValue();
-            if (serie.getNome().equals(nome)) {
-                listaPorNome.add(serie);
+    public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
+        ArrayList<Midia> listaPorNome = new ArrayList<>();
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (midia.getNome().equals(nome)) {
+                listaPorNome.add(midia);
             }
         }
         return listaPorNome;
     }
 
     // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Serie> buscaSerieIdiomaSerie(String idioma) {
-        ArrayList<Serie> listaPorIdioma = new ArrayList<>();
-        for (Map.Entry<String, Serie> entry : series.entrySet()) {
-            Serie serie = entry.getValue();
-            if (serie.getIdioma().contains(idioma)) {
-                listaPorIdioma.add(serie);
+    public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
+        ArrayList<Midia> listaPorIdioma = new ArrayList<>();
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (midia.getIdioma().contains(idioma)) {
+                listaPorIdioma.add(midia);
             }
         }
         return listaPorIdioma;
+    }
+
+
+    public <T> ArrayList<Midia> buscarFilme( T criterio) {
+        ArrayList<Midia> resultados = new ArrayList<>();
+
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (criterio instanceof String) {
+                if (midia.getNome().equalsIgnoreCase((String) criterio)) {
+                    resultados.add(midia);
+                }
+            } else if (criterio instanceof String[]) {
+                String[] arrayTexto = (String[]) criterio;
+                if (contemGenerosOuIdiomas(midia, arrayTexto)) {
+                    resultados.add(midia);
+                }
+            } else if (criterio instanceof Midia ) {
+                if (midia.equals((Midia ) criterio)) {
+                    resultados.add(midia);
+                }
+            }
+        }
+
+        return resultados;
+    }
+   
+        private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
+            for (String texto : arrayTexto) {
+                if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    
+        private boolean contemValor(ArrayList<String> array, String valor) {
+            for (String elemento : array) {
+                if (elemento.equals(valor)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public String login(String nomeUsuario, String senha) {
