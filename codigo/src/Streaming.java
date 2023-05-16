@@ -199,7 +199,6 @@ public class Streaming {
             }
             return false;
         }
-    }
 
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {
