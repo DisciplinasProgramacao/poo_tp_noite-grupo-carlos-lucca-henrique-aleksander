@@ -7,70 +7,120 @@
       <Entity type="Class">
         <Name>Cliente</Name>
         <Access>Public</Access>
-        <Location left="147" top="70" />
+        <Location left="10" top="38" />
         <Size width="292" height="336" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
         <Member type="Field">private String senha</Member>
         <Member type="Field">private String nomeUsuario</Member>
-        <Member type="Field">private ArrayList &lt;Serie&gt; seriesFuturas</Member>
-        <Member type="Field">private ArrayList&lt;Serie&gt; seriesAssistidas</Member>
-        <Member type="Method">public void adicionarSerieFutura(Serie serie)</Member>
-        <Member type="Method">public void terminarSerie(Serie serie)</Member>
-        <Member type="Method">public Serie buscarSerie(Serie serie)</Member>
+        <Member type="Field">private ArrayList &lt;Midia&gt; midiasFuturas</Member>
+        <Member type="Field">private ArrayList&lt;Midia&gt; midiasAssistidas</Member>
+        <Member type="Method">public void adicionarMidiaFutura(Midia midia)</Member>
+        <Member type="Method">public void terminarMidia(Midia midia)</Member>
+        <Member type="Method">public Midia buscarMidia(Midia midia)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
-        <Name>Serie</Name>
+        <Name>Midia</Name>
         <Access>Public</Access>
-        <Location left="920" top="70" />
+        <Location left="878" top="53" />
         <Size width="325" height="320" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
         <Member type="Field">private ArrayList&lt;String&gt; idioma</Member>
         <Member type="Field">private ArrayList&lt;String&gt; genero</Member>
-        <Member type="Field">private int assistidaPorClientes</Member>
+        <Member type="Field">private LocalDate data</Member>
         <Member type="Field">private String identificador</Member>
+        <Member type="Field">private int assistidaPorClientes</Member>
+        <Member type="Method">public String getData()</Member>
         <Member type="Method">public void adicionalAssistido()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Streaming</Name>
         <Access>Public</Access>
-        <Location left="545" top="42" />
-        <Size width="277" height="400" />
+        <Location left="364" top="10" />
+        <Size width="399" height="400" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">private hashMap clientes</Member>
         <Member type="Field">private Cliente clienteLogado</Member>
-        <Member type="Field">private hashMap series</Member>
-        <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieGenero(String genero)</Member>
+        <Member type="Field">private hashMap&lt;String, Clientes&gt; clientes</Member>
+        <Member type="Field">private hashMap&lt;String, Midia&gt; midias</Member>
+        <Member type="Method">private void lerArquivoClientes()</Member>
+        <Member type="Method">private void lerArquivoSeries()</Member>
+        <Member type="Method">private void lerArquivoFilmes()</Member>
+        <Member type="Method">private void lerArquivoAudiencia()</Member>
         <Member type="Method">public String cadastrarCliente(String nome, String senha, String nomeUsuario)</Member>
-        <Member type="Method">public String cadastrarSerie(Serie serie)</Member>
-        <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieIdioma(String idioma)</Member>
+        <Member type="Method">public String cadastrarMidia(Midia midia)</Member>
+        <Member type="Method">public ArrayList&lt;Midia&gt; buscarFilme(T criterio)</Member>
+        <Member type="Method">private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto)</Member>
+        <Member type="Method">private boolean contemValor(ArraysList&lt;String&gt; array, String valor)</Member>
         <Member type="Method">public String login(String nomeUsuario, String senha)</Member>
+        <Member type="Method">public void adicionarMidiaFutura(Midia midia)</Member>
+        <Member type="Method">public void terminarMidia(String identificador)</Member>
+        <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieGenero(String genero)</Member>
         <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieNome(String nome)</Member>
-        <Member type="Method">public void terminarSerie(String identificador)</Member>
+        <Member type="Method">public ArrayList&lt;Serie&gt; buscaSerieIdioma(String idioma)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Filme</Name>
+        <Access>Public</Access>
+        <Location left="854" top="471" />
+        <Size width="162" height="101" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int duracao</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Serie</Name>
+        <Access>Public</Access>
+        <Location left="1088" top="471" />
+        <Size width="162" height="101" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int qtdEpisodios</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1048</X>
+          <Y>412</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1048</X>
+          <Y>415</Y>
+        </BendPoint>
       </Relationship>
     </Relationships>
   </ProjectItem>
