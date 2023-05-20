@@ -158,7 +158,7 @@ public class Streaming {
     }
 
 
-    public <T> ArrayList<Midia> buscarFilme( T criterio) {
+    public <T> ArrayList<Midia> buscarFilme(T criterio) {
         ArrayList<Midia> resultados = new ArrayList<>();
 
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
@@ -173,7 +173,7 @@ public class Streaming {
                     resultados.add(midia);
                 }
             } else if (criterio instanceof Midia ) {
-                if (midia.equals((Midia ) criterio)) {
+                if (midia.equals((Midia) criterio)) {
                     resultados.add(midia);
                 }
             }
