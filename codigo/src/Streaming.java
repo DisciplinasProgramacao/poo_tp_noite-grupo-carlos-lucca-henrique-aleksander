@@ -19,7 +19,7 @@ public class Streaming {
         clienteLogado = null;
         this.midias = new HashMap<>();
         this.clientes = new HashMap<>();
- 
+
     }
 
     private void lerArquivoClientes() throws FileNotFoundException {
@@ -87,9 +87,9 @@ public class Streaming {
                 String nome = values[1];
                 String lancamento = values[2];
                 int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme= new Filme(nome, identificador, null, null,
-                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),duracao);
-              
+                Midia novoFilme = new Filme(nome, identificador, null, null,
+                        LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
+
                 cadastrarMidia(novoFilme);
             }
         } catch (IOException e) {
@@ -157,7 +157,6 @@ public class Streaming {
         return listaPorIdioma;
     }
 
-
     public <T> ArrayList<Midia> buscarFilme(T criterio) {
         ArrayList<Midia> resultados = new ArrayList<>();
 
@@ -172,7 +171,7 @@ public class Streaming {
                 if (contemGenerosOuIdiomas(midia, arrayTexto)) {
                     resultados.add(midia);
                 }
-            } else if (criterio instanceof Midia ) {
+            } else if (criterio instanceof Midia) {
                 if (midia.equals((Midia) criterio)) {
                     resultados.add(midia);
                 }
@@ -181,24 +180,24 @@ public class Streaming {
 
         return resultados;
     }
-   
-        private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
-            for (String texto : arrayTexto) {
-                if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
-                    return true;
-                }
+
+    private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
+        for (String texto : arrayTexto) {
+            if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
+                return true;
             }
-            return false;
         }
-    
-        private boolean contemValor(ArrayList<String> array, String valor) {
-            for (String elemento : array) {
-                if (elemento.equals(valor)) {
-                    return true;
-                }
+        return false;
+    }
+
+    private boolean contemValor(ArrayList<String> array, String valor) {
+        for (String elemento : array) {
+            if (elemento.equals(valor)) {
+                return true;
             }
-            return false;
         }
+        return false;
+    }
 
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {

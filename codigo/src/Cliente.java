@@ -8,6 +8,8 @@ public class Cliente {
     private String nomeUsuario;
     private ArrayList<Midia> midiasFuturas;
     private ArrayList<Midia> midiasAssistidas;
+    private ArrayList<Avaliacao> avaliacoes;
+    private boolean podeComentar;
 
     public Cliente(String nome, String senha, String nomeUsuario) {
         this.nome = nome;
@@ -15,6 +17,8 @@ public class Cliente {
         this.nomeUsuario = nomeUsuario;
         this.midiasFuturas = new ArrayList<>();
         this.midiasAssistidas = new ArrayList<>();
+        this.avaliacoes = new ArrayList<>();
+        this.podeComentar = false;
     }
 
     public void adicionarMidiaFutura(Midia midia) {
@@ -67,4 +71,21 @@ public class Cliente {
         return senha;
     }
 
+    public ArrayList<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public boolean getPodeComentar() {
+        return podeComentar;
+    }
+
+    public Avaliacao avaliar(int avaliacao, String comentario, Midia midia) {
+        if (midiasAssistidas.contains(midia)) {
+            if (!podeComentar) {
+                return new Avaliacao(avaliacao, midia);
+            }
+            return new Avaliacao(avaliacao, comentario, midia);
+        }
+        return null;
+    }
 }
