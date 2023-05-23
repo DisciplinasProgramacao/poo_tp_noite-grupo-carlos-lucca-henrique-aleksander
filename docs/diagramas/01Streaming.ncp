@@ -7,7 +7,7 @@
       <Entity type="Class">
         <Name>Cliente</Name>
         <Access>Public</Access>
-        <Location left="365" top="142" />
+        <Location left="312" top="1163" />
         <Size width="292" height="336" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
@@ -24,12 +24,12 @@
       <Entity type="Class">
         <Name>Midia</Name>
         <Access>Public</Access>
-        <Location left="1225" top="352" />
+        <Location left="1172" top="1373" />
         <Size width="325" height="320" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
-        <Member type="Field">private ArrayList&lt;String&gt; idioma</Member>
-        <Member type="Field">private ArrayList&lt;String&gt; genero</Member>
+        <Member type="Field">private Idioma idioma</Member>
+        <Member type="Field">private Genero genero</Member>
         <Member type="Field">private ArrayList&lt;Avaliacao&gt; avaliacoes</Member>
         <Member type="Field">private LocalDate data</Member>
         <Member type="Field">private String identificador</Member>
@@ -42,7 +42,7 @@
       <Entity type="Class">
         <Name>Streaming</Name>
         <Access>Public</Access>
-        <Location left="721" top="117" />
+        <Location left="668" top="1138" />
         <Size width="399" height="400" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private Cliente clienteLogado</Member>
@@ -66,7 +66,7 @@
       <Entity type="Class">
         <Name>Filme</Name>
         <Access>Public</Access>
-        <Location left="1201" top="771" />
+        <Location left="1148" top="1792" />
         <Size width="162" height="101" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private int duracao</Member>
@@ -75,7 +75,7 @@
       <Entity type="Class">
         <Name>Serie</Name>
         <Access>Public</Access>
-        <Location left="1435" top="771" />
+        <Location left="1382" top="1792" />
         <Size width="162" height="101" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private int qtdEpisodios</Member>
@@ -84,7 +84,7 @@
       <Entity type="Interface">
         <Name>ITipoCliente</Name>
         <Access>Public</Access>
-        <Location left="431" top="558" />
+        <Location left="378" top="1579" />
         <Size width="162" height="111" />
         <Collapsed>False</Collapsed>
         <Member type="Method">static ITipoCliente tipoCliente()</Member>
@@ -93,7 +93,7 @@
       <Entity type="Class">
         <Name>Especialista</Name>
         <Access>Public</Access>
-        <Location left="540" top="738" />
+        <Location left="487" top="1759" />
         <Size width="363" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public Avaliacao avaliar(Midia midia, int Avaliacao, String comentario)</Member>
@@ -102,74 +102,93 @@
       <Entity type="Class">
         <Name>Regular</Name>
         <Access>Public</Access>
-        <Location left="217" top="738" />
+        <Location left="164" top="1759" />
         <Size width="267" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public Avaliacao avaliar(Midia midia, int Avaliacao)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
-        <Name>ComparaNome</Name>
-        <Access>Public</Access>
-        <Location left="1181" top="196" />
-        <Size width="162" height="77" />
-        <Collapsed>False</Collapsed>
-        <Modifier>None</Modifier>
-      </Entity>
-      <Entity type="Interface">
-        <Name>NewInterface</Name>
-        <Access>Public</Access>
-        <Location left="1345" top="10" />
-        <Size width="162" height="77" />
-        <Collapsed>False</Collapsed>
-      </Entity>
-      <Entity type="Class">
         <Name>Avaliacao</Name>
         <Access>Public</Access>
-        <Location left="1687" top="446" />
+        <Location left="1632" top="1642" />
         <Size width="162" height="111" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private int nota</Member>
         <Member type="Field">private String comentario</Member>
         <Modifier>None</Modifier>
       </Entity>
-      <Entity type="Class">
-        <Name>ComparaIdioma</Name>
+      <Entity type="Enum">
+        <Name>Genero</Name>
         <Access>Public</Access>
-        <Location left="1357" top="196" />
-        <Size width="162" height="77" />
+        <Location left="1183" top="868" />
+        <Size width="162" height="401" />
         <Collapsed>False</Collapsed>
-        <Modifier>None</Modifier>
+        <Value>ACAO</Value>
+        <Value>ANIME</Value>
+        <Value>ANIMACAO</Value>
+        <Value>AVENTURA</Value>
+        <Value>COMEDIA</Value>
+        <Value>COMEDIA_DE_ACAO</Value>
+        <Value>COMEDIA_DE_TERROR</Value>
+        <Value>DANCA</Value>
+        <Value>DOCUMENTARIO</Value>
+        <Value>DRAMA</Value>
+        <Value>ESPIONAGEM</Value>
+        <Value>FAROESTE</Value>
+        <Value>FANTASIA</Value>
+        <Value>FANTASIA_CIENTIFICA</Value>
+        <Value>FICCAO_CIENTIFICA</Value>
+        <Value>GUERRA</Value>
+        <Value>MISTERIO</Value>
+        <Value>MUSICAL</Value>
+        <Value>ROMANCE</Value>
+        <Value>TERROR</Value>
       </Entity>
-      <Entity type="Class">
-        <Name>ComparaGenero</Name>
+      <Entity type="Enum">
+        <Name>Idioma</Name>
         <Access>Public</Access>
-        <Location left="1535" top="196" />
-        <Size width="162" height="77" />
+        <Location left="1360" top="835" />
+        <Size width="162" height="435" />
         <Collapsed>False</Collapsed>
-        <Modifier>None</Modifier>
+        <Value>ALEMAO</Value>
+        <Value>ARABE</Value>
+        <Value>BULGARO</Value>
+        <Value>COREANO</Value>
+        <Value>CROATA</Value>
+        <Value>DINAMARQUES</Value>
+        <Value>ESLOVACO</Value>
+        <Value>ESPANHOL</Value>
+        <Value>FRANCES</Value>
+        <Value>GREGO</Value>
+        <Value>HOLANDES</Value>
+        <Value>INGLES</Value>
+        <Value>IRLANDES</Value>
+        <Value>ITALIANO</Value>
+        <Value>JAPONES</Value>
+        <Value>MANDARIM</Value>
+        <Value>NORUEGUES</Value>
+        <Value>PORTUGUES</Value>
+        <Value>RUSSO</Value>
+        <Value>TURCO</Value>
+        <Value>UCRANIANO</Value>
+        <Value>ZULU</Value>
       </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="2" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -179,23 +198,25 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>1395</X>
-          <Y>711</Y>
+          <X>1342</X>
+          <Y>1732</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="4" second="1">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>1520</X>
-          <Y>742</Y>
+          <X>1467</X>
+          <Y>1763</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>1395</X>
-          <Y>714</Y>
+          <X>1342</X>
+          <Y>1735</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="0" second="5">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -210,80 +231,30 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="1" second="8">
-        <Label>
-        </Label>
-        <StartOrientation>Vertical</StartOrientation>
+        <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>1407</X>
-          <Y>327</Y>
+          <X>1533</X>
+          <Y>1553</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
-      <Relationship type="Realization" first="8" second="9">
+      <Relationship type="Association" first="1" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
-        <BendPoint relativeToStartShape="False">
-          <X>1426</X>
-          <Y>134</Y>
-        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="10">
         <Label>
         </Label>
-        <StartOrientation>Horizontal</StartOrientation>
+        <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
-        <BendPoint relativeToStartShape="True">
-          <X>1575</X>
-          <Y>397</Y>
-        </BendPoint>
         <Direction>Unidirectional</Direction>
-        <AssociationType>Aggregation</AssociationType>
-      </Relationship>
-      <Relationship type="Association" first="1" second="11">
-        <Label>
-        </Label>
-        <StartOrientation>Vertical</StartOrientation>
-        <EndOrientation>Vertical</EndOrientation>
-        <BendPoint relativeToStartShape="True">
-          <X>1406</X>
-          <Y>327</Y>
-        </BendPoint>
-        <Direction>Unidirectional</Direction>
-        <AssociationType>Aggregation</AssociationType>
-      </Relationship>
-      <Relationship type="Association" first="1" second="12">
-        <Label>
-        </Label>
-        <StartOrientation>Vertical</StartOrientation>
-        <EndOrientation>Vertical</EndOrientation>
-        <BendPoint relativeToStartShape="True">
-          <X>1407</X>
-          <Y>327</Y>
-        </BendPoint>
-        <Direction>Unidirectional</Direction>
-        <AssociationType>Aggregation</AssociationType>
-      </Relationship>
-      <Relationship type="Realization" first="11" second="9">
-        <StartOrientation>Vertical</StartOrientation>
-        <EndOrientation>Vertical</EndOrientation>
-        <BendPoint relativeToStartShape="True">
-          <X>1426</X>
-          <Y>171</Y>
-        </BendPoint>
-      </Relationship>
-      <Relationship type="Realization" first="12" second="9">
-        <StartOrientation>Vertical</StartOrientation>
-        <EndOrientation>Vertical</EndOrientation>
-        <BendPoint relativeToStartShape="True">
-          <X>1617</X>
-          <Y>171</Y>
-        </BendPoint>
-        <BendPoint relativeToStartShape="False">
-          <X>1426</X>
-          <Y>133</Y>
-        </BendPoint>
+        <AssociationType>Association</AssociationType>
       </Relationship>
     </Relationships>
   </ProjectItem>
