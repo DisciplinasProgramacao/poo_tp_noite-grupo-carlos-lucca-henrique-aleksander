@@ -7,5 +7,6 @@ public class app {
     public static void main(String[] args) throws FileNotFoundException {
         Streaming teste = new Streaming();
         teste.iniciar();
+        teste.mostraTodasMidias();
     }
 }

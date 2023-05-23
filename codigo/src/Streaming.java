@@ -45,8 +45,7 @@ public class Streaming {
                 String identificador = values[0];
                 String nome = values[1];
                 String anoLancamento = values[2];
-                Midia novaSerie = new Serie(nome, identificador, null, null,
-                        LocalDate.parse(anoLancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
+                Midia novaSerie = new Serie(nome, identificador, LocalDate.parse(anoLancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
                 cadastrarMidia(novaSerie);
             }
         } catch (IOException e) {
@@ -87,9 +86,7 @@ public class Streaming {
                 String nome = values[1];
                 String lancamento = values[2];
                 int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme= new Filme(nome, identificador, null, null,
-                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),duracao);
-              
+                Midia novoFilme= new Filme(nome, identificador, LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),duracao);
                 cadastrarMidia(novoFilme);
             }
         } catch (IOException e) {
@@ -121,84 +118,91 @@ public class Streaming {
         return "Midia cadastrada";
     }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
-        ArrayList<Midia> listaPorGenero = new ArrayList<>();
+    public void mostraTodasMidias(){
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
-            if (midia.getGenero().contains(genero)) {
-                listaPorGenero.add(midia);
-            }
+            System.out.println(midia.toString());
         }
-        return listaPorGenero;
     }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
-        ArrayList<Midia> listaPorNome = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getNome().equals(nome)) {
-                listaPorNome.add(midia);
-            }
-        }
-        return listaPorNome;
-    }
+    // // Temos que fazer esse metodos de busca serem genericos
+    // public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
+    //     ArrayList<Midia> listaPorGenero = new ArrayList<>();
+    //     for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    //         Midia midia = entry.getValue();
+    //         if (midia.getGenero().contains(genero)) {
+    //             listaPorGenero.add(midia);
+    //         }
+    //     }
+    //     return listaPorGenero;
+    // }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
-        ArrayList<Midia> listaPorIdioma = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getIdioma().contains(idioma)) {
-                listaPorIdioma.add(midia);
-            }
-        }
-        return listaPorIdioma;
-    }
+    // // Temos que fazer esse metodos de busca serem genericos
+    // public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
+    //     ArrayList<Midia> listaPorNome = new ArrayList<>();
+    //     for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    //         Midia midia = entry.getValue();
+    //         if (midia.getNome().equals(nome)) {
+    //             listaPorNome.add(midia);
+    //         }
+    //     }
+    //     return listaPorNome;
+    // }
+
+    // // Temos que fazer esse metodos de busca serem genericos
+    // public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
+    //     ArrayList<Midia> listaPorIdioma = new ArrayList<>();
+    //     for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    //         Midia midia = entry.getValue();
+    //         if (midia.getIdioma().contains(idioma)) {
+    //             listaPorIdioma.add(midia);
+    //         }
+    //     }
+    //     return listaPorIdioma;
+    // }
 
 
-    public <T> ArrayList<Midia> buscarFilme(T criterio) {
-        ArrayList<Midia> resultados = new ArrayList<>();
+    // public <T> ArrayList<Midia> buscarFilme(T criterio) {
+    //     ArrayList<Midia> resultados = new ArrayList<>();
 
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (criterio instanceof String) {
-                if (midia.getNome().equalsIgnoreCase((String) criterio)) {
-                    resultados.add(midia);
-                }
-            } else if (criterio instanceof String[]) {
-                String[] arrayTexto = (String[]) criterio;
-                if (contemGenerosOuIdiomas(midia, arrayTexto)) {
-                    resultados.add(midia);
-                }
-            } else if (criterio instanceof Midia ) {
-                if (midia.equals((Midia) criterio)) {
-                    resultados.add(midia);
-                }
-            }
-        }
+    //     for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    //         Midia midia = entry.getValue();
+    //         if (criterio instanceof String) {
+    //             if (midia.getNome().equalsIgnoreCase((String) criterio)) {
+    //                 resultados.add(midia);
+    //             }
+    //         } else if (criterio instanceof String[]) {
+    //             String[] arrayTexto = (String[]) criterio;
+    //             if (contemGenerosOuIdiomas(midia, arrayTexto)) {
+    //                 resultados.add(midia);
+    //             }
+    //         } else if (criterio instanceof Midia ) {
+    //             if (midia.equals((Midia) criterio)) {
+    //                 resultados.add(midia);
+    //             }
+    //         }
+    //     }
 
-        return resultados;
-    }
+    //     return resultados;
+    // }
    
-        private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
-            for (String texto : arrayTexto) {
-                if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+    //     private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
+    //         for (String texto : arrayTexto) {
+    //             if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
+    //                 return true;
+    //             }
+    //         }
+    //         return false;
+    //     }
     
-        private boolean contemValor(ArrayList<String> array, String valor) {
-            for (String elemento : array) {
-                if (elemento.equals(valor)) {
-                    return true;
-                }
-            }
-            return false;
-        }
+    //     private boolean contemValor(ArrayList<String> array, String valor) {
+    //         for (String elemento : array) {
+    //             if (elemento.equals(valor)) {
+    //                 return true;
+    //             }
+    //         }
+    //         return false;
+    //     }
 
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {

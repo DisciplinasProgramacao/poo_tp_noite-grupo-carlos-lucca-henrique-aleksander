@@ -20,7 +20,7 @@ public class SeriesTeste {
 
     @Test
     public void testAdicionarAssistido() {
-        Serie serie = new Serie("Attack on Titan", "000", idioma, genero, LocalDate.now(), 0);
+        Serie serie = new Serie("Attack on Titan", "000", LocalDate.now(), 0);
         assertEquals(0, serie.getAssistidaPorClientes());
         serie.adicionaAssistido();
         assertEquals(1, serie.getAssistidaPorClientes());
