@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Streaming {
     private Cliente clienteLogado;
@@ -23,32 +26,26 @@ public class Streaming {
     }
 
     private void lerArquivoClientes() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("espectadores.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(";");
-                String nome = values[0];
-                String nomeUsuario = values[1];
-                String senha = values[2];
-                cadastrarCliente(nome, senha, nomeUsuario);
-            }
+        try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
+            lines.map(line -> line.split(";"))
+                 .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public HashMap<String, Cliente> getClientes() {
+      return clientes;
+    }   
+
     private void lerArquivoSeries() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("series.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(";");
-                String identificador = values[0];
-                String nome = values[1];
-                String anoLancamento = values[2];
-                Midia novaSerie = new Serie(nome, identificador, null, null,
-                        LocalDate.parse(anoLancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
+        try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
+            lines.map(line -> line.split(";"))
+                 .forEach(values -> {
+                    Midia novaSerie = new Serie(values[1], values[0], null, null,
+                        LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
                 cadastrarMidia(novaSerie);
-            }
+                });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -104,6 +101,10 @@ public class Streaming {
         lerArquivoFilmes();
     }
 
+    public Cliente getClienteLogado() {
+         return clienteLogado;
+     }
+
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
         if (clientes.containsKey(nomeUsuario)) {
             return "Já existe uma conta com esse nome de usuário";
@@ -121,6 +122,7 @@ public class Streaming {
         return "Midia cadastrada";
     }
 
+    
     // Temos que fazer esse metodos de busca serem genericos
     public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
         ArrayList<Midia> listaPorGenero = new ArrayList<>();
@@ -156,14 +158,13 @@ public class Streaming {
         }
         return listaPorIdioma;
     }
-
     public <T> ArrayList<Midia> buscarFilme(T criterio) {
         ArrayList<Midia> resultados = new ArrayList<>();
 
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
             if (criterio instanceof String) {
-                if (midia.getNome().equalsIgnoreCase((String) criterio)) {
+                if (midia.getNome().contains((String) criterio)) {
                     resultados.add(midia);
                 }
             } else if (criterio instanceof String[]) {
@@ -202,7 +203,8 @@ public class Streaming {
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {
             Cliente autenticar = clientes.get(nomeUsuario);
-            if (senha == autenticar.getSenha()) {
+            System.out.println("Senha: " +autenticar.getSenha());
+            if (senha.equals( autenticar.getSenha())) {
                 clienteLogado = autenticar;
                 return "Login feito com sucesso";
             }
@@ -214,6 +216,7 @@ public class Streaming {
 
     public void adicionarMidiaFutura(Midia midia) {
         clienteLogado.adicionarMidiaFutura(midia);
+        // illegal argument aqui
     }
 
     public void terminarMidia(String identificador) {
@@ -221,6 +224,8 @@ public class Streaming {
         if (midiaTerminada != null) {
             clienteLogado.terminarMidia(midiaTerminada);
         }
+        //illegal argument aqui
     }
+
 
 }

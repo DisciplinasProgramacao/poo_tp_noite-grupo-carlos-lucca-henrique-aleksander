@@ -1,6 +1,9 @@
 package src;
 
+import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cliente {
     private String nome;
@@ -79,13 +82,41 @@ public class Cliente {
         return podeComentar;
     }
 
-    public Avaliacao avaliar(int avaliacao, String comentario, Midia midia) {
+    public Avaliacao avaliar(int avaliacao, Midia midia) {
         if (midiasAssistidas.contains(midia)) {
-            if (!podeComentar) {
-                return new Avaliacao(avaliacao, midia);
-            }
-            return new Avaliacao(avaliacao, comentario, midia);
+                Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
+                avaliacoes.add(avaliacaoClient);
+                return avaliacaoClient;
+        }else{
+            throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
-        return null;
+    }
+
+    public void addComentario(String comentario, Avaliacao avaliacao) {
+        avaliacao.addComentario(comentario);
+    }
+
+    public boolean hasMoreThenFiveAvaliationsLastMonth(){
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime lastMonth = today.minusMonths(1);
+        AtomicInteger qtdeAvaliacoesNesseMes = new AtomicInteger(0);
+        avaliacoes.forEach(av-> {
+            LocalDateTime data = av.getData();
+            if (data.isAfter(lastMonth) && data.isBefore(today)) {
+                qtdeAvaliacoesNesseMes.incrementAndGet();
+            }
+        });
+        return qtdeAvaliacoesNesseMes.get() >= 5;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome: ").append(getNome()).append("\n");
+        sb.append("Nome de usuário: ").append(nomeUsuario).append("\n");
+        sb.append("Mídias assistidas: ").append(midiasAssistidas.size()).append("\n");
+        sb.append("Mídias para assistir: ").append(midiasFuturas.size()).append("\n");
+        sb.append("Avaliações feitas: ").append(avaliacoes.size()).append("\n");
+        return sb.toString();   
     }
 }

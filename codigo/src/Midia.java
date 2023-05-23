@@ -12,6 +12,7 @@ public class Midia {
     private LocalDate data;
     private String identificador;
     private int assistidaPorClientes;
+    private ArrayList<Avaliacao> avaliacoes;
 
     public Midia(String nome, String identificador, ArrayList<String> idioma, ArrayList<String> genero,
             LocalDate data) {
@@ -51,5 +52,29 @@ public class Midia {
     public int getAssistidaPorClientes() {
         return assistidaPorClientes;
     }
+
+    public double calculaMediaAvaliacoes(){
+        if (avaliacoes.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalAvaliacoes = 0;
+        for (Avaliacao avaliacao : avaliacoes) {
+            totalAvaliacoes += avaliacao.getAvaliacao();
+        }
+        return (double) totalAvaliacoes / avaliacoes.size();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome: ").append(getNome()).append("\n");
+        sb.append("Idioma: ").append(idioma.get(0)).append("\n");
+        sb.append("Gênero: ").append(genero.get(0)).append("\n");
+        sb.append("Data: ").append(data).append("\n");
+        sb.append("Assista por: ").append(assistidaPorClientes).append("pessoas").append("\n");
+        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
+        return sb.toString();   
+     }
 
 }
