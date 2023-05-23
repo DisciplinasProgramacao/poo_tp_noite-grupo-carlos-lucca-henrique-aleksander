@@ -24,7 +24,7 @@
       <Entity type="Class">
         <Name>Midia</Name>
         <Access>Public</Access>
-        <Location left="1172" top="1373" />
+        <Location left="1172" top="1372" />
         <Size width="325" height="320" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
@@ -34,9 +34,12 @@
         <Member type="Field">private LocalDate data</Member>
         <Member type="Field">private String identificador</Member>
         <Member type="Field">private int assistidaPorClientes</Member>
+        <Member type="Field">private static Random rd</Member>
+        <Member type="Method">private T sorteiaEnum(Class&lt;T&gt; enumClass)</Member>
         <Member type="Method">public String getData()</Member>
         <Member type="Method">public void adicionalAssistido()</Member>
         <Member type="Method">public double mediaAvaliacoes()</Member>
+        <Member type="Method">public String toString()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -200,7 +203,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>1342</X>
-          <Y>1732</Y>
+          <Y>1731</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="4" second="1">
@@ -212,7 +215,7 @@
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>1342</X>
-          <Y>1735</Y>
+          <Y>1734</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="0" second="5">
@@ -236,7 +239,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>1533</X>
-          <Y>1553</Y>
+          <Y>1552</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
