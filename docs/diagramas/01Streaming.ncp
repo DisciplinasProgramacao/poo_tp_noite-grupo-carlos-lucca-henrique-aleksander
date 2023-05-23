@@ -122,7 +122,7 @@
         <Name>Genero</Name>
         <Access>Public</Access>
         <Location left="1183" top="868" />
-        <Size width="162" height="401" />
+        <Size width="162" height="418" />
         <Collapsed>False</Collapsed>
         <Value>ACAO</Value>
         <Value>ANIME</Value>
@@ -131,6 +131,7 @@
         <Value>COMEDIA</Value>
         <Value>COMEDIA_DE_ACAO</Value>
         <Value>COMEDIA_DE_TERROR</Value>
+        <Value>COMEDIA_ROMANTICA</Value>
         <Value>DANCA</Value>
         <Value>DOCUMENTARIO</Value>
         <Value>DRAMA</Value>
@@ -148,7 +149,7 @@
       <Entity type="Enum">
         <Name>Idioma</Name>
         <Access>Public</Access>
-        <Location left="1360" top="835" />
+        <Location left="1360" top="852" />
         <Size width="162" height="435" />
         <Collapsed>False</Collapsed>
         <Value>ALEMAO</Value>
