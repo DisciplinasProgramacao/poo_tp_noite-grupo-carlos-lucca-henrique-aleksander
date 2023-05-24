@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Midia {
+public class Midia implements Comparable<Midia> {
 
     private String nome;
     private Idioma idioma;
@@ -90,6 +90,24 @@ public class Midia {
         sb.append("Assista por: ").append(assistidaPorClientes).append("pessoas").append("\n");
         sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
         return sb.toString();
+    
+    }
+    @Override
+    public int compareTo(String parametro) {
+        // Comparação pelo nome
+        int comparacaoNome = this.nome.compareTo(parametro);
+        if (comparacaoNome != 0) {
+            return comparacaoNome;
+        }
+
+        // Comparação pelo idioma (enum)
+        int comparacaoIdioma = this.idioma.getDescricao().compareTo(parametro);
+        if (comparacaoIdioma != 0) {
+            return comparacaoIdioma;
+        }
+
+        // Comparação pelo gênero (enum)
+        return this.genero.getDescricao().compareTo(parametro);
     }
 
 }
