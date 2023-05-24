@@ -275,7 +275,7 @@ public class app {
             nota = ler.nextInt();
             avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado());
         }
-        if (streaming.getClienteLogado().getTipoCliente() == "Especialista") {
+        if (streaming.getClienteLogado().getTipoCliente().equals("Especialista")) {
             System.out.println("Deseja adicionar um comentario ? S- sim , N- nao");
             String op = ler.nextLine();
             do {

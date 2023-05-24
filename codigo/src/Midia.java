@@ -12,8 +12,9 @@ public class Midia {
     private LocalDate data;
     private String identificador;
     private int assistidaPorClientes;
-    private static Random rd = new Random();
     private ArrayList<Avaliacao> avaliacoes;
+
+    private static Random rd = new Random();
 
     public Midia(String nome, String identificador, LocalDate data) {
         this.nome = nome;
