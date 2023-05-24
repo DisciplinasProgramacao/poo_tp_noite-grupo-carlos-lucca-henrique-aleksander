@@ -53,7 +53,7 @@ public class Midia {
         return assistidaPorClientes;
     }
 
-    public double calculaMediaAvaliacoes(){
+    public double calculaMediaAvaliacoes() {
         if (avaliacoes.isEmpty()) {
             return 0.0;
         }
@@ -71,10 +71,10 @@ public class Midia {
         sb.append("Nome: ").append(getNome()).append("\n");
         sb.append("Idioma: ").append(idioma.get(0)).append("\n");
         sb.append("Gênero: ").append(genero.get(0)).append("\n");
-        sb.append("Data: ").append(data).append("\n");
+        sb.append("Data: ").append(data.format(app.DATA_FORMATTER)).append("\n");
         sb.append("Assista por: ").append(assistidaPorClientes).append("pessoas").append("\n");
         sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
-        return sb.toString();   
-     }
+        return sb.toString();
+    }
 
 }

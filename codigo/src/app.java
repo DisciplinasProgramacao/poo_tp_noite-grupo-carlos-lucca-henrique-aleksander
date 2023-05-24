@@ -1,12 +1,14 @@
 package src;
 
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class app {
     private static Streaming streaming;
+    public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public static void main(String[] args) {
         streaming = new Streaming();
@@ -16,63 +18,64 @@ public class app {
             System.out.println("Erro ao ler arquivos de inicialização");
             return;
         }
-        try{
+        try {
             exibirMenuPrincipal();
-       }catch(Exception e){
-        System.out.println(e);
-       }
-}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     private static void exibirMenuPrincipal() {
-        try{
-        Scanner scanner = new Scanner(System.in);
+        try {
+            Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("== Menu Principal ==");
-            System.out.println("1. Cadastrar Cliente");
-            System.out.println("2. Login");
-            System.out.println("3. Buscar Séries por Gênero");
-            System.out.println("4. Buscar Séries por Nome");
-            System.out.println("5. Buscar Séries por Idioma");
-            System.out.println("6. Buscar Filmes");
-            System.out.println("7. Sair");
-            System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); 
+            while (true) {
+                System.out.println("== Menu Principal ==");
+                System.out.println("1. Cadastrar Cliente");
+                System.out.println("2. Login");
+                System.out.println("3. Buscar Séries por Gênero");
+                System.out.println("4. Buscar Séries por Nome");
+                System.out.println("5. Buscar Séries por Idioma");
+                System.out.println("6. Buscar Filmes");
+                System.out.println("7. Sair");
+                System.out.print("Escolha uma opção: ");
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (opcao) {
-                case 1:
-                    cadastrarCliente();
-                    break;
-                case 2:
-                    fazerLogin();
-                    break;
-                case 3:
-                    buscarSeriesPorGenero();
-                    break;
-                case 4:
-                    buscarSeriesPorNome();
-                    break;
-                case 5:
-                    buscarSeriesPorIdioma();
-                    break;
-                case 6:
-                    buscarFilmes();
-                    break;
-                case 7:
-                    System.out.println("Saindo do programa...");
-                    return;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+                switch (opcao) {
+                    case 1:
+                        cadastrarCliente();
+                        break;
+                    case 2:
+                        fazerLogin();
+                        break;
+                    case 3:
+                        buscarSeriesPorGenero();
+                        break;
+                    case 4:
+                        buscarSeriesPorNome();
+                        break;
+                    case 5:
+                        buscarSeriesPorIdioma();
+                        break;
+                    case 6:
+                        buscarFilmes();
+                        break;
+                    case 7:
+                        System.out.println("Saindo do programa...");
+                        return;
+                    default:
+                        System.out.println("Opção inválida. Tente novamente.");
+                        break;
+                }
+
+                System.out.println();
             }
-
-            System.out.println();
-        }}catch(InputMismatchException e){
+        } catch (InputMismatchException e) {
             System.out.println("Insira um valor válido");
             exibirMenuPrincipal();
         }
-        }
+    }
 
     private static void cadastrarCliente() {
         Scanner scanner = new Scanner(System.in);
@@ -236,7 +239,6 @@ public class app {
 
         System.out.println("== Adicionar Mídia Futura ==");
 
-
         // Solicitar informações sobre a mídia e adicioná-la ao cliente atual
         streaming.getClienteLogado();
         System.out.println("Mídia adicionada com sucesso.");
@@ -247,7 +249,8 @@ public class app {
 
         System.out.println("== Terminar Mídia ==");
 
-        // Solicitar informações sobre a mídia terminada e atualizar o status no cliente atual
+        // Solicitar informações sobre a mídia terminada e atualizar o status no cliente
+        // atual
 
         System.out.println("Mídia atualizada com sucesso.");
     }
@@ -260,7 +263,7 @@ public class app {
         int contador = 1;
         System.out.println("== Selecione a mídia ==");
         for (Midia midia : midias) {
-            System.out.println(contador+ " "+midia);
+            System.out.println(contador + " " + midia);
         }
 
         // Solicitar informações sobre a mídia e a avaliação a ser atribuída

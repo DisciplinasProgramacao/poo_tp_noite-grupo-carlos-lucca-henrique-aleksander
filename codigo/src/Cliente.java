@@ -1,6 +1,5 @@
 package src;
 
-import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -84,10 +83,10 @@ public class Cliente {
 
     public Avaliacao avaliar(int avaliacao, Midia midia) {
         if (midiasAssistidas.contains(midia)) {
-                Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
-                avaliacoes.add(avaliacaoClient);
-                return avaliacaoClient;
-        }else{
+            Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
+            avaliacoes.add(avaliacaoClient);
+            return avaliacaoClient;
+        } else {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
     }
@@ -96,11 +95,11 @@ public class Cliente {
         avaliacao.addComentario(comentario);
     }
 
-    public boolean hasMoreThenFiveAvaliationsLastMonth(){
+    public boolean hasMoreThenFiveAvaliationsLastMonth() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime lastMonth = today.minusMonths(1);
         AtomicInteger qtdeAvaliacoesNesseMes = new AtomicInteger(0);
-        avaliacoes.forEach(av-> {
+        avaliacoes.forEach(av -> {
             LocalDateTime data = av.getData();
             if (data.isAfter(lastMonth) && data.isBefore(today)) {
                 qtdeAvaliacoesNesseMes.incrementAndGet();
@@ -117,6 +116,6 @@ public class Cliente {
         sb.append("Mídias assistidas: ").append(midiasAssistidas.size()).append("\n");
         sb.append("Mídias para assistir: ").append(midiasFuturas.size()).append("\n");
         sb.append("Avaliações feitas: ").append(avaliacoes.size()).append("\n");
-        return sb.toString();   
+        return sb.toString();
     }
 }

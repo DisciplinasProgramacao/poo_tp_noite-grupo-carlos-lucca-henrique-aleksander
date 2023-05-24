@@ -1,7 +1,6 @@
 package src;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Avaliacao {
     private LocalDateTime data;
@@ -35,7 +34,7 @@ public class Avaliacao {
     }
 
     public Midia getMidiaAvaliada() {
-      return midiaAvaliada;
+        return midiaAvaliada;
     }
 
     public String getComentario() {
@@ -52,8 +51,6 @@ public class Avaliacao {
     @Override
     public String toString() {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedData = data.format(formatter);
         StringBuilder sb = new StringBuilder();
         sb.append("Cliente: ").append(cliente.getNome());
         sb.append("Mídia: ").append(getMidiaAvaliada().getNome()).append("\n");
@@ -61,7 +58,7 @@ public class Avaliacao {
         if (comentario != null) {
             sb.append("Comentário: ").append(getComentario()).append("\n");
         }
-        sb.append("Data: ").append(formattedData).append("\n");
+        sb.append("Data: ").append(data.format(app.DATA_FORMATTER)).append("\n");
         return sb.toString();
     }
 }
