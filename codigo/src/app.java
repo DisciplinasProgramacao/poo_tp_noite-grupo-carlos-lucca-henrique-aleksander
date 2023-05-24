@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class app {
-    private static Streaming streaming;
+        priate static Streaming streaming;
     public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public static void main(String[] args) {
@@ -271,3 +271,5 @@ public class app {
         System.out.println("Mídia avaliada com sucesso.");
     }
 }
+
+    

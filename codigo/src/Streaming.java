@@ -28,24 +28,24 @@ public class Streaming {
     private void lerArquivoClientes() throws FileNotFoundException {
         try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
             lines.map(line -> line.split(";"))
-                 .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
+                    .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public HashMap<String, Cliente> getClientes() {
-      return clientes;
-    }   
+        return clientes;
+    }
 
     private void lerArquivoSeries() throws FileNotFoundException {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
-                 .forEach(values -> {
-                    Midia novaSerie = new Serie(values[1], values[0], null, null,
-                        LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
-                cadastrarMidia(novaSerie);
-                });
+                    .forEach(values -> {
+                        Midia novaSerie = new Serie(values[1], values[0],
+                                LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
+                        cadastrarMidia(novaSerie);
+                    });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -84,9 +84,8 @@ public class Streaming {
                 String nome = values[1];
                 String lancamento = values[2];
                 int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme = new Filme(nome, identificador, null, null,
+                Midia novoFilme = new Filme(nome, identificador,
                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
-
                 cadastrarMidia(novoFilme);
             }
         } catch (IOException e) {
@@ -102,8 +101,8 @@ public class Streaming {
     }
 
     public Cliente getClienteLogado() {
-         return clienteLogado;
-     }
+        return clienteLogado;
+    }
 
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
         if (clientes.containsKey(nomeUsuario)) {
@@ -122,89 +121,97 @@ public class Streaming {
         return "Midia cadastrada";
     }
 
-    
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
-        ArrayList<Midia> listaPorGenero = new ArrayList<>();
+    public void mostraTodasMidias() {
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
-            if (midia.getGenero().contains(genero)) {
-                listaPorGenero.add(midia);
-            }
+            System.out.println(midia.toString());
         }
-        return listaPorGenero;
     }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
-        ArrayList<Midia> listaPorNome = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getNome().equals(nome)) {
-                listaPorNome.add(midia);
-            }
-        }
-        return listaPorNome;
-    }
+    // // Temos que fazer esse metodos de busca serem genericos
+    // public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
+    // ArrayList<Midia> listaPorGenero = new ArrayList<>();
+    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    // Midia midia = entry.getValue();
+    // if (midia.getGenero().contains(genero)) {
+    // listaPorGenero.add(midia);
+    // }
+    // }
+    // return listaPorGenero;
+    // }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
-        ArrayList<Midia> listaPorIdioma = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getIdioma().contains(idioma)) {
-                listaPorIdioma.add(midia);
-            }
-        }
-        return listaPorIdioma;
-    }
-    public <T> ArrayList<Midia> buscarFilme(T criterio) {
-        ArrayList<Midia> resultados = new ArrayList<>();
+    // // Temos que fazer esse metodos de busca serem genericos
+    // public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
+    // ArrayList<Midia> listaPorNome = new ArrayList<>();
+    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    // Midia midia = entry.getValue();
+    // if (midia.getNome().equals(nome)) {
+    // listaPorNome.add(midia);
+    // }
+    // }
+    // return listaPorNome;
+    // }
 
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (criterio instanceof String) {
-                if (midia.getNome().contains((String) criterio)) {
-                    resultados.add(midia);
-                }
-            } else if (criterio instanceof String[]) {
-                String[] arrayTexto = (String[]) criterio;
-                if (contemGenerosOuIdiomas(midia, arrayTexto)) {
-                    resultados.add(midia);
-                }
-            } else if (criterio instanceof Midia) {
-                if (midia.equals((Midia) criterio)) {
-                    resultados.add(midia);
-                }
-            }
-        }
+    // // Temos que fazer esse metodos de busca serem genericos
+    // public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
+    // ArrayList<Midia> listaPorIdioma = new ArrayList<>();
+    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    // Midia midia = entry.getValue();
+    // if (midia.getIdioma().contains(idioma)) {
+    // listaPorIdioma.add(midia);
+    // }
+    // }
+    // return listaPorIdioma;
+    // }
 
-        return resultados;
-    }
+    // public <T> ArrayList<Midia> buscarFilme(T criterio) {
+    // ArrayList<Midia> resultados = new ArrayList<>();
 
-    private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
-        for (String texto : arrayTexto) {
-            if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+    // Midia midia = entry.getValue();
+    // if (criterio instanceof String) {
+    // if (midia.getNome().equalsIgnoreCase((String) criterio)) {
+    // resultados.add(midia);
+    // }
+    // } else if (criterio instanceof String[]) {
+    // String[] arrayTexto = (String[]) criterio;
+    // if (contemGenerosOuIdiomas(midia, arrayTexto)) {
+    // resultados.add(midia);
+    // }
+    // } else if (criterio instanceof Midia ) {
+    // if (midia.equals((Midia) criterio)) {
+    // resultados.add(midia);
+    // }
+    // }
+    // }
 
-    private boolean contemValor(ArrayList<String> array, String valor) {
-        for (String elemento : array) {
-            if (elemento.equals(valor)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // return resultados;
+    // }
+
+    // private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
+    // for (String texto : arrayTexto) {
+    // if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(),
+    // texto)) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
+
+    // private boolean contemValor(ArrayList<String> array, String valor) {
+    // for (String elemento : array) {
+    // if (elemento.equals(valor)) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {
             Cliente autenticar = clientes.get(nomeUsuario);
-            System.out.println("Senha: " +autenticar.getSenha());
-            if (senha.equals( autenticar.getSenha())) {
+            System.out.println("Senha: " + autenticar.getSenha());
+            if (senha.equals(autenticar.getSenha())) {
                 clienteLogado = autenticar;
                 return "Login feito com sucesso";
             }
@@ -224,8 +231,7 @@ public class Streaming {
         if (midiaTerminada != null) {
             clienteLogado.terminarMidia(midiaTerminada);
         }
-        //illegal argument aqui
+        // illegal argument aqui
     }
-
 
 }

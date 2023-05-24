@@ -2,26 +2,32 @@ package src;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Random;
 
 public class Midia {
 
     private String nome;
-    private ArrayList<String> idioma;
-    private ArrayList<String> genero;
+    private Idioma idioma;
+    private Genero genero;
     private LocalDate data;
     private String identificador;
     private int assistidaPorClientes;
-    private ArrayList<Avaliacao> avaliacoes;
+    private static Random rd = new Random();
 
-    public Midia(String nome, String identificador, ArrayList<String> idioma, ArrayList<String> genero,
-            LocalDate data) {
+    public Midia(String nome, String identificador, LocalDate data) {
         this.nome = nome;
-        this.idioma = idioma;
-        this.genero = idioma;
+        this.idioma = sorteiaEnum(Idioma.class);
+        this.genero = sorteiaEnum(Genero.class);
         this.data = data;
         this.identificador = identificador;
         this.assistidaPorClientes = 0;
+    }
+
+    private <T extends Enum<T>> T sorteiaEnum(Class<T> enumClass) {
+        T[] values = enumClass.getEnumConstants();
+        int indiceAleatorio = rd.nextInt(values.length);
+        T sorteado = values[indiceAleatorio];
+        return sorteado;
     }
 
     public String getData() {
@@ -37,11 +43,11 @@ public class Midia {
         return nome;
     }
 
-    public ArrayList<String> getIdioma() {
+    public Idioma getIdioma() {
         return idioma;
     }
 
-    public ArrayList<String> getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
