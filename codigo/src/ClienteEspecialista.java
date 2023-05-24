@@ -5,10 +5,9 @@ import java.util.Scanner;
 public class ClienteEspecialista implements ICliente {
 
     @Override
-    public Avaliacao avaliar() {
+    public Avaliacao avaliar(int nota, Midia midia, Cliente cliente) {
         Scanner ler = new Scanner(System.in);
         System.out.println("Escolha uma nota de 1 a 5");
-        int nota = ler.nextInt();
         while (nota <= 0 && nota > 5) {
             System.out.println("nota invalida, tente novamente");
             System.out.println("Escolha uma nota de 1 a 5");
@@ -25,15 +24,22 @@ public class ClienteEspecialista implements ICliente {
                 if (op == "S") {
                     System.out.println("escreva um comentario");
                     String comentario = ler.nextLine();
-                    return new Avaliacao(nota, comentario);
+                    return new Avaliacao(nota, comentario, midia, cliente);
                 }
-
                 break;
             }
         } while (op != "S" && op != "N");
 
-        return new Avaliacao(nota);
+        return new Avaliacao(nota, midia, cliente);
 
+    }
+
+    public void addComentario(String comentario, Avaliacao avaliacao) {
+        avaliacao.addComentario(comentario);
+    }
+
+    public String tipoCliente() {
+        return "Especialista";
     }
 
 }

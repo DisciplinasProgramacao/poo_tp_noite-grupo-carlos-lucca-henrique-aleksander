@@ -12,7 +12,6 @@ public class Cliente {
     private ArrayList<Midia> midiasFuturas;
     private ArrayList<Midia> midiasAssistidas;
     private ArrayList<Avaliacao> avaliacoes;
-    private boolean podeComentar;
 
     public Cliente(String nome, String senha, String nomeUsuario) {
         this.nome = nome;
@@ -21,7 +20,6 @@ public class Cliente {
         this.midiasFuturas = new ArrayList<>();
         this.midiasAssistidas = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
-        this.podeComentar = false;
     }
 
     public void adicionarMidiaFutura(Midia midia) {
@@ -40,11 +38,14 @@ public class Cliente {
         return nomeUsuario;
     }
 
+    public ICliente getTipoCliente() {
+        return tipoCliente;
+    }
+
     public void terminarMidia(Midia midia) {
         if (!midiasAssistidas.contains(midia)) {
             this.midiasAssistidas.add(midia);
             midia.adicionaAssistido();
-            tipoCliente.avaliar();
         }
     }
 
@@ -79,22 +80,15 @@ public class Cliente {
         return avaliacoes;
     }
 
-    public boolean getPodeComentar() {
-        return podeComentar;
-    }
-
     public Avaliacao avaliar(int avaliacao, Midia midia) {
         if (midiasAssistidas.contains(midia)) {
-            Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
+            Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
             avaliacoes.add(avaliacaoClient);
+            midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
             return avaliacaoClient;
         } else {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
-    }
-
-    public void addComentario(String comentario, Avaliacao avaliacao) {
-        avaliacao.addComentario(comentario);
     }
 
     public boolean hasMoreThenFiveAvaliationsLastMonth() {

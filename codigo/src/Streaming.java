@@ -122,6 +122,7 @@ public class Streaming {
     }
 
     public void mostraTodasMidias() {
+        midias.forEach(midia -> System.out.println(midia.toString()));
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
             System.out.println(midia.toString());

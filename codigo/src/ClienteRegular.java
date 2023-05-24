@@ -5,17 +5,12 @@ import java.util.Scanner;
 public class ClienteRegular implements ICliente {
 
     @Override
-    public Avaliacao avaliar() {
-        Scanner ler = new Scanner(System.in);
-        System.out.println("Escolha uma nota de 1 a 5");
-        int nota = ler.nextInt();
-        while (nota <= 0 && nota > 5) {
-            System.out.println("nota invalida, tente novamente");
-            System.out.println("Escolha uma nota de 1 a 5");
-            nota = ler.nextInt();
-        }
-        Avaliacao avaliacao = new Avaliacao(nota);
-        return avaliacao;
+    public Avaliacao avaliar(int nota, Midia midia, Cliente cliente) {
+        return new Avaliacao(nota, midia, cliente);
+    }
+
+    public String tipoCliente() {
+        return "Regular";
     }
 
 }

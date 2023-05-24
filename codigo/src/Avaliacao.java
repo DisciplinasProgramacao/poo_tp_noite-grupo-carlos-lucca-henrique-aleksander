@@ -9,6 +9,9 @@ public class Avaliacao {
     private Midia midiaAvaliada;
     private Cliente cliente;
 
+    public Avaliacao() {
+    };
+
     public Avaliacao(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente) {
         this.avaliacao = avaliacao;
         this.comentario = comentario;
