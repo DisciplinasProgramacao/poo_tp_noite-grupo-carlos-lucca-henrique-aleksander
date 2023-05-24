@@ -38,8 +38,8 @@ public class Cliente {
         return nomeUsuario;
     }
 
-    public ICliente getTipoCliente() {
-        return tipoCliente;
+    public String getTipoCliente() {
+        return tipoCliente.tipoCliente();
     }
 
     public void terminarMidia(Midia midia) {

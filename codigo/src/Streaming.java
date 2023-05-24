@@ -1,17 +1,15 @@
 package src;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Stream;
+
+import src.Exceptions.InvalidMidiaException;
 
 public class Streaming {
     private Cliente clienteLogado;
@@ -52,9 +50,8 @@ public class Streaming {
     }
 
     private void lerArquivoAudiencia() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("audiencia.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+        try (Stream<String> lines = Files.lines(Paths.get("audiencia.csv"))) {
+            lines.forEach(line -> {
                 String[] values = line.split(";");
                 String nomeUsuario = values[0];
                 char tipo = values[1].charAt(0);
@@ -67,18 +64,16 @@ public class Streaming {
                     } else if (tipo == 'F') {
                         cliente.adicionarMidiaFutura(midiaLinha);
                     }
-
                 }
-            }
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void lerArquivoFilmes() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("filmes.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+        try (Stream<String> lines = Files.lines(Paths.get("filmes.csv"))) {
+            lines.forEach(line -> {
                 String[] values = line.split(";");
                 String identificador = values[0];
                 String nome = values[1];
@@ -87,7 +82,7 @@ public class Streaming {
                 Midia novoFilme = new Filme(nome, identificador,
                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
                 cadastrarMidia(novoFilme);
-            }
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -115,18 +110,14 @@ public class Streaming {
 
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
-            return "Midia já cadastrada no sistema";
+            throw new InvalidMidiaException("Midia já cadastrada no sistema");
         }
         midias.put(midia.getIdentificador(), midia);
         return "Midia cadastrada";
     }
 
     public void mostraTodasMidias() {
-        midias.forEach(midia -> System.out.println(midia.toString()));
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            System.out.println(midia.toString());
-        }
+        midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
     }
 
     // // Temos que fazer esse metodos de busca serem genericos
@@ -229,10 +220,10 @@ public class Streaming {
 
     public void terminarMidia(String identificador) {
         Midia midiaTerminada = midias.get(identificador);
-        if (midiaTerminada != null) {
-            clienteLogado.terminarMidia(midiaTerminada);
+        if (midiaTerminada == null) {
+            throw new InvalidMidiaException(identificador + "Mídia não existe");
         }
-        // illegal argument aqui
+        clienteLogado.terminarMidia(midiaTerminada);
     }
 
 }
