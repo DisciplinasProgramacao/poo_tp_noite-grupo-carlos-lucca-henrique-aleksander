@@ -171,16 +171,16 @@ public class app {
         System.out.print("Gênero: ");
         String genero = scanner.nextLine();
 
-        ArrayList<Midia> series = streaming.buscaSerieGeneroSerie(genero);
+        // ArrayList<Midia> series = streaming.buscaSerieGeneroSerie(genero);
 
-        if (series.isEmpty()) {
-            System.out.println("Nenhuma série encontrada com o gênero informado.");
-        } else {
-            System.out.println("Séries encontradas:");
-            for (Midia serie : series) {
-                System.out.println(serie);
-            }
-        }
+        // if (series.isEmpty()) {
+        // System.out.println("Nenhuma série encontrada com o gênero informado.");
+        // } else {
+        // System.out.println("Séries encontradas:");
+        // for (Midia serie : series) {
+        // System.out.println(serie);
+        // }
+        // }
     }
 
     private static void buscarSeriesPorNome() {
@@ -190,16 +190,16 @@ public class app {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
 
-        ArrayList<Midia> series = streaming.buscarFilme(nome);
+        // ArrayList<Midia> series = streaming.buscarFilme(nome);
 
-        if (series.isEmpty()) {
-            System.out.println("Nenhuma série encontrada com o nome informado.");
-        } else {
-            System.out.println("Séries encontradas:");
-            for (Midia serie : series) {
-                System.out.println(serie);
-            }
-        }
+        // if (series.isEmpty()) {
+        // System.out.println("Nenhuma série encontrada com o nome informado.");
+        // } else {
+        // System.out.println("Séries encontradas:");
+        // for (Midia serie : series) {
+        // System.out.println(serie);
+        // }
+        // }
     }
 
     private static void buscarSeriesPorIdioma() {
@@ -209,29 +209,29 @@ public class app {
         System.out.print("Idioma: ");
         String idioma = scanner.nextLine();
 
-        ArrayList<Midia> series = streaming.buscaSerieIdiomaSerie(idioma);
+        // ArrayList<Midia> series = streaming.buscaSerieIdiomaSerie(idioma);
 
-        if (series.isEmpty()) {
-            System.out.println("Nenhuma série encontrada com o idioma informado.");
-        } else {
-            System.out.println("Séries encontradas:");
-            for (Midia serie : series) {
-                System.out.println(serie);
-            }
-        }
+        // if (series.isEmpty()) {
+        // System.out.println("Nenhuma série encontrada com o idioma informado.");
+        // } else {
+        // System.out.println("Séries encontradas:");
+        // for (Midia serie : series) {
+        // System.out.println(serie);
+        // }
+        // }
     }
 
     private static void buscarFilmes() {
-        ArrayList<Midia> filmes = streaming.buscarFilme("Nome");
+        // ArrayList<Midia> filmes = streaming.buscarFilme("Nome");
 
-        if (filmes.isEmpty()) {
-            System.out.println("Nenhum filme encontrado.");
-        } else {
-            System.out.println("Filmes encontrados:");
-            for (Midia filme : filmes) {
-                System.out.println(filme);
-            }
-        }
+        // if (filmes.isEmpty()) {
+        // System.out.println("Nenhum filme encontrado.");
+        // } else {
+        // System.out.println("Filmes encontrados:");
+        // for (Midia filme : filmes) {
+        // System.out.println(filme);
+        // }
+        // }
     }
 
     private static void adicionarMidiaFutura() {
@@ -275,7 +275,7 @@ public class app {
             nota = ler.nextInt();
             avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado());
         }
-        if (streaming.getClienteLogado().getTipoCliente() instanceof ClienteEspecialista) {
+        if (streaming.getClienteLogado().getTipoCliente() == "Especialista") {
             System.out.println("Deseja adicionar um comentario ? S- sim , N- nao");
             String op = ler.nextLine();
             do {
