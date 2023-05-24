@@ -6,6 +6,7 @@ public class Cliente {
     private String nome;
     private String senha;
     private String nomeUsuario;
+    private ICliente tipoCliente;
     private ArrayList<Midia> midiasFuturas;
     private ArrayList<Midia> midiasAssistidas;
 
@@ -37,6 +38,7 @@ public class Cliente {
         if (!midiasAssistidas.contains(midia)) {
             this.midiasAssistidas.add(midia);
             midia.adicionaAssistido();
+            tipoCliente.avaliar();
         }
     }
 
