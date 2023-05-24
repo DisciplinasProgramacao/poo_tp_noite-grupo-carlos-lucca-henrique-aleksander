@@ -1,0 +1,273 @@
+<Project>
+  <Name>Streaming</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Streaming-v4</Name>
+    <Language>Java</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Cliente</Name>
+        <Access>Public</Access>
+        <Location left="312" top="1163" />
+        <Size width="292" height="336" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String nome</Member>
+        <Member type="Field">private String senha</Member>
+        <Member type="Field">private String nomeUsuario</Member>
+        <Member type="Field">private ArrayList &lt;Midia&gt; midiasFuturas</Member>
+        <Member type="Field">private ArrayList&lt;Midia&gt; midiasAssistidas</Member>
+        <Member type="Field">private ITipoCliente tipoCliente</Member>
+        <Member type="Method">public void adicionarMidiaFutura(Midia midia)</Member>
+        <Member type="Method">public void terminarMidia(Midia midia)</Member>
+        <Member type="Method">public Midia buscarMidia(Midia midia)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Midia</Name>
+        <Access>Public</Access>
+        <Location left="1172" top="1372" />
+        <Size width="325" height="320" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private String nome</Member>
+        <Member type="Field">private Idioma idioma</Member>
+        <Member type="Field">private Genero genero</Member>
+        <Member type="Field">private ArrayList&lt;Avaliacao&gt; avaliacoes</Member>
+        <Member type="Field">private LocalDate data</Member>
+        <Member type="Field">private String identificador</Member>
+        <Member type="Field">private int assistidaPorClientes</Member>
+        <Member type="Field">private static Random rd</Member>
+        <Member type="Method">private T sorteiaEnum(Class&lt;T&gt; enumClass)</Member>
+        <Member type="Method">public String getData()</Member>
+        <Member type="Method">public void adicionalAssistido()</Member>
+        <Member type="Method">public double mediaAvaliacoes()</Member>
+        <Member type="Method">public String toString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Streaming</Name>
+        <Access>Public</Access>
+        <Location left="668" top="1138" />
+        <Size width="399" height="400" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private Cliente clienteLogado</Member>
+        <Member type="Field">private hashMap&lt;String, Clientes&gt; clientes</Member>
+        <Member type="Field">private hashMap&lt;String, Midia&gt; midias</Member>
+        <Member type="Method">private void lerArquivoClientes()</Member>
+        <Member type="Method">private void lerArquivoSeries()</Member>
+        <Member type="Method">private void lerArquivoFilmes()</Member>
+        <Member type="Method">private void lerArquivoAudiencia()</Member>
+        <Member type="Method">public String cadastrarCliente(String nome, String senha, String nomeUsuario)</Member>
+        <Member type="Method">public String cadastrarMidia(Midia midia)</Member>
+        <Member type="Method">public ArrayList&lt;Midia&gt; buscarMidia(T criterio)</Member>
+        <Member type="Method">public String login(String nomeUsuario, String senha)</Member>
+        <Member type="Method">public void adicionarMidiaFutura(Midia midia)</Member>
+        <Member type="Method">public void terminarMidia(String identificador)</Member>
+        <Member type="Method">public void avaliarMidia(Midia midia)</Member>
+        <Member type="Method">private boolean contemValor(ArraysList&lt;String&gt; array, String valor)</Member>
+        <Member type="Method">private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Filme</Name>
+        <Access>Public</Access>
+        <Location left="1148" top="1792" />
+        <Size width="162" height="101" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int duracao</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Serie</Name>
+        <Access>Public</Access>
+        <Location left="1382" top="1792" />
+        <Size width="162" height="101" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int qtdEpisodios</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITipoCliente</Name>
+        <Access>Public</Access>
+        <Location left="378" top="1579" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">static ITipoCliente tipoCliente()</Member>
+        <Member type="Method">Avaliacao avaliar()</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Especialista</Name>
+        <Access>Public</Access>
+        <Location left="487" top="1759" />
+        <Size width="363" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public Avaliacao avaliar(Midia midia, int Avaliacao, String comentario)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Regular</Name>
+        <Access>Public</Access>
+        <Location left="164" top="1759" />
+        <Size width="267" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public Avaliacao avaliar(Midia midia, int Avaliacao)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Avaliacao</Name>
+        <Access>Public</Access>
+        <Location left="1632" top="1642" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int nota</Member>
+        <Member type="Field">private String comentario</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>Genero</Name>
+        <Access>Public</Access>
+        <Location left="1183" top="868" />
+        <Size width="162" height="418" />
+        <Collapsed>False</Collapsed>
+        <Value>ACAO</Value>
+        <Value>ANIME</Value>
+        <Value>ANIMACAO</Value>
+        <Value>AVENTURA</Value>
+        <Value>COMEDIA</Value>
+        <Value>COMEDIA_DE_ACAO</Value>
+        <Value>COMEDIA_DE_TERROR</Value>
+        <Value>COMEDIA_ROMANTICA</Value>
+        <Value>DANCA</Value>
+        <Value>DOCUMENTARIO</Value>
+        <Value>DRAMA</Value>
+        <Value>ESPIONAGEM</Value>
+        <Value>FAROESTE</Value>
+        <Value>FANTASIA</Value>
+        <Value>FANTASIA_CIENTIFICA</Value>
+        <Value>FICCAO_CIENTIFICA</Value>
+        <Value>GUERRA</Value>
+        <Value>MISTERIO</Value>
+        <Value>MUSICAL</Value>
+        <Value>ROMANCE</Value>
+        <Value>TERROR</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>Idioma</Name>
+        <Access>Public</Access>
+        <Location left="1360" top="852" />
+        <Size width="162" height="435" />
+        <Collapsed>False</Collapsed>
+        <Value>ALEMAO</Value>
+        <Value>ARABE</Value>
+        <Value>BULGARO</Value>
+        <Value>COREANO</Value>
+        <Value>CROATA</Value>
+        <Value>DINAMARQUES</Value>
+        <Value>ESLOVACO</Value>
+        <Value>ESPANHOL</Value>
+        <Value>FRANCES</Value>
+        <Value>GREGO</Value>
+        <Value>HOLANDES</Value>
+        <Value>INGLES</Value>
+        <Value>IRLANDES</Value>
+        <Value>ITALIANO</Value>
+        <Value>JAPONES</Value>
+        <Value>MANDARIM</Value>
+        <Value>NORUEGUES</Value>
+        <Value>PORTUGUES</Value>
+        <Value>RUSSO</Value>
+        <Value>TURCO</Value>
+        <Value>UCRANIANO</Value>
+        <Value>ZULU</Value>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1342</X>
+          <Y>1731</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1467</X>
+          <Y>1763</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1342</X>
+          <Y>1734</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="0" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="6" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="7" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="1" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1533</X>
+          <Y>1552</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="10">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>sem Título</Name>
+    <Language>Java</Language>
+    <Entities />
+    <Relationships />
+  </ProjectItem>
+</Project>
