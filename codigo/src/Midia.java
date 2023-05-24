@@ -1,7 +1,7 @@
 package src;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Midia {
@@ -13,6 +13,7 @@ public class Midia {
     private String identificador;
     private int assistidaPorClientes;
     private static Random rd = new Random();
+    private ArrayList<Avaliacao> avaliacoes;
 
     public Midia(String nome, String identificador, LocalDate data) {
         this.nome = nome;
@@ -21,23 +22,29 @@ public class Midia {
         this.data = data;
         this.identificador = identificador;
         this.assistidaPorClientes = 0;
+        this.avaliacoes = new ArrayList<>(null);
     }
 
     private <T extends Enum<T>> T sorteiaEnum(Class<T> enumClass) {
         T[] values = enumClass.getEnumConstants();
         int indiceAleatorio = rd.nextInt(values.length);
-        T sorteado = values[indiceAleatorio];
-        return sorteado;
+        return values[indiceAleatorio];
     }
 
-
     public String getData() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return data.format(formatter);
+        return data.format(app.DATA_FORMATTER);
     }
 
     public void adicionaAssistido() {
         this.assistidaPorClientes++;
+    }
+
+    public ArrayList<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
+        avaliacoes.add(avaliacao);
     }
 
     public String getNome() {
@@ -60,9 +67,28 @@ public class Midia {
         return assistidaPorClientes;
     }
 
+    public double calculaMediaAvaliacoes() {
+        if (avaliacoes.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalAvaliacoes = 0;
+        for (Avaliacao avaliacao : avaliacoes) {
+            totalAvaliacoes += avaliacao.getAvaliacao();
+        }
+        return (double) totalAvaliacoes / avaliacoes.size();
+    }
 
     @Override
     public String toString() {
-        return "Nome Mídia: " + getNome() + "\nGênero: " + getGenero() + "\nIdioma: " + getIdioma();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome: ").append(nome).append("\n");
+        sb.append("Idioma: ").append(idioma).append("\n");
+        sb.append("Gênero: ").append(genero).append("\n");
+        sb.append("Data: ").append(getData()).append("\n");
+        sb.append("Assista por: ").append(assistidaPorClientes).append("pessoas").append("\n");
+        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
+        return sb.toString();
     }
+
 }
