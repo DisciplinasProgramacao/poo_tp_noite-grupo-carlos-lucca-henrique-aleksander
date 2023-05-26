@@ -44,7 +44,7 @@ public class Streaming {
                     .forEach(values -> {
                         Midia novaSerie = new Serie(values[1], values[0],
                                 LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
-                        cadastrarMidia(novaSerie);
+                        //cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -83,7 +83,7 @@ public class Streaming {
                 int duracao = Integer.parseInt(values[3]);
                 Midia novoFilme = new Filme(nome, identificador,
                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
-                cadastrarMidia(novoFilme);
+                //cadastrarMidia(novoFilme);
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -110,13 +110,13 @@ public class Streaming {
         return "Usuário cadastrado com sucesso!";
     }
 
-    public String cadastrarMidia(Midia midia) {
-        if (midias.containsKey(midia.getIdentificador())) {
-            throw new InvalidMidiaException("Midia já cadastrada no sistema");
-        }
-        midias.put(midia.getIdentificador(), midia);
-        return "Midia cadastrada";
-    }
+    // public String cadastrarMidia(Midia midia) {
+    //     if (midias.containsKey(midia.getIdentificador())) {
+    //         throw new InvalidMidiaException("Midia já cadastrada no sistema");
+    //     }
+    //     midias.put(midia.getIdentificador(), midia);
+    //     return "Midia cadastrada";
+    // }
 
     public void mostraTodasMidias() {
         midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
