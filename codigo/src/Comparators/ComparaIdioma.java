@@ -1,13 +1,9 @@
 package src.Comparators;
 import java.util.Comparator;
 import src.Midia;
-
-public class ComparaIdioma implements Comparator<Midia>{
-
+public class ComparaIdioma implements Comparator<Midia> {
     @Override
-    public int compare(Midia o1, Midia o2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compare'");
+    public int compare(Midia m1, Midia m2) {
+        return m1.getIdioma().equals(m2.getIdioma())? 0: 1;
     }
-    
 }

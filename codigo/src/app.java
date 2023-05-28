@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import src.Comparators.ComparaGenero;
+import src.Comparators.ComparaIdioma;
+import src.Comparators.ComparaNome;
+
 public class app {
     private static Streaming streaming;
-    public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static void main(String[] args) {
         streaming = new Streaming();
@@ -33,7 +37,7 @@ public class app {
                 System.out.println("== Menu Principal ==");
                 System.out.println("1. Cadastrar Cliente");
                 System.out.println("2. Login");
-                System.out.println("3. Buscar Séries por Gênero");
+                System.out.println("3. Buscar");
                 System.out.println("4. Buscar Séries por Nome");
                 System.out.println("5. Buscar Séries por Idioma");
                 System.out.println("6. Buscar Filmes");
@@ -50,7 +54,7 @@ public class app {
                         fazerLogin();
                         break;
                     case 3:
-                        buscarSeriesPorGenero();
+                        buscarMidias();
                         break;
                     case 4:
                         buscarSeriesPorNome();
@@ -117,7 +121,7 @@ public class app {
 
         while (true) {
             System.out.println("== Menu do Cliente ==");
-            System.out.println("1. Buscar Séries por Gênero");
+            System.out.println("1. Buscar");
             System.out.println("2. Buscar Séries por Nome");
             System.out.println("3. Buscar Séries por Idioma");
             System.out.println("4. Buscar Filmes");
@@ -132,7 +136,7 @@ public class app {
 
             switch (opcao) {
                 case 1:
-                    buscarSeriesPorGenero();
+                    buscarMidias();
                     break;
                 case 2:
                     buscarSeriesPorNome();
@@ -164,23 +168,31 @@ public class app {
         }
     }
 
-    private static void buscarSeriesPorGenero() {
+    private static void buscarMidias() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Deseja buscar por \ng - Gênero  i - Idioma n - Nome");
+        char op = scanner.next().toLowerCase().charAt(0);
+        System.out.println("Informe a sua busca:");
+        String valor = scanner.next();
+        switch (op) {
+            case 'g':
+                System.out.println("== Buscar Séries por Gênero ==");
+                streaming.buscarMidia(null, new ComparaGenero());
+                break;
+        
+            case 'i':
+                System.out.println("== Buscar Séries por Idioma ==");
+                streaming.buscarMidia(new Midia(null, null, null), new ComparaIdioma());
+                break;
 
-        System.out.println("== Buscar Séries por Gênero ==");
-        System.out.print("Gênero: ");
-        String genero = scanner.nextLine();
+            case 'n':
+                System.out.println("== Buscar Séries por Nome ==");
+                System.out.println(streaming.buscarMidia(new Midia(valor, null, null), new ComparaNome()).toString());
+                break;
 
-        // ArrayList<Midia> series = streaming.buscaSerieGeneroSerie(genero);
-
-        // if (series.isEmpty()) {
-        // System.out.println("Nenhuma série encontrada com o gênero informado.");
-        // } else {
-        // System.out.println("Séries encontradas:");
-        // for (Midia serie : series) {
-        // System.out.println(serie);
-        // }
-        // }
+            default:
+                break;
+        }
     }
 
     private static void buscarSeriesPorNome() {
@@ -254,6 +266,7 @@ public class app {
 
         System.out.println("Mídia atualizada com sucesso.");
     }
+
 
     // private static void avaliarMidia() {
     //     Scanner scanner = new Scanner(System.in);

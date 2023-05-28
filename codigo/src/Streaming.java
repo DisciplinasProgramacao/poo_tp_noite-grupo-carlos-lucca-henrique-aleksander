@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import src.Exceptions.InvalidMidiaException;
@@ -44,7 +45,7 @@ public class Streaming {
                     .forEach(values -> {
                         Midia novaSerie = new Serie(values[1], values[0],
                                 LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
-                        //cadastrarMidia(novaSerie);
+                        cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -83,7 +84,7 @@ public class Streaming {
                 int duracao = Integer.parseInt(values[3]);
                 Midia novoFilme = new Filme(nome, identificador,
                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
-                //cadastrarMidia(novoFilme);
+                cadastrarMidia(novoFilme);
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -110,13 +111,22 @@ public class Streaming {
         return "Usuário cadastrado com sucesso!";
     }
 
-    // public String cadastrarMidia(Midia midia) {
-    //     if (midias.containsKey(midia.getIdentificador())) {
-    //         throw new InvalidMidiaException("Midia já cadastrada no sistema");
-    //     }
-    //     midias.put(midia.getIdentificador(), midia);
-    //     return "Midia cadastrada";
-    // }
+    public StringBuilder buscarMidia(Midia m2, Comparator<Midia> comp){
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (comp.compare(midia, m2) == 0) {
+                sb.append(midia.toString());
+            } ;
+        }
+        return sb;
+    }
+
+    public void cadastrarMidia(Midia midia) {
+        if (!midias.containsKey(midia.getIdentificador())) {
+            midias.put(midia.getIdentificador(), midia);
+        }
+    }
 
     public void mostraTodasMidias() {
         midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
