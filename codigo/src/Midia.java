@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Midia implements Comparable<Midia> {
+public class Midia{
 
     private String nome;
     private Idioma idioma;
@@ -13,7 +13,7 @@ public class Midia implements Comparable<Midia> {
     private String identificador;
     private int assistidaPorClientes;
     private static Random rd = new Random();
-    private ArrayList<Avaliacao> avaliacoes;
+    //private ArrayList<Avaliacao> avaliacoes;
 
     public Midia(String nome, String identificador, LocalDate data) {
         this.nome = nome;
@@ -22,7 +22,7 @@ public class Midia implements Comparable<Midia> {
         this.data = data;
         this.identificador = identificador;
         this.assistidaPorClientes = 0;
-        this.avaliacoes = new ArrayList<>(null);
+        //this.avaliacoes = new ArrayList<>(null);
     }
 
     private <T extends Enum<T>> T sorteiaEnum(Class<T> enumClass) {
@@ -39,16 +39,16 @@ public class Midia implements Comparable<Midia> {
         this.assistidaPorClientes++;
     }
 
-    public ArrayList<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
-    }
+    //public ArrayList<Avaliacao> getAvaliacoes() {
+    //    return avaliacoes;
+    //}
 
-    public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
-        avaliacoes.add(avaliacao);
-    }
+    //public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
+    //    avaliacoes.add(avaliacao);
+    //}
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public Idioma getIdioma() {
@@ -67,17 +67,17 @@ public class Midia implements Comparable<Midia> {
         return assistidaPorClientes;
     }
 
-    public double calculaMediaAvaliacoes() {
-        if (avaliacoes.isEmpty()) {
-            return 0.0;
-        }
+    // public double calculaMediaAvaliacoes() {
+    //     if (avaliacoes.isEmpty()) {
+    //         return 0.0;
+    //     }
 
-        double totalAvaliacoes = 0;
-        for (Avaliacao avaliacao : avaliacoes) {
-            totalAvaliacoes += avaliacao.getAvaliacao();
-        }
-        return (double) totalAvaliacoes / avaliacoes.size();
-    }
+    //     double totalAvaliacoes = 0;
+    //     for (Avaliacao avaliacao : avaliacoes) {
+    //         totalAvaliacoes += avaliacao.getAvaliacao();
+    //     }
+    //     return (double) totalAvaliacoes / avaliacoes.size();
+    // }
 
     @Override
     public String toString() {
@@ -86,27 +86,10 @@ public class Midia implements Comparable<Midia> {
         sb.append("Idioma: ").append(idioma).append("\n");
         sb.append("Gênero: ").append(genero).append("\n");
         sb.append("Data: ").append(getData()).append("\n");
-        sb.append("Assista por: ").append(assistidaPorClientes).append("pessoas").append("\n");
-        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
+        sb.append("Assista por: ").append(assistidaPorClientes).append(" pessoas").append("\n");
+        sb.append("\n");
+        //sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
         return sb.toString();
     
     }
-    @Override
-    public int compareTo(String parametro) {
-        // Comparação pelo nome
-        int comparacaoNome = this.nome.compareTo(parametro);
-        if (comparacaoNome != 0) {
-            return comparacaoNome;
-        }
-
-        // Comparação pelo idioma (enum)
-        int comparacaoIdioma = this.idioma.getDescricao().compareTo(parametro);
-        if (comparacaoIdioma != 0) {
-            return comparacaoIdioma;
-        }
-
-        // Comparação pelo gênero (enum)
-        return this.genero.getDescricao().compareTo(parametro);
-    }
-
 }

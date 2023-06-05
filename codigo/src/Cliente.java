@@ -80,16 +80,16 @@ public class Cliente {
         return avaliacoes;
     }
 
-    public Avaliacao avaliar(int avaliacao, Midia midia) {
-        if (midiasAssistidas.contains(midia)) {
-            Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
-            avaliacoes.add(avaliacaoClient);
-            midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
-            return avaliacaoClient;
-        } else {
-            throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
-        }
-    }
+    // public Avaliacao avaliar(int avaliacao, Midia midia) {
+    //     if (midiasAssistidas.contains(midia)) {
+    //         Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
+    //         avaliacoes.add(avaliacaoClient);
+    //         midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
+    //         return avaliacaoClient;
+    //     } else {
+    //         throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
+    //     }
+    // }
 
     public boolean hasMoreThenFiveAvaliationsLastMonth() {
         LocalDateTime today = LocalDateTime.now();

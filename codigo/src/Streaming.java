@@ -6,9 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
+import src.Comparators.ComparatorMidia;
 import src.Exceptions.InvalidMidiaException;
 
 public class Streaming {
@@ -108,95 +112,37 @@ public class Streaming {
         return "Usuário cadastrado com sucesso!";
     }
 
-    public String cadastrarMidia(Midia midia) {
-        if (midias.containsKey(midia.getIdentificador())) {
-            throw new InvalidMidiaException("Midia já cadastrada no sistema");
+    public StringBuilder buscarMidia(String valor, ComparatorMidia comp){
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (comp.compare(midia, valor) == 0) {
+                sb.append(midia.toString());
+            }
         }
-        midias.put(midia.getIdentificador(), midia);
-        return "Midia cadastrada";
+        return sb;
+    }
+
+    public void cadastrarMidia(Midia midia) {
+        if (!midias.containsKey(midia.getIdentificador())) {
+            midias.put(midia.getIdentificador(), midia);
+        }
     }
 
     public void mostraTodasMidias() {
         midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
     }
 
-    // // Temos que fazer esse metodos de busca serem genericos
-    // public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
-    // ArrayList<Midia> listaPorGenero = new ArrayList<>();
-    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-    // Midia midia = entry.getValue();
-    // if (midia.getGenero().contains(genero)) {
-    // listaPorGenero.add(midia);
-    // }
-    // }
-    // return listaPorGenero;
-    // }
+    // public <T> String buscaIdiomaMidia(String valor, Comparator<T> comparator) {
+    //     StringBuilder sb = new StringBuilder();
+    //     Comparator<String> idiomaComparator = Comparator.comparing(String::toLowerCase);
+    //     List<Midia> listaRetorno = listaMidia.stream()
+    //             .filter(midia -> idiomaComparator.compare(midia.retornaIdioma(),
+    //                     idioma.toLowerCase()) == 0)
+    //             .collect(Collectors.toList());
+    //     listaRetorno.forEach(e -> sb.append(e.toString()).append(System.lineSeparator()));
 
-    // // Temos que fazer esse metodos de busca serem genericos
-    // public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
-    // ArrayList<Midia> listaPorNome = new ArrayList<>();
-    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-    // Midia midia = entry.getValue();
-    // if (midia.getNome().equals(nome)) {
-    // listaPorNome.add(midia);
-    // }
-    // }
-    // return listaPorNome;
-    // }
-
-    // // Temos que fazer esse metodos de busca serem genericos
-    // public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
-    // ArrayList<Midia> listaPorIdioma = new ArrayList<>();
-    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-    // Midia midia = entry.getValue();
-    // if (midia.getIdioma().contains(idioma)) {
-    // listaPorIdioma.add(midia);
-    // }
-    // }
-    // return listaPorIdioma;
-    // }
-
-    // public <T> ArrayList<Midia> buscarFilme(T criterio) {
-    // ArrayList<Midia> resultados = new ArrayList<>();
-
-    // for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-    // Midia midia = entry.getValue();
-    // if (criterio instanceof String) {
-    // if (midia.getNome().equalsIgnoreCase((String) criterio)) {
-    // resultados.add(midia);
-    // }
-    // } else if (criterio instanceof String[]) {
-    // String[] arrayTexto = (String[]) criterio;
-    // if (contemGenerosOuIdiomas(midia, arrayTexto)) {
-    // resultados.add(midia);
-    // }
-    // } else if (criterio instanceof Midia ) {
-    // if (midia.equals((Midia) criterio)) {
-    // resultados.add(midia);
-    // }
-    // }
-    // }
-
-    // return resultados;
-    // }
-
-    // private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
-    // for (String texto : arrayTexto) {
-    // if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(),
-    // texto)) {
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
-
-    // private boolean contemValor(ArrayList<String> array, String valor) {
-    // for (String elemento : array) {
-    // if (elemento.equals(valor)) {
-    // return true;
-    // }
-    // }
-    // return false;
+    //     return sb.toString();
     // }
 
     public String login(String nomeUsuario, String senha) {

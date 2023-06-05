@@ -124,81 +124,52 @@
       <Entity type="Enum">
         <Name>Genero</Name>
         <Access>Public</Access>
-        <Location left="1183" top="868" />
-        <Size width="162" height="418" />
+        <Location left="1172" top="1070" />
+        <Size width="162" height="214" />
         <Collapsed>False</Collapsed>
         <Value>ACAO</Value>
         <Value>ANIME</Value>
-        <Value>ANIMACAO</Value>
         <Value>AVENTURA</Value>
         <Value>COMEDIA</Value>
-        <Value>COMEDIA_DE_ACAO</Value>
-        <Value>COMEDIA_DE_TERROR</Value>
-        <Value>COMEDIA_ROMANTICA</Value>
-        <Value>DANCA</Value>
         <Value>DOCUMENTARIO</Value>
         <Value>DRAMA</Value>
-        <Value>ESPIONAGEM</Value>
-        <Value>FAROESTE</Value>
-        <Value>FANTASIA</Value>
-        <Value>FANTASIA_CIENTIFICA</Value>
-        <Value>FICCAO_CIENTIFICA</Value>
-        <Value>GUERRA</Value>
-        <Value>MISTERIO</Value>
-        <Value>MUSICAL</Value>
+        <Value>POLICIAL</Value>
         <Value>ROMANCE</Value>
-        <Value>TERROR</Value>
+        <Value>SUSPENSE</Value>
       </Entity>
       <Entity type="Enum">
         <Name>Idioma</Name>
         <Access>Public</Access>
-        <Location left="1360" top="852" />
-        <Size width="162" height="435" />
+        <Location left="1347" top="1021" />
+        <Size width="162" height="265" />
         <Collapsed>False</Collapsed>
         <Value>ALEMAO</Value>
-        <Value>ARABE</Value>
-        <Value>BULGARO</Value>
         <Value>COREANO</Value>
-        <Value>CROATA</Value>
         <Value>DINAMARQUES</Value>
-        <Value>ESLOVACO</Value>
         <Value>ESPANHOL</Value>
         <Value>FRANCES</Value>
-        <Value>GREGO</Value>
         <Value>HOLANDES</Value>
         <Value>INGLES</Value>
-        <Value>IRLANDES</Value>
         <Value>ITALIANO</Value>
         <Value>JAPONES</Value>
-        <Value>MANDARIM</Value>
-        <Value>NORUEGUES</Value>
         <Value>PORTUGUES</Value>
         <Value>RUSSO</Value>
-        <Value>TURCO</Value>
-        <Value>UCRANIANO</Value>
-        <Value>ZULU</Value>
       </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="2" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -225,6 +196,8 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="0" second="5">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -239,8 +212,6 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="1" second="8">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -251,12 +222,16 @@
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="10">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
