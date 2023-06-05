@@ -48,7 +48,7 @@ public class Midia{
     //}
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public Idioma getIdioma() {

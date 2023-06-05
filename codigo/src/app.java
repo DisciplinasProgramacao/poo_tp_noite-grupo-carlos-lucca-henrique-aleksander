@@ -2,17 +2,15 @@ package src;
 
 import java.io.FileNotFoundException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import src.Comparators.ComparaGenero;
-import src.Comparators.ComparaIdioma;
-import src.Comparators.ComparaNome;
+import src.Comparators.ComparatorMidia;
 
 public class app {
     private static Streaming streaming;
     public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         streaming = new Streaming();
@@ -31,8 +29,6 @@ public class app {
 
     private static void exibirMenuPrincipal() {
         try {
-            Scanner scanner = new Scanner(System.in);
-
             while (true) {
                 System.out.println("== Menu Principal ==");
                 System.out.println("1. Cadastrar Cliente");
@@ -56,15 +52,6 @@ public class app {
                     case 3:
                         buscarMidias();
                         break;
-                    case 4:
-                        buscarSeriesPorNome();
-                        break;
-                    case 5:
-                        buscarSeriesPorIdioma();
-                        break;
-                    case 6:
-                        buscarFilmes();
-                        break;
                     case 7:
                         System.out.println("Saindo do programa...");
                         return;
@@ -82,7 +69,6 @@ public class app {
     }
 
     private static void cadastrarCliente() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("== Cadastro de Cliente ==");
         System.out.print("Nome: ");
@@ -99,7 +85,6 @@ public class app {
     }
 
     private static void fazerLogin() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("== Login ==");
         System.out.print("Nome de Usuário: ");
@@ -117,18 +102,14 @@ public class app {
     }
 
     private static void exibirMenuCliente() {
-        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("== Menu do Cliente ==");
             System.out.println("1. Buscar");
-            System.out.println("2. Buscar Séries por Nome");
-            System.out.println("3. Buscar Séries por Idioma");
-            System.out.println("4. Buscar Filmes");
-            System.out.println("5. Adicionar Mídia Futura");
-            System.out.println("6. Terminar Mídia");
-            System.out.println("7. Avaliar Mídia");
-            System.out.println("8. Sair");
+            System.out.println("2. Adicionar Mídia Futura");
+            System.out.println("3. Terminar Mídia");
+            System.out.println("4. Avaliar Mídia");
+            System.out.println("5. Sair");
 
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -139,24 +120,15 @@ public class app {
                     buscarMidias();
                     break;
                 case 2:
-                    buscarSeriesPorNome();
-                    break;
-                case 3:
-                    buscarSeriesPorIdioma();
-                    break;
-                case 4:
-                    buscarFilmes();
-                    break;
-                case 5:
                     adicionarMidiaFutura();
                     break;
-                case 6:
+                case 3:
                     terminarMidia();
                     break;
-                case 7:
+                case 4:
                     //avaliarMidia();
                     break;
-                case 8:
+                case 5:
                     System.out.println("Saindo do menu do cliente...");
                     return;
                 default:
@@ -169,85 +141,32 @@ public class app {
     }
 
     private static void buscarMidias() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Deseja buscar por \ng - Gênero  i - Idioma n - Nome");
+        System.out.println("Deseja buscar por \nn - Nome g - Gênero  i - Idioma");
         char op = scanner.next().toLowerCase().charAt(0);
         System.out.println("Informe a sua busca:");
         String valor = scanner.next();
+        System.out.println("");
         switch (op) {
-            case 'g':
-                System.out.println("== Buscar Séries por Gênero ==");
-                streaming.buscarMidia(null, new ComparaGenero());
-                break;
-        
-            case 'i':
-                System.out.println("== Buscar Séries por Idioma ==");
-                streaming.buscarMidia(new Midia(null, null, null), new ComparaIdioma());
-                break;
-
             case 'n':
                 System.out.println("== Buscar Séries por Nome ==");
-                System.out.println(streaming.buscarMidia(new Midia(valor, null, null), new ComparaNome()).toString());
+                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porNome()).toString());
                 break;
-
+            case 'g':
+                System.out.println("== Buscar Séries por Gênero ==");
+                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porGenero()).toString());
+                break;
+            case 'i':
+                System.out.println("== Buscar Séries por Idioma ==");
+                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porIdioma()).toString());
+                break;
             default:
                 break;
         }
     }
 
-    private static void buscarSeriesPorNome() {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("== Buscar Séries por Nome ==");
-        System.out.print("Nome: ");
-        String nome = scanner.nextLine();
-
-        // ArrayList<Midia> series = streaming.buscarFilme(nome);
-
-        // if (series.isEmpty()) {
-        // System.out.println("Nenhuma série encontrada com o nome informado.");
-        // } else {
-        // System.out.println("Séries encontradas:");
-        // for (Midia serie : series) {
-        // System.out.println(serie);
-        // }
-        // }
-    }
-
-    private static void buscarSeriesPorIdioma() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("== Buscar Séries por Idioma ==");
-        System.out.print("Idioma: ");
-        String idioma = scanner.nextLine();
-
-        // ArrayList<Midia> series = streaming.buscaSerieIdiomaSerie(idioma);
-
-        // if (series.isEmpty()) {
-        // System.out.println("Nenhuma série encontrada com o idioma informado.");
-        // } else {
-        // System.out.println("Séries encontradas:");
-        // for (Midia serie : series) {
-        // System.out.println(serie);
-        // }
-        // }
-    }
-
-    private static void buscarFilmes() {
-        // ArrayList<Midia> filmes = streaming.buscarFilme("Nome");
-
-        // if (filmes.isEmpty()) {
-        // System.out.println("Nenhum filme encontrado.");
-        // } else {
-        // System.out.println("Filmes encontrados:");
-        // for (Midia filme : filmes) {
-        // System.out.println(filme);
-        // }
-        // }
-    }
 
     private static void adicionarMidiaFutura() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("== Adicionar Mídia Futura ==");
 
@@ -257,7 +176,6 @@ public class app {
     }
 
     private static void terminarMidia() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("== Terminar Mídia ==");
 

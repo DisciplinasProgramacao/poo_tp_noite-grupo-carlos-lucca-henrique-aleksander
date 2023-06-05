@@ -1,16 +1,16 @@
 package src;
 
 public enum Idioma {
-    ALEMAO("Alemão"),
+    ALEMAO("Alemao"),
     COREANO("Coreano"),
-    DINAMARQUES("Dinamarquês"),
+    DINAMARQUES("Dinamarques"),
     ESPANHOL("Espanhol"),
-    FRANCES("Francês"),
-    HOLANDES("Holandês"),
-    INGLES("Inglês"),
+    FRANCES("Frances"),
+    HOLANDES("Holandes"),
+    INGLES("Ingles"),
     ITALIANO("Italiano"),
-    JAPONES("Japonês"),
-    PORTUGUES("Português"),
+    JAPONES("Japones"),
+    PORTUGUES("Portugues"),
     RUSSO("Russo");
 
     private String descricao;

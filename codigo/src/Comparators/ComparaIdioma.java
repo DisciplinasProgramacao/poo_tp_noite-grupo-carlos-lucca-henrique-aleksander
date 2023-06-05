@@ -1,9 +1,8 @@
 package src.Comparators;
 import java.util.Comparator;
-import src.Midia;
-public class ComparaIdioma implements Comparator<Midia> {
+public class ComparaIdioma implements Comparator<String> {
     @Override
-    public int compare(Midia m1, Midia m2) {
-        return m1.getIdioma().equals(m2.getIdioma())? 0: 1;
+    public int compare(String m1, String m2) {
+        return m1.contains(m2)? 0: 1;
     }
 }

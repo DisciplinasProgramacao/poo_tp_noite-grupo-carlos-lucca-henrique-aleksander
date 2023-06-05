@@ -1,10 +1,8 @@
 package src.Comparators;
 import java.util.Comparator;
-import src.Midia;
-
-public class ComparaNome implements Comparator<Midia> {
+public class ComparaNome implements Comparator<String> {
     @Override
-    public int compare(Midia m1, Midia m2) {
-        return m1.getNome().contains(m2.getNome())? 0: 1;
+    public int compare(String m1, String m2) {
+        return m1.contains(m2)? 0: 1;
     }
 }

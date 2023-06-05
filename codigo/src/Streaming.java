@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import src.Comparators.ComparatorMidia;
 import src.Exceptions.InvalidMidiaException;
 
 public class Streaming {
@@ -111,13 +112,13 @@ public class Streaming {
         return "Usuário cadastrado com sucesso!";
     }
 
-    public StringBuilder buscarMidia(Midia m2, Comparator<Midia> comp){
+    public StringBuilder buscarMidia(String valor, ComparatorMidia comp){
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
-            if (comp.compare(midia, m2) == 0) {
+            if (comp.compare(midia, valor) == 0) {
                 sb.append(midia.toString());
-            } ;
+            }
         }
         return sb;
     }
