@@ -32,14 +32,4 @@ public class Serie extends Midia {
     public int getQtdEpisodios() {
         return qtdEpisodios;
     }
-
-    /**
-     * Atribui valor a quantidade de episódios da série.
-     * 
-     * @param qtdEpisodios valor inteiro atribuido a quantidade.
-     */
-    public void setQtdEpisodios(int qtdEpisodios) {
-        this.qtdEpisodios = qtdEpisodios;
-    }
-
 }

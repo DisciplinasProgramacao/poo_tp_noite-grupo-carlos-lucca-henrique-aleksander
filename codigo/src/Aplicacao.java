@@ -34,10 +34,7 @@ public class Aplicacao {
                 System.out.println("1. Cadastrar Cliente");
                 System.out.println("2. Login");
                 System.out.println("3. Buscar");
-                System.out.println("4. Buscar Séries por Nome");
-                System.out.println("5. Buscar Séries por Idioma");
-                System.out.println("6. Buscar Filmes");
-                System.out.println("7. Sair");
+                System.out.println("4. Sair");
                 System.out.print("Escolha uma opção: ");
                 int opcao = scanner.nextInt();
                 scanner.nextLine();
@@ -52,7 +49,7 @@ public class Aplicacao {
                     case 3:
                         buscarMidias();
                         break;
-                    case 7:
+                    case 4:
                         System.out.println("Saindo do programa...");
                         return;
                     default:

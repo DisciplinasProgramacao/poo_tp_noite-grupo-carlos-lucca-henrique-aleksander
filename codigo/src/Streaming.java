@@ -61,8 +61,9 @@ public class Streaming {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> {
+                        int qtdEpisodios = Integer.parseInt(values[3]);
                         Midia novaSerie = new Serie(values[1], values[0],
-                                LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
+                                LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), qtdEpisodios);
                         cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {

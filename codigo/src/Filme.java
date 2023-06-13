@@ -24,15 +24,6 @@ public class Filme extends Midia {
     }
 
     /**
-     * Atribui valor a duração do filme.
-     * 
-     * @param duracao valor inteiro atribuido a duração.
-     */
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
-    }
-
-    /**
      * Retorna a duração do filme.
      * 
      * @return int contendo a duração do filme.
