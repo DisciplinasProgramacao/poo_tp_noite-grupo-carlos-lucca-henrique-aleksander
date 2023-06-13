@@ -2,7 +2,6 @@ package src;
 
 import java.time.LocalDate;
 public class Filme extends Midia {
-
     private int duracao;
 
     public Filme(String nome, String identificador, LocalDate data, int duracao) {

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Midia implements Comparable<Midia> {
+public class Midia implements Comparable<String> {
 
     private String nome;
     private Idioma idioma;
@@ -108,5 +108,4 @@ public class Midia implements Comparable<Midia> {
         // Comparação pelo gênero (enum)
         return this.genero.getDescricao().compareTo(parametro);
     }
-
 }

@@ -1,5 +1,7 @@
 package src;
 
+import src.Exceptions.AuthorizationException;
+
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -81,17 +83,30 @@ public class Cliente {
     }
 
     public Avaliacao avaliar(int avaliacao, Midia midia) {
-        if (midiasAssistidas.contains(midia)) {
-            Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
-            avaliacoes.add(avaliacaoClient);
-            midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
-            return avaliacaoClient;
-        } else {
+        if (!midiasAssistidas.contains(midia)) {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
+        updateClientType();
+        Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
+        avaliacoes.add(avaliacaoClient);
+        midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
+        return avaliacaoClient;
     }
 
-    public boolean hasMoreThenFiveAvaliationsLastMonth() {
+    public Avaliacao comentar(Avaliacao avaliacao, String comentario) {
+        if (tipoCliente==null) {
+            throw new AuthorizationException();
+        }
+        avaliacao.addComentario(comentario);
+        return avaliacao;
+    }
+
+    private void updateClientType(){
+        if (hasMoreThenFiveAvaliationsLastMonth()){
+            this.tipoCliente = new ClienteEspecialista();
+        }
+    }
+    private boolean hasMoreThenFiveAvaliationsLastMonth() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime lastMonth = today.minusMonths(1);
         AtomicInteger qtdeAvaliacoesNesseMes = new AtomicInteger(0);

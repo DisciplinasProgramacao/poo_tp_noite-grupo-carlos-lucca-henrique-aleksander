@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
+import src.Exceptions.AuthorizationException;
 import src.Exceptions.InvalidMidiaException;
 
 public class Streaming {
@@ -101,7 +102,7 @@ public class Streaming {
 
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
         if (clientes.containsKey(nomeUsuario)) {
-            return "Já existe uma conta com esse nome de usuário";
+            throw new AuthorizationException();
         }
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         clientes.put(nomeUsuario, cliente);
@@ -207,10 +208,8 @@ public class Streaming {
                 clienteLogado = autenticar;
                 return "Login feito com sucesso";
             }
-            return "Senha incorreta";
         }
-        return "Usuário não encontrado";
-
+           throw new AuthorizationException();
     }
 
     public void adicionarMidiaFutura(Midia midia) {
@@ -225,5 +224,4 @@ public class Streaming {
         }
         clienteLogado.terminarMidia(midiaTerminada);
     }
-
 }

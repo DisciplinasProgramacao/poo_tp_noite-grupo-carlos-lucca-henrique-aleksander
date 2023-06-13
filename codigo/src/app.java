@@ -21,7 +21,7 @@ public class app {
         try {
             exibirMenuPrincipal();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -43,30 +43,17 @@ public class app {
                 scanner.nextLine();
 
                 switch (opcao) {
-                    case 1:
-                        cadastrarCliente();
-                        break;
-                    case 2:
-                        fazerLogin();
-                        break;
-                    case 3:
-                        buscarSeriesPorGenero();
-                        break;
-                    case 4:
-                        buscarSeriesPorNome();
-                        break;
-                    case 5:
-                        buscarSeriesPorIdioma();
-                        break;
-                    case 6:
-                        buscarFilmes();
-                        break;
-                    case 7:
+                    case 1 -> cadastrarCliente();
+                    case 2 -> fazerLogin();
+                    case 3 -> buscarSeriesPorGenero();
+                    case 4 -> buscarSeriesPorNome();
+                    case 5 -> buscarSeriesPorIdioma();
+                    case 6 -> buscarFilmes();
+                    case 7 -> {
                         System.out.println("Saindo do programa...");
                         return;
-                    default:
-                        System.out.println("Opção inválida. Tente novamente.");
-                        break;
+                    }
+                    default -> System.out.println("Opção inválida. Tente novamente.");
                 }
 
                 System.out.println();
@@ -131,33 +118,18 @@ public class app {
             scanner.nextLine(); // Consumir a quebra de linha após a leitura do número
 
             switch (opcao) {
-                case 1:
-                    buscarSeriesPorGenero();
-                    break;
-                case 2:
-                    buscarSeriesPorNome();
-                    break;
-                case 3:
-                    buscarSeriesPorIdioma();
-                    break;
-                case 4:
-                    buscarFilmes();
-                    break;
-                case 5:
-                    adicionarMidiaFutura();
-                    break;
-                case 6:
-                    terminarMidia();
-                    break;
-                case 7:
-                    avaliarMidia();
-                    break;
-                case 8:
+                case 1 -> buscarSeriesPorGenero();
+                case 2 -> buscarSeriesPorNome();
+                case 3 -> buscarSeriesPorIdioma();
+                case 4 -> buscarFilmes();
+                case 5 -> adicionarMidiaFutura();
+                case 6 -> terminarMidia();
+                case 7 -> avaliarMidia();
+                case 8 -> {
                     System.out.println("Saindo do menu do cliente...");
                     return;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
 
             System.out.println();
@@ -221,6 +193,8 @@ public class app {
         // }
     }
 
+
+
     private static void buscarFilmes() {
         // ArrayList<Midia> filmes = streaming.buscarFilme("Nome");
 
@@ -268,12 +242,10 @@ public class app {
         Scanner ler = new Scanner(System.in);
         System.out.println("Escolha uma nota de 1 a 5");
         int nota = ler.nextInt();
-        Avaliacao avaliacao = new Avaliacao();
-        while (nota <= 0 && nota > 5) {
+        while (nota <= 0 || nota > 5) {
             System.out.println("nota invalida, tente novamente");
             System.out.println("Escolha uma nota de 1 a 5");
             nota = ler.nextInt();
-            avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado());
         }
         if (streaming.getClienteLogado().getTipoCliente() == "Especialista") {
             System.out.println("Deseja adicionar um comentario ? S- sim , N- nao");
@@ -287,7 +259,6 @@ public class app {
                     if (op == "S") {
                         System.out.println("escreva um comentario");
                         String comentario = ler.nextLine();
-                        avaliacao.addComentario(comentario);
                     }
                     break;
                 }
