@@ -1,5 +1,8 @@
 package src;
 
+/**
+ * Enumeração representando os gêneros de uma mídia.
+ */
 public enum Genero {
     ACAO("Ação"),
     ANIME("Anime"),
@@ -11,15 +14,27 @@ public enum Genero {
     ROMANCE("Romance"),
     TERROR("Suspense");
 
+    /**
+     * Descrição do Enum corretamente formatada e com acentuação
+     */
     private String descricao;
 
+    /**
+     * Construtor do enum Genero.
+     * 
+     * @param descricao A descrição do gênero.
+     */
     Genero(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     * Retorna a descrição do gênero.
+     *
+     * @return A descrição do gênero.
+     */
     @Override
     public String toString() {
         return descricao;
     }
 }
-

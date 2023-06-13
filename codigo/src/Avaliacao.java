@@ -3,11 +3,13 @@ package src;
 import java.time.LocalDateTime;
 
 public class Avaliacao {
+    // #region variável de instância
     private LocalDateTime data;
     private int avaliacao;
     private String comentario;
     private Midia midiaAvaliada;
     private Cliente cliente;
+    // #endregion
 
     public Avaliacao() {
     };
@@ -61,7 +63,7 @@ public class Avaliacao {
         if (comentario != null) {
             sb.append("Comentário: ").append(getComentario()).append("\n");
         }
-        sb.append("Data: ").append(data.format(app.DATA_FORMATTER)).append("\n");
+        sb.append("Data: ").append(data.format(Aplicacao.DATA_FORMATTER)).append("\n");
         return sb.toString();
     }
 }

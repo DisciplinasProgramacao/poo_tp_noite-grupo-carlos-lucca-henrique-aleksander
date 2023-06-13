@@ -1,7 +1,5 @@
 package src;
 
-import java.util.Scanner;
-
 public class ClienteRegular implements ICliente {
 
     @Override
