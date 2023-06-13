@@ -1,37 +1,22 @@
 package src;
 
 public enum Idioma {
-    ALEMAO("Alemão"),
-    ARABE("Árabe"),
-    BULGARO("Búlgaro"),
+    ALEMAO("Alemao"),
     COREANO("Coreano"),
-    CROATA("Croata"),
-    DINAMARQUES("Dinamarquês"),
-    ESLOVACO("Eslovaco"),
+    DINAMARQUES("Dinamarques"),
     ESPANHOL("Espanhol"),
-    FRANCES("Francês"),
-    GREGO("Grego"),
-    HOLANDES("Holandês"),
-    INGLES("Inglês"),
-    IRLANDES("Irlandês"),
+    FRANCES("Frances"),
+    HOLANDES("Holandes"),
+    INGLES("Ingles"),
     ITALIANO("Italiano"),
-    JAPONES("Japonês"),
-    MANDARIM("Mandarim"),
-    NORUEGUES("Norueguês"),
-    PORTUGUES("Português"),
-    RUSSO("Russo"),
-    TURCO("Turco"),
-    UCRANIANO("Ucraniano"),
-    ZULU("Zulu");
+    JAPONES("Japones"),
+    PORTUGUES("Portugues"),
+    RUSSO("Russo");
 
     private String descricao;
 
     Idioma(String descricao) {
         this.descricao = descricao;
-    }
-
-    public String getDescricao() {
-        return descricao;
     }
 
     @Override
