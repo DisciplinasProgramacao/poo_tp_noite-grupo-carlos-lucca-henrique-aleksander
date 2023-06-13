@@ -4,15 +4,15 @@ package src;
  * Enumeração representando os idiomas de uma mídia.
  */
 public enum Idioma {
-    ALEMAO("Alemao"),
+    ALEMAO("Alemão"),
     COREANO("Coreano"),
-    DINAMARQUES("Dinamarques"),
+    DINAMARQUES("Dinamarquês"),
     ESPANHOL("Espanhol"),
-    FRANCES("Frances"),
-    HOLANDES("Holandes"),
-    INGLES("Ingles"),
+    FRANCES("Francês"),
+    HOLANDES("Holandês"),
+    INGLES("Inglês"),
     ITALIANO("Italiano"),
-    JAPONES("Japones"),
+    JAPONES("Japonês"),
     PORTUGUES("Português"),
     RUSSO("Russo");
 

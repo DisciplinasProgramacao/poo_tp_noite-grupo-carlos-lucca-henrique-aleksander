@@ -10,9 +10,9 @@ public enum Genero {
     COMEDIA("Comédia"),
     DOCUMENTARIO("Documentário"),
     DRAMA("Drama"),
-    ESPIONAGEM("Policial"),
+    POLICIAL("Policial"),
     ROMANCE("Romance"),
-    TERROR("Suspense");
+    SUSPENSE("Suspense");
 
     /**
      * Descrição do Enum corretamente formatada e com acentuação
