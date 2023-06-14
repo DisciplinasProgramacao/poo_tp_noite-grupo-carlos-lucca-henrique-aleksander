@@ -174,9 +174,10 @@ public class Streaming {
             Midia midia = entry.getValue();
             if (comp.compare(midia, valor) == 0) {
                 sb.append(midia.toString());
+                sb.append("\n");
             }
         }
-        return sb;
+        return sb.toString();
     }
 
     /**
@@ -212,7 +213,6 @@ public class Streaming {
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {
             Cliente autenticar = clientes.get(nomeUsuario);
-            System.out.println("Senha: " + autenticar.getSenha());
             if (senha.equals(autenticar.getSenha())) {
                 clienteLogado = autenticar;
                 return "Login feito com sucesso";

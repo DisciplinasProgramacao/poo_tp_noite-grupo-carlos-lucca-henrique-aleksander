@@ -169,7 +169,7 @@ public class Aplicacao {
                 break;
             case 'i':
                 System.out.println("== Buscar Séries por Idioma ==");
-                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porIdioma()).toString());
+                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porIdioma()));
                 break;
             default:
                 break;
@@ -204,6 +204,7 @@ public class Aplicacao {
         System.out.println("== Selecione a mídia ==");
         for (Midia midia : midias) {
             System.out.println(contador + ": " + midia);
+            contador++;
         }
         System.out.println("Escolha uma nota de 1 a 5");
         int nota = ler.nextInt();
