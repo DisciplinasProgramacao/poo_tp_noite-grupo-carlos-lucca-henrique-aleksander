@@ -170,7 +170,7 @@ public class Aplicacao {
                 break;
             case 'i':
                 System.out.println("== Buscar Séries por Idioma ==");
-                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porIdioma()).toString());
+                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porIdioma()));
                 break;
             default:
                 break;
