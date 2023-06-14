@@ -11,7 +11,7 @@ public class Cliente {
     private String nome;
     private String senha;
     private String nomeUsuario;
-    private ICliente tipoCliente;
+    private IComentarista tipoCliente;
     private ArrayList<Midia> midiasFuturas;
     private ArrayList<Midia> midiasAssistidas;
     private ArrayList<Avaliacao> avaliacoes;
@@ -181,7 +181,7 @@ public class Cliente {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
         updateClientType();
-        Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
+        Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
         avaliacoes.add(avaliacaoClient);
         midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
         return avaliacaoClient;
