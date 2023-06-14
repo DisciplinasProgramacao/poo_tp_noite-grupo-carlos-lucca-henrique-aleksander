@@ -1,28 +1,37 @@
 package src;
 
+import src.Exceptions.InvalidAvaliacaoException;
 import java.time.LocalDateTime;
 
 public class Avaliacao {
+    // #region variável de instância
     private LocalDateTime data;
     private int avaliacao;
     private String comentario;
     private Midia midiaAvaliada;
     private Cliente cliente;
+    // #endregion
+
+    private final static int MIN_AVALIACAO_VALUE = 0;
+    private final static int MAX_AVALIACAO_VALUE = 5;
 
     public Avaliacao() {
     };
 
     public Avaliacao(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente) {
-        this.avaliacao = avaliacao;
-        this.comentario = comentario;
-        this.data = LocalDateTime.now();
-        this.midiaAvaliada = midiaAvaliada;
-        this.cliente = cliente;
+        init(avaliacao, comentario, midiaAvaliada, cliente);
     }
 
     public Avaliacao(int avaliacao, Midia midiaAvaliada, Cliente cliente) {
+        init(avaliacao, null, midiaAvaliada, cliente);
+    }
+
+    public void init(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente) {
+        if (avaliacao < MIN_AVALIACAO_VALUE || avaliacao > MAX_AVALIACAO_VALUE) {
+            throw new InvalidAvaliacaoException();
+        }
         this.avaliacao = avaliacao;
-        this.comentario = null;
+        this.comentario = comentario;
         this.data = LocalDateTime.now();
         this.midiaAvaliada = midiaAvaliada;
         this.cliente = cliente;
@@ -61,7 +70,7 @@ public class Avaliacao {
         if (comentario != null) {
             sb.append("Comentário: ").append(getComentario()).append("\n");
         }
-        sb.append("Data: ").append(data.format(app.DATA_FORMATTER)).append("\n");
+        sb.append("Data: ").append(data.format(Aplicacao.DATA_FORMATTER)).append("\n");
         return sb.toString();
     }
 }

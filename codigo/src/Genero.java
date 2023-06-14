@@ -1,41 +1,40 @@
 package src;
 
+/**
+ * Enumeração representando os gêneros de uma mídia.
+ */
 public enum Genero {
     ACAO("Ação"),
     ANIME("Anime"),
-    ANIMACAO("Animação"),
     AVENTURA("Aventura"),
     COMEDIA("Comédia"),
-    COMEDIA_DE_ACAO("Comédia de Ação"),
-    COMEDIA_DE_TERROR("Comédia de Terror"),
-    COMEDIA_ROMANTICA("Comédia Romântica"),
-    DANCA("Dança"),
     DOCUMENTARIO("Documentário"),
     DRAMA("Drama"),
-    ESPIONAGEM("Espionagem"),
-    FAROESTE("Faroeste"),
-    FANTASIA("Fantasia"),
-    FANTASIA_CIENTIFICA("Fantasia Científica"),
-    FICCAO_CIENTIFICA("Ficção Científica"),
-    GUERRA("Guerra"),
-    MISTERIO("Mistério"),
-    MUSICAL("Musical"),
+    POLICIAL("Policial"),
     ROMANCE("Romance"),
-    TERROR("Terror");
+    SUSPENSE("Suspense");
 
+    /**
+     * Descrição do Enum corretamente formatada e com acentuação
+     */
     private String descricao;
 
+    /**
+     * Construtor do enum Genero.
+     * 
+     * @param descricao A descrição do gênero.
+     */
     Genero(String descricao) {
         this.descricao = descricao;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
+    /**
+     * Retorna a descrição do gênero.
+     *
+     * @return A descrição do gênero.
+     */
     @Override
     public String toString() {
         return descricao;
     }
 }
-
