@@ -39,6 +39,11 @@ public class Streaming {
         return clientes;
     }
 
+    /**
+     * Lê o arquivo de clientes e cadastra os clientes no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
     private void lerArquivoClientes() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
             lines.map(line -> line.split(";"))
@@ -48,6 +53,11 @@ public class Streaming {
         }
     }
 
+    /**
+     * Lê o arquivo de filmes e cadastra os filmes no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
     private void lerArquivoFilmes() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("filmes.csv"))) {
             lines.forEach(line -> {
@@ -65,6 +75,11 @@ public class Streaming {
         }
     }
 
+    /**
+     * Lê o arquivo de audiência e atualiza a visualização dos clientes.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
     private void lerArquivoAudiencia() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("audiencia.csv"))) {
             lines.forEach(line -> {
@@ -87,6 +102,11 @@ public class Streaming {
         }
     }
 
+    /**
+     * Lê o arquivo de séries e cadastra as séries no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
     private void lerArquivoSeries() throws IOException, ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
@@ -102,6 +122,13 @@ public class Streaming {
         }
     }
 
+    /**
+     * Inicia o sistema de streaming, lendo os arquivos e cadastrando os clientes e
+     * as mídias.
+     *
+     * @throws IOException   caso ocorra um erro ao ler os arquivos.
+     * @throws ReadFileError caso ocorra um erro ao ler os arquivos.
+     */
     public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
@@ -146,13 +173,20 @@ public class Streaming {
         return resultado;
     }
 
+    /**
+     * Cadastra uma nova mídia no sistema de streaming.
+     *
+     * @param midia a mídia a ser cadastrada.
+     * @return uma mensagem indicando o resultado do cadastro.
+     */
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
             // throw new InvalidMidiaException("Midia já cadastrada no sistema");
             System.out.println("Midia duplicada: " + midia.getIdentificador());
+            return "Midia já cadastrada no sistema.";
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Midia cadastrada";
+        return "Mídia cadastrada com sucesso!";
     }
 
     /**

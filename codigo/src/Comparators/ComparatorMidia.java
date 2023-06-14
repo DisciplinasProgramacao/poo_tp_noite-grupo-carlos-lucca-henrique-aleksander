@@ -6,7 +6,7 @@ public interface ComparatorMidia {
     int compare(Midia midia, String valor);
 
     static ComparatorMidia porNome() {
-        return (midia, valor) -> midia.getNome().toLowerCase().contains(valor) ? 0 : 1;
+        return (midia, valor) -> midia.getNome().toLowerCase().contains(valor.toLowerCase()) ? 0 : 1;
     }
 
     static ComparatorMidia porGenero() {
