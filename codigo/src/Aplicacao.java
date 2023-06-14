@@ -6,13 +6,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import src.Comparators.ComparatorMidia;
+import src.Exceptions.ReadFileError;
 
 public class Aplicacao {
     private static Streaming streaming;
     public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ReadFileError {
         streaming = new Streaming();
         try {
             streaming.iniciar();

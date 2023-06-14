@@ -1,8 +1,6 @@
 package src;
 
 import src.Exceptions.InvalidAvaliacaoException;
-import src.Exceptions.InvalidMidiaException;
-
 import java.time.LocalDateTime;
 
 public class Avaliacao {
@@ -28,8 +26,8 @@ public class Avaliacao {
         init(avaliacao, null, midiaAvaliada, cliente);
     }
 
-    public void init(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente){
-        if(avaliacao<MIN_AVALIACAO_VALUE || avaliacao>MAX_AVALIACAO_VALUE){
+    public void init(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente) {
+        if (avaliacao < MIN_AVALIACAO_VALUE || avaliacao > MAX_AVALIACAO_VALUE) {
             throw new InvalidAvaliacaoException();
         }
         this.avaliacao = avaliacao;

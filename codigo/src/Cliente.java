@@ -88,7 +88,7 @@ public class Cliente {
      * 
      * @return true se o cliente fez mais de cinco avaliações, false caso contrário.
      */
-    public boolean temMaisDeCincoAvaliacoesUltimoMes() {
+    private boolean temMaisDeCincoAvaliacoesUltimoMes() {
         LocalDateTime hoje = LocalDateTime.now();
         LocalDateTime mesPassado = hoje.minusMonths(1);
         AtomicInteger qtdeAvaliacoesNesseMes = new AtomicInteger(0);
@@ -100,18 +100,6 @@ public class Cliente {
         });
         return qtdeAvaliacoesNesseMes.get() >= 5;
     }
-
-    // public Avaliacao avaliar(int avaliacao, Midia midia) {
-    // if (midiasAssistidas.contains(midia)) {
-    // Avaliacao avaliacaoClient = tipoCliente.avaliar(avaliacao, midia, this);
-    // avaliacoes.add(avaliacaoClient);
-    // midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
-    // return avaliacaoClient;
-    // } else {
-    // throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua
-    // lista de mídias assistidas");
-    // }
-    // }
 
     /**
      * Retorna o nome do cliente.
@@ -138,15 +126,6 @@ public class Cliente {
      */
     public String getSenha() {
         return senha;
-    }
-
-    /**
-     * Retorna o tipo do cliente.
-     * 
-     * @return String contendo o tipo do cliente.
-     */
-    public String getTipoCliente() {
-        return tipoCliente.tipoCliente();
     }
 
     /**
@@ -180,7 +159,7 @@ public class Cliente {
         if (!midiasAssistidas.contains(midia)) {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
-        updateClientType();
+        atualizarTipoCliente();
         Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
         avaliacoes.add(avaliacaoClient);
         midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
@@ -195,25 +174,18 @@ public class Cliente {
         return avaliacao;
     }
 
-    private void updateClientType() {
-        if (hasMoreThenFiveAvaliationsLastMonth()) {
+    private void atualizarTipoCliente() {
+        if (temMaisDeCincoAvaliacoesUltimoMes()) {
             this.tipoCliente = new ClienteEspecialista();
         }
     }
 
-    private boolean hasMoreThenFiveAvaliationsLastMonth() {
-        LocalDateTime today = LocalDateTime.now();
-        LocalDateTime lastMonth = today.minusMonths(1);
-        AtomicInteger qtdeAvaliacoesNesseMes = new AtomicInteger(0);
-        avaliacoes.forEach(av -> {
-            LocalDateTime data = av.getData();
-            if (data.isAfter(lastMonth) && data.isBefore(today)) {
-                qtdeAvaliacoesNesseMes.incrementAndGet();
-            }
-        });
-        return qtdeAvaliacoesNesseMes.get() >= 5;
-    }
-
+    /**
+     * Descrição do cliente em string, com os seus respectivos dados.
+     * 
+     * @return String com nome, nome de usuário, mídias assistidas, mídias futuras
+     *         e avaliações feitas do cliente.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

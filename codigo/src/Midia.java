@@ -1,9 +1,10 @@
 package src;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Midia implements Comparable<String> {
+public class Midia {
 
     // #region variável de instância
     private String nome;
@@ -66,12 +67,17 @@ public class Midia implements Comparable<String> {
         this.assistidaPorClientes++;
     }
 
-    public ArrayList<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
-    }
-
     public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
         avaliacoes.add(avaliacao);
+    }
+
+    /**
+     * Retorna a lista de avaliações do cliente.
+     * 
+     * @return ArrayList de avaliações.
+     */
+    public ArrayList<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
     }
 
     /**
@@ -150,21 +156,4 @@ public class Midia implements Comparable<String> {
 
     }
 
-    @Override
-    public int compareTo(String parametro) {
-        // Comparação pelo nome
-        int comparacaoNome = this.nome.compareTo(parametro);
-        if (comparacaoNome != 0) {
-            return comparacaoNome;
-        }
-
-        // Comparação pelo idioma (enum)
-        int comparacaoIdioma = this.idioma.getDescricao().compareTo(parametro);
-        if (comparacaoIdioma != 0) {
-            return comparacaoIdioma;
-        }
-
-        // Comparação pelo gênero (enum)
-        return this.genero.getDescricao().compareTo(parametro);
-    }
 }
