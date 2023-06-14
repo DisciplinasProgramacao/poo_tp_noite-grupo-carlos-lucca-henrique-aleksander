@@ -3,7 +3,7 @@ package src;
 import src.Exceptions.AuthorizationException;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cliente {
