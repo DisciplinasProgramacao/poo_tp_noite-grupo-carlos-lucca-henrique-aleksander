@@ -1,5 +1,7 @@
 package src;
 
+import src.Exceptions.ReadFileError;
+
 import java.io.FileNotFoundException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,8 +16,8 @@ public class app {
         streaming = new Streaming();
         try {
             streaming.iniciar();
-        } catch (FileNotFoundException e) {
-            System.out.println("Erro ao ler arquivos de inicialização");
+        } catch (FileNotFoundException | ReadFileError e) {
+            System.out.println(e.getMessage());
             return;
         }
         try {

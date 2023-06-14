@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import src.Exceptions.AuthorizationException;
 import src.Exceptions.InvalidMidiaException;
+import src.Exceptions.ReadFileError;
 
 public class Streaming {
     private Cliente clienteLogado;
@@ -24,12 +25,12 @@ public class Streaming {
 
     }
 
-    private void lerArquivoClientes() throws FileNotFoundException {
+    private void lerArquivoClientes() throws FileNotFoundException, ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
@@ -37,7 +38,7 @@ public class Streaming {
         return clientes;
     }
 
-    private void lerArquivoSeries() throws FileNotFoundException {
+    private void lerArquivoSeries() throws FileNotFoundException, ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> {
@@ -46,11 +47,11 @@ public class Streaming {
                         cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoAudiencia() throws FileNotFoundException {
+    private void lerArquivoAudiencia() throws FileNotFoundException, ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("audiencia.csv"))) {
             lines.forEach(line -> {
                 String[] values = line.split(";");
@@ -68,11 +69,11 @@ public class Streaming {
                 }
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoFilmes() throws FileNotFoundException {
+    private void lerArquivoFilmes() throws FileNotFoundException, ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("filmes.csv"))) {
             lines.forEach(line -> {
                 String[] values = line.split(";");
@@ -85,11 +86,11 @@ public class Streaming {
                 cadastrarMidia(novoFilme);
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    public void iniciar() throws FileNotFoundException {
+    public void iniciar() throws FileNotFoundException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
         lerArquivoAudiencia();
