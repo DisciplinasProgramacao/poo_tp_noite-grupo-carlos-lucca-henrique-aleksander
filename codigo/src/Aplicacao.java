@@ -205,6 +205,7 @@ public class Aplicacao {
         System.out.println("== Selecione a mídia ==");
         for (Midia midia : midias) {
             System.out.println(contador + ": " + midia);
+            contador ++;
         }
         System.out.println("Escolha uma nota de 1 a 5");
         int nota = ler.nextInt();
