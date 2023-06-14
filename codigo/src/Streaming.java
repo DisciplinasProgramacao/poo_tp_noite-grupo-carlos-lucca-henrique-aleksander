@@ -172,7 +172,6 @@ public class Streaming {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
-            System.out.println(midia);
             if (comp.compare(midia, valor) == 0) {
                 sb.append(midia.toString());
             }

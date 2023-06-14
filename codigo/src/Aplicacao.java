@@ -157,7 +157,6 @@ public class Aplicacao {
         char op = scanner.next().toLowerCase().charAt(0);
         System.out.println("Informe a sua busca:");
         String valor = scanner.next();
-        System.out.println("Valor que entra pelo usuário: " + valor);
         System.out.println("");
         switch (op) {
             case 'n':
