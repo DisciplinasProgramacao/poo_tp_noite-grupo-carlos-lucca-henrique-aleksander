@@ -138,6 +138,7 @@ public class Streaming {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
+            System.out.println(midia);
             if (comp.compare(midia, valor) == 0) {
                 sb.append(midia.toString());
             }
@@ -147,7 +148,8 @@ public class Streaming {
 
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
-            throw new InvalidMidiaException("Midia já cadastrada no sistema");
+         // throw new InvalidMidiaException("Midia já cadastrada no sistema");
+            System.out.println("Midia duplicada: "+midia.getIdentificador());
         }
         midias.put(midia.getIdentificador(), midia);
         return "Midia cadastrada";
