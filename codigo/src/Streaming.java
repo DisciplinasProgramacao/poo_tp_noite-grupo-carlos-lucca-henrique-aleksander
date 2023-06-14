@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -166,18 +167,17 @@ public class Streaming {
      *
      * @param valor o valor de busca.
      * @param comp  o comparador de mídia.
-     * @return uma StringBuilder contendo as informações das mídias encontradas.
+     * @return uma ArrayList contendo as informações das mídias encontradas.
      */
-    public StringBuilder buscarMidia(String valor, ComparatorMidia comp) {
-        StringBuilder sb = new StringBuilder();
+    public ArrayList<Midia> buscarMidia(String valor, ComparatorMidia comp) {
+        ArrayList<Midia> resultado = new ArrayList<>();
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
             if (comp.compare(midia, valor) == 0) {
-                sb.append(midia.toString());
-                sb.append("\n");
+                resultado.add(midia);
             }
         }
-        return sb.toString();
+        return resultado;
     }
 
     /**

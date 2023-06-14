@@ -35,14 +35,19 @@ public class Aplicacao {
         }
     }
 
+    public static void limparTela() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     private static void exibirMenuPrincipal() {
+        limparTela();
         try {
             while (true) {
                 System.out.println("== Menu Principal ==");
                 System.out.println("1. Cadastrar Cliente");
                 System.out.println("2. Login");
-                System.out.println("3. Buscar");
-                System.out.println("4. Sair");
+                System.out.println("3. Sair");
                 System.out.print("Escolha uma opção: ");
                 int opcao = scanner.nextInt();
                 scanner.nextLine();
@@ -55,9 +60,6 @@ public class Aplicacao {
                         fazerLogin();
                         break;
                     case 3:
-                        buscarMidias();
-                        break;
-                    case 4:
                         System.out.println("Saindo do programa...");
                         return;
                     default:
@@ -77,6 +79,7 @@ public class Aplicacao {
     }
 
     private static void cadastrarCliente() {
+        limparTela();
 
         System.out.println("== Cadastro de Cliente ==");
         System.out.print("Nome: ");
@@ -93,6 +96,7 @@ public class Aplicacao {
     }
 
     private static void fazerLogin() {
+        limparTela();
 
         System.out.println("== Login ==");
         System.out.print("Nome de Usuário: ");
@@ -110,6 +114,7 @@ public class Aplicacao {
     }
 
     private static void exibirMenuCliente() {
+        limparTela();
 
         while (true) {
             System.out.println("== Menu do Cliente ==");
@@ -122,7 +127,7 @@ public class Aplicacao {
 
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha após a leitura do número
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -153,6 +158,8 @@ public class Aplicacao {
     }
 
     private static void buscarMidias() {
+        limparTela();
+        ArrayList<Midia> resultado = null;
         System.out.println("Deseja buscar por \nn - Nome g - Gênero  i - Idioma");
         char op = scanner.next().toLowerCase().charAt(0);
         System.out.println("Informe a sua busca:");
@@ -161,41 +168,52 @@ public class Aplicacao {
         switch (op) {
             case 'n':
                 System.out.println("== Buscar Séries por Nome ==");
-                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porNome()).toString());
+                resultado = streaming.buscarMidia(valor, ComparatorMidia.porNome());
                 break;
             case 'g':
                 System.out.println("== Buscar Séries por Gênero ==");
-                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porGenero()).toString());
+                resultado = streaming.buscarMidia(valor, ComparatorMidia.porGenero());
                 break;
             case 'i':
                 System.out.println("== Buscar Séries por Idioma ==");
-                System.out.println(streaming.buscarMidia(valor, ComparatorMidia.porIdioma()));
+                resultado = streaming.buscarMidia(valor, ComparatorMidia.porIdioma());
                 break;
             default:
                 break;
         }
+        resultado.stream().forEach(m -> System.out.println(m.toString()));
+    }
+
+    private static Midia buscaMidiaTituloParaMetodos() {
+        System.out.print("Título da Mídia: ");
+        String titulo = scanner.nextLine();
+        ArrayList<Midia> resultado = streaming.buscarMidia(titulo, ComparatorMidia.porNome());
+        int cont = 0;
+        for (Midia midia : resultado) {
+            System.out.println(cont + " - " + midia.toString());
+            cont++;
+        }
+        System.out.println("Qual o numero de sua escolha?");
+        int op = scanner.nextInt();
+        return resultado.get(op - 1);
     }
 
     private static void adicionarMidiaFutura() {
-
         System.out.println("== Adicionar Mídia Futura ==");
-
-        // Solicitar informações sobre a mídia e adicioná-la ao cliente atual
-        streaming.getClienteLogado();
+        Midia retorno = buscaMidiaTituloParaMetodos();
+        streaming.getClienteLogado().adicionarMidiaFutura(retorno);
         System.out.println("Mídia adicionada com sucesso.");
     }
 
     private static void terminarMidia() {
-
         System.out.println("== Terminar Mídia ==");
-
-        // Solicitar informações sobre a mídia terminada e atualizar o status no cliente
-        // atual
-
-        System.out.println("Mídia atualizada com sucesso.");
+        Midia retorno = buscaMidiaTituloParaMetodos();
+        streaming.getClienteLogado().adicionarMidiaFutura(retorno);
+        System.out.println("Mídia adicionada com sucesso.");
     }
 
     private static void avaliarMidia() {
+        limparTela();
         Scanner ler = new Scanner(System.in);
 
         System.out.println("== Avaliar Mídia ==");
@@ -213,6 +231,7 @@ public class Aplicacao {
     }
 
     private static void exibirMenuRelatorios() {
+        limparTela();
 
         while (true) {
             System.out.println("== Relatórios ==");

@@ -10,10 +10,10 @@ public interface ComparatorMidia {
     }
 
     static ComparatorMidia porGenero() {
-        return (midia, valor) -> midia.getGenero().toString().toLowerCase().equalsIgnoreCase(valor) ? 0 : 1;
+        return (midia, valor) -> midia.getGenero().toString().equalsIgnoreCase(valor) ? 0 : 1;
     }
 
     static ComparatorMidia porIdioma() {
-        return (midia, valor) -> midia.getIdioma().toString().toLowerCase().equalsIgnoreCase(valor) ? 0 : 1;
+        return (midia, valor) -> midia.getIdioma().toString().equalsIgnoreCase(valor) ? 0 : 1;
     }
 }
