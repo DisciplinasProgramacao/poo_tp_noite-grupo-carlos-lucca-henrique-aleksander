@@ -6,11 +6,13 @@ import src.Exceptions.InvalidMidiaException;
 import java.time.LocalDateTime;
 
 public class Avaliacao {
+    // #region variável de instância
     private LocalDateTime data;
     private int avaliacao;
     private String comentario;
     private Midia midiaAvaliada;
     private Cliente cliente;
+    // #endregion
 
     private final static int MIN_AVALIACAO_VALUE = 0;
     private final static int MAX_AVALIACAO_VALUE = 5;
@@ -70,7 +72,7 @@ public class Avaliacao {
         if (comentario != null) {
             sb.append("Comentário: ").append(getComentario()).append("\n");
         }
-        sb.append("Data: ").append(data.format(app.DATA_FORMATTER)).append("\n");
+        sb.append("Data: ").append(data.format(Aplicacao.DATA_FORMATTER)).append("\n");
         return sb.toString();
     }
 }
