@@ -33,7 +33,7 @@ public class Midia {
         this.data = data;
         this.identificador = identificador;
         this.assistidaPorClientes = 0;
-        this.avaliacoes = new ArrayList<>(null);
+        this.avaliacoes = new ArrayList<>();
     }
 
     /**

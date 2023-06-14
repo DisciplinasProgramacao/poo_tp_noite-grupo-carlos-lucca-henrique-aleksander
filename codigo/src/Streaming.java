@@ -1,6 +1,5 @@
 package src;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,72 +29,6 @@ public class Streaming {
         this.clientes = new HashMap<>();
     }
 
-    // private void lerArquivoClientes() throws FileNotFoundException, ReadFileError
-    // {
-    // try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
-    // lines.map(line -> line.split(";"))
-    // .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
-    // } catch (IOException e) {
-    // throw new ReadFileError();
-    // }
-    // }
-
-    // private void lerArquivoAudiencia() throws FileNotFoundException,
-    // ReadFileError {
-    // try (Stream<String> lines = Files.lines(Paths.get("audiencia.csv"))) {
-    // lines.forEach(line -> {
-    // String[] values = line.split(";");
-    // String nomeUsuario = values[0];
-    // char tipo = values[1].charAt(0);
-    // String identificadorSerie = values[2];
-    // Cliente cliente = clientes.get(nomeUsuario);
-    // Midia midiaLinha = midias.get(identificadorSerie);
-    // if (midiaLinha != null && cliente != null) {
-    // if (tipo == 'A') {
-    // cliente.terminarMidia(midiaLinha);
-    // } else if (tipo == 'F') {
-    // cliente.adicionarMidiaFutura(midiaLinha);
-    // }
-    // }
-    // });
-    // } catch (IOException e) {
-    // throw new ReadFileError();
-    // }
-    // }
-
-    // private void lerArquivoFilmes() throws FileNotFoundException, ReadFileError {
-    // try (Stream<String> lines = Files.lines(Paths.get("filmes.csv"))) {
-    // lines.forEach(line -> {
-    // String[] values = line.split(";");
-    // String identificador = values[0];
-    // String nome = values[1];
-    // String lancamento = values[2];
-    // int duracao = Integer.parseInt(values[3]);
-    // Midia novoFilme = new Filme(nome, identificador,
-    // LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-    // duracao);
-    // cadastrarMidia(novoFilme);
-    // });
-    // } catch (IOException e) {
-    // throw new ReadFileError();
-    // }
-    // }
-
-    // private void lerArquivoSeries() throws FileNotFoundException, ReadFileError {
-    // try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
-    // lines.map(line -> line.split(";"))
-    // .forEach(values -> {
-    // int qtdEpisodios = Integer.parseInt(values[3]);
-    // Midia novaSerie = new Serie(values[1], values[0],
-    // LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-    // qtdEpisodios);
-    // cadastrarMidia(novaSerie);
-    // });
-    // } catch (IOException e) {
-    // throw new ReadFileError();
-    // }
-    // }
-
     /**
      * Retorna o mapa de clientes.
      *
@@ -105,16 +38,16 @@ public class Streaming {
         return clientes;
     }
 
-    private void lerArquivoClientes() throws FileNotFoundException {
+    private void lerArquivoClientes() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoFilmes() throws FileNotFoundException {
+    private void lerArquivoFilmes() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("filmes.csv"))) {
             lines.forEach(line -> {
                 String[] values = line.split(";");
@@ -127,11 +60,11 @@ public class Streaming {
                 cadastrarMidia(novoFilme);
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoAudiencia() throws FileNotFoundException {
+    private void lerArquivoAudiencia() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("audiencia.csv"))) {
             lines.forEach(line -> {
                 String[] values = line.split(";");
@@ -149,11 +82,11 @@ public class Streaming {
                 }
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoSeries() throws FileNotFoundException {
+    private void lerArquivoSeries() throws IOException, ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> {
@@ -164,11 +97,11 @@ public class Streaming {
                         cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    public void iniciar() throws FileNotFoundException, ReadFileError {
+    public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
         lerArquivoAudiencia();
@@ -205,6 +138,7 @@ public class Streaming {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Midia> entry : midias.entrySet()) {
             Midia midia = entry.getValue();
+            System.out.println(midia);
             if (comp.compare(midia, valor) == 0) {
                 sb.append(midia.toString());
             }
@@ -214,17 +148,12 @@ public class Streaming {
 
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
-            throw new InvalidMidiaException("Midia já cadastrada no sistema");
+         // throw new InvalidMidiaException("Midia já cadastrada no sistema");
+            System.out.println("Midia duplicada: "+midia.getIdentificador());
         }
         midias.put(midia.getIdentificador(), midia);
         return "Midia cadastrada";
     }
-
-    // public void cadastrarMidia(Midia midia) {
-    // if (!midias.containsKey(midia.getIdentificador())) {
-    // midias.put(midia.getIdentificador(), midia);
-    // }
-    // }
 
     /**
      * Exibe as informações de todas as mídias no sistema de streaming.

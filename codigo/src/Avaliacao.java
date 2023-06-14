@@ -12,11 +12,8 @@ public class Avaliacao {
     private Cliente cliente;
     // #endregion
 
-    private final static int MIN_AVALIACAO_VALUE = 0;
-    private final static int MAX_AVALIACAO_VALUE = 5;
-
-    public Avaliacao() {
-    };
+    private static final int MIN_AVALIACAO_VALUE = 0;
+    private static final int MAX_AVALIACAO_VALUE = 5;
 
     public Avaliacao(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente) {
         init(avaliacao, comentario, midiaAvaliada, cliente);
