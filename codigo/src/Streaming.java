@@ -153,7 +153,7 @@ public class Streaming {
             System.out.println("Midia duplicada: "+midia.getIdentificador());
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Midia cadastrada";
+        return "Midia cadastrada!";
     }
 
     /**
