@@ -179,9 +179,16 @@ public class Streaming {
      * @param midia a mídia a ser cadastrada.
      * @return uma mensagem indicando o resultado do cadastro.
      */
-    public void criarAvaliacao(Avaliacao avaliacao, Midia midia,Cliente cliente){
-       midia.addAvaliacaoToAvaliacoesList(avaliacao);
-       cliente.avaliar(avaliacao, midia);
+    private void criarAvaliacao(Avaliacao avaliacao, Midia midia,Cliente cliente){
+        if(midia!=null && cliente!=null) {
+            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+            cliente.avaliar(avaliacao, midia);
+        }
+    }
+
+    public void avaliar(Avaliacao avaliacao, Midia midia){
+            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+            clienteLogado.avaliar(avaliacao, midia);
     }
 
     /**
