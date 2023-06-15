@@ -271,24 +271,32 @@ public class Aplicacao {
             scanner.nextLine(); // Consumir a quebra de linha após a leitura do número
 
             switch (opcao) {
+                // Qual cliente assistiu mais mídias, e quantas mídias.
                 case 1:
-                    // TODO: Implementar funcao
                     break;
+
+                // Qual cliente tem mais avaliações, e quantas avaliações.
                 case 2:
-                    // TODO: Implementar funcao
                     break;
+
+                // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
                 case 3:
-                    // TODO: Implementar funcao
                     break;
+
+                // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
+                // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
                 case 4:
-                    // TODO: Implementar funcao
                     break;
+
+                // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
                 case 5:
-                    // TODO: Implementar funcao
                     break;
+
+                //
                 case 6:
-                    // TODO: Implementar funcao
                     return;
+
+                //
                 case 7:
                     // TODO: Implementar funcao
 
