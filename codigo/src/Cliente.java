@@ -193,13 +193,12 @@ public class Cliente {
      * @throws IllegalArgumentException Se a mídia não estiver na lista de mídias
      *                                  assistidas.
      */
-    public Avaliacao avaliar(int avaliacao, Midia midia) throws IllegalArgumentException {
+    public Avaliacao avaliar(Avaliacao avaliacaoClient, Midia midia) throws IllegalArgumentException {
         // Verifica se a mídia está na lista de mídias assistidas
         if (!midiasAssistidas.contains(midia)) {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
         atualizarTipoCliente();
-        Avaliacao avaliacaoClient = new Avaliacao(avaliacao, midia, this);
         avaliacoes.add(avaliacaoClient);
         midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
         return avaliacaoClient;

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Filme extends Midia {
 
     // #region variável de instância
-    private int duracao;
+    private final int duracao;
     // #endregion
 
     /**

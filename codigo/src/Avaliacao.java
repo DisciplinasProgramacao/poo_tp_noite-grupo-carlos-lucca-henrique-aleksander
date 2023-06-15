@@ -1,6 +1,8 @@
 package src;
 
 import src.Exceptions.InvalidAvaliacaoException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -29,7 +31,7 @@ public class Avaliacao {
      * @param cliente       O cliente que fez a avaliação.
      */
     public Avaliacao(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente) {
-        init(avaliacao, comentario, midiaAvaliada, cliente);
+        init(avaliacao, comentario, midiaAvaliada, cliente, LocalDateTime.now());
     }
 
     /**
@@ -40,7 +42,32 @@ public class Avaliacao {
      * @param cliente       O cliente que fez a avaliação.
      */
     public Avaliacao(int avaliacao, Midia midiaAvaliada, Cliente cliente) {
-        init(avaliacao, null, midiaAvaliada, cliente);
+        init(avaliacao, null, midiaAvaliada, cliente, LocalDateTime.now());
+    }
+
+    /**
+     * Construtor da classe Avaliacao com data.
+     *
+     * @param avaliacao     A nota atribuída à avaliação.
+     * @param midiaAvaliada A mídia que foi avaliada.
+     * @param cliente       O cliente que fez a avaliação.
+     * @param data          A data da avaliação.
+     */
+    public Avaliacao(int avaliacao, Midia midiaAvaliada, Cliente cliente, LocalDate data) {
+        init(avaliacao, null, midiaAvaliada, cliente, data.atStartOfDay());
+    }
+
+    /**
+     * Construtor da classe Avaliacao com data.
+     *
+     * @param avaliacao     A nota atribuída à avaliação.
+     * @param comentario    O comentário associado à avaliação.
+     * @param midiaAvaliada A mídia que foi avaliada.
+     * @param cliente       O cliente que fez a avaliação.
+     * @param data          A data da avaliação.
+     */
+    public Avaliacao(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente, LocalDate data) {
+        init(avaliacao, comentario, midiaAvaliada, cliente, data.atStartOfDay());
     }
 
     /**
@@ -53,14 +80,14 @@ public class Avaliacao {
      * @throws InvalidAvaliacaoException Se a nota da avaliação estiver fora dos
      *                                   limites permitidos.
      */
-    private void init(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente)
+    private void init(int avaliacao, String comentario, Midia midiaAvaliada, Cliente cliente, LocalDateTime data)
             throws InvalidAvaliacaoException {
         if (avaliacao < MIN_AVALIACAO_VALUE || avaliacao > MAX_AVALIACAO_VALUE) {
             throw new InvalidAvaliacaoException();
         }
         this.avaliacao = avaliacao;
         this.comentario = comentario;
-        this.data = LocalDateTime.now();
+        this.data = data;
         this.midiaAvaliada = midiaAvaliada;
         this.cliente = cliente;
     }

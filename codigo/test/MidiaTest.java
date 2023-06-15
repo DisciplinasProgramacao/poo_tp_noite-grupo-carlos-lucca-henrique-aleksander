@@ -89,7 +89,7 @@ class MidiaTest {
 
     @Test
     void toStringTest() {
-        String expected = "Nome: Filme\n" +
+        String expected = "Nome: "+midia.getNome()+ "\n" +
                 "Idioma: " + midia.getIdioma() + "\n" +
                 "Gênero: " + midia.getGenero() + "\n" +
                 "Data: " + midia.getData() + "\n" +
