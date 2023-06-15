@@ -158,7 +158,7 @@ public class Aplicacao {
         char op = scanner.next().toLowerCase().charAt(0);
         System.out.println("Informe a sua busca:");
         String valor = scanner.next();
-        System.out.println("");
+        limparTela();
         switch (op) {
             case 'n':
                 System.out.println("== Buscar Séries por Nome ==");
@@ -184,7 +184,7 @@ public class Aplicacao {
         String titulo = scanner.nextLine();
         ArrayList<Midia> resultado = streaming.buscarMidia(titulo, ComparatorMidia.porNome());
         int cont = 1;
-        if(resultado.isEmpty()){
+        if (resultado.isEmpty()) {
             return null;
         }
         for (Midia midia : resultado) {
@@ -193,7 +193,7 @@ public class Aplicacao {
         }
         System.out.println("Qual o numero de sua escolha?");
         int op = scanner.nextInt();
-        if(op <0 || op > resultado.size()) {
+        if (op < 0 || op > resultado.size()) {
             System.out.println("Valor inválido, busque novamente");
             exibirMenuCliente();
         }
@@ -205,13 +205,13 @@ public class Aplicacao {
         limparTela();
         System.out.println("== Adicionar Mídia Futura ==");
         Midia retorno = buscaMidiaTituloParaMetodos();
-        if(retorno== null){
+        if (retorno == null) {
             System.out.println("Mídia inválida, tente novamente");
             exibirMenuCliente();
         }
         try {
             streaming.getClienteLogado().adicionarMidiaFutura(retorno);
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
         }
@@ -222,14 +222,13 @@ public class Aplicacao {
         limparTela();
         System.out.println("== Terminar Mídia ==");
         Midia retorno = buscaMidiaTituloParaMetodos();
-        if(retorno== null){
+        if (retorno == null) {
             System.out.println("Mídia inválida, tente novamente");
             exibirMenuCliente();
         }
         try {
             streaming.getClienteLogado().terminarMidia(retorno);
-        } catch(RuntimeException e
-        ){
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
         }
