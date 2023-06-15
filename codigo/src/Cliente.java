@@ -118,6 +118,14 @@ public class Cliente {
     public String getNomeUsuario() {
         return nomeUsuario;
     }
+    /**
+     * Retorna o tipo do cliente.
+     * 
+     * @return String contendo o nome de usuário do cliente.
+     */
+    public IComentarista getTipoCliente() {
+        return tipoCliente;
+    }
 
     /**
      * Retorna a senha do cliente.
