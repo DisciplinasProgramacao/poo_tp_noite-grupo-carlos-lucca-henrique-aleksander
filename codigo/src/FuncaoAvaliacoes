@@ -1,0 +1,61 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Streaming {
+    private List<String> reviews;
+
+    public Streaming() {
+        reviews = new ArrayList<>();
+    }
+
+    public void loadReviewsFromFile(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                reviews.add(line);
+            }
+            System.out.println("Avaliações carregadas com sucesso do arquivo " + filename);
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo de avaliações: " + e.getMessage());
+        }
+    }
+
+    public void saveReviewsToFile(String filename) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            for (String review : reviews) {
+                writer.write(review + "\n");
+            }
+            System.out.println("Avaliações salvas com sucesso no arquivo " + filename);
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar as avaliações no arquivo: " + e.getMessage());
+        }
+    }
+
+    public void addReview(String review) {
+        reviews.add(review);
+        System.out.println("Avaliação adicionada com sucesso");
+    }
+
+    public void printReviews() {
+        System.out.println("Avaliações:");
+        for (String review : reviews) {
+            System.out.println(review);
+        }
+    }
+
+    public static void main(String[] args) {
+        StreamingSite site = new StreamingSite();
+        site.loadReviewsFromFile("reviews.txt");
+        site.printReviews();
+
+        // Exemplo: Adicionando uma nova avaliação
+        site.addReview("Ótimo filme, recomendo!");
+        site.printReviews();
+
+        site.saveReviewsToFile("reviews.txt");
+    }
+}
