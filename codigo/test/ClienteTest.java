@@ -20,7 +20,6 @@ public class ClienteTest {
         midia1 = new Midia("Midia 1", "123456", LocalDate.of(2014, 11, 7));
         midia2 = new Midia("Midia 2", "234567", LocalDate.of(2018, 12, 20));
         midia3 = new Midia("Midia 3", "345678", LocalDate.of(2004, 02, 9));
-        System.out.println(cliente);
     }
 
     @Test

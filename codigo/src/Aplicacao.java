@@ -27,12 +27,6 @@ public class Aplicacao {
         } finally {
             exibirMenuPrincipal();
         }
-
-        try {
-            exibirMenuPrincipal();
-        } catch (Exception error) {
-            System.out.println(error);
-        }
     }
 
     public static void limparTela() {
@@ -185,30 +179,60 @@ public class Aplicacao {
     }
 
     private static Midia buscaMidiaTituloParaMetodos() {
+        limparTela();
         System.out.print("Título da Mídia: ");
         String titulo = scanner.nextLine();
         ArrayList<Midia> resultado = streaming.buscarMidia(titulo, ComparatorMidia.porNome());
-        int cont = 0;
+        int cont = 1;
+        if(resultado.isEmpty()){
+            return null;
+        }
         for (Midia midia : resultado) {
             System.out.println(cont + " - " + midia.toString());
             cont++;
         }
         System.out.println("Qual o numero de sua escolha?");
         int op = scanner.nextInt();
+        if(op <0 || op > resultado.size()) {
+            System.out.println("Valor inválido, busque novamente");
+            exibirMenuCliente();
+        }
+
         return resultado.get(op - 1);
     }
 
     private static void adicionarMidiaFutura() {
+        limparTela();
         System.out.println("== Adicionar Mídia Futura ==");
         Midia retorno = buscaMidiaTituloParaMetodos();
-        streaming.getClienteLogado().adicionarMidiaFutura(retorno);
+        if(retorno== null){
+            System.out.println("Mídia inválida, tente novamente");
+            exibirMenuCliente();
+        }
+        try {
+            streaming.getClienteLogado().adicionarMidiaFutura(retorno);
+        }catch(RuntimeException e){
+            System.out.println(e.getMessage());
+            exibirMenuCliente();
+        }
         System.out.println("Mídia adicionada com sucesso.");
     }
 
     private static void terminarMidia() {
+        limparTela();
         System.out.println("== Terminar Mídia ==");
         Midia retorno = buscaMidiaTituloParaMetodos();
-        streaming.getClienteLogado().adicionarMidiaFutura(retorno);
+        if(retorno== null){
+            System.out.println("Mídia inválida, tente novamente");
+            exibirMenuCliente();
+        }
+        try {
+            streaming.getClienteLogado().terminarMidia(retorno);
+        } catch(RuntimeException e
+        ){
+            System.out.println(e.getMessage());
+            exibirMenuCliente();
+        }
         System.out.println("Mídia adicionada com sucesso.");
     }
 

@@ -123,6 +123,33 @@ public class Streaming {
     }
 
     /**
+     * Lê o arquivo de clientes e cadastra os clientes no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoAvaliacao() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("avaliacoes.csv"))) {
+            lines.map(line -> line.split(";"))
+                    .forEach(values -> {
+                        int avaliacao = Integer.parseInt(values[0]);
+                        Midia midia = midias.get(values[1]);
+                        Cliente cliente = clientes.get(values[2]);
+                        LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        Avaliacao av;
+                        if(values.length==4){
+                            String comentario = values[4];
+                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data );
+                        }else{
+                            av = new Avaliacao(avaliacao, midia, cliente, data);
+                        }
+                        criarAvaliacao(av, midia, cliente);
+                    });
+        } catch (IOException e) {
+            throw new ReadFileError();
+        }
+    }
+
+    /**
      * Inicia o sistema de streaming, lendo os arquivos e cadastrando os clientes e
      * as mídias.
      *
@@ -134,6 +161,7 @@ public class Streaming {
         lerArquivoSeries();
         lerArquivoAudiencia();
         lerArquivoFilmes();
+        lerArquivoAvaliacao();
     }
 
     /**
@@ -143,6 +171,17 @@ public class Streaming {
      */
     public Cliente getClienteLogado() {
         return clienteLogado;
+    }
+
+    /**
+     * Cria uma nova avaliacao.
+     *
+     * @param midia a mídia a ser cadastrada.
+     * @return uma mensagem indicando o resultado do cadastro.
+     */
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia,Cliente cliente){
+       midia.addAvaliacaoToAvaliacoesList(avaliacao);
+       cliente.avaliar(avaliacao, midia);
     }
 
     /**
@@ -159,7 +198,7 @@ public class Streaming {
         }
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         clientes.put(nomeUsuario, cliente);
-        return "Usuário cadastrado com sucesso!";
+        return "Usuário cadastrado com sucesso";
     }
 
     /**
