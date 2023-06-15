@@ -147,25 +147,20 @@ public class Cliente {
     }
 
     /**
-     * Mostra lista de mídias assistidas pelo cliente.
-     * 
-     * @return um StringBuilder contendo mídias assistidas pelo cliente.
+     * Mostra uma lista específica das mídias de um cliente.
+     *
+     * @param op número interio sinalizando a opção do usuário
+     * @return um StringBuilder contendo a lista das mídias do cliente.
      */
-    public String MostrarListaMidiaAssistida() {
+    public String MostrarListaEspecifica(int op) {
         StringBuilder sb = new StringBuilder();
-        midiasAssistidas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
-        return sb.toString();
-    }
-
-    /**
-     * Mostra lista de mídias Futuras pelo cliente.
-     * 
-     * @return um StringBuilder contendo mídias futuras pelo cliente.
-     */
-    public String MostrarListaMidiaFutura() {
-        StringBuilder sb = new StringBuilder();
-        midiasFuturas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
-        return sb.toString();
+        if (op == 1) {
+            midiasAssistidas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
+            return sb.toString();
+        } else {
+            midiasFuturas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
+            return sb.toString();
+        }
     }
 
     /**

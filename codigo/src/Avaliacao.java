@@ -18,7 +18,7 @@ public class Avaliacao {
     // #endregion
 
     // #region constantes
-    private static final int MIN_AVALIACAO_VALUE = 0;
+    private static final int MIN_AVALIACAO_VALUE = 1;
     private static final int MAX_AVALIACAO_VALUE = 5;
     // #endregion
 

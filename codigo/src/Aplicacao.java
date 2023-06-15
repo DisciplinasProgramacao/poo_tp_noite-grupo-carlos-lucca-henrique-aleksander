@@ -172,12 +172,12 @@ public class Aplicacao {
 
     private static void verMidiaAssistida() {
         limparTela();
-        System.out.println(streaming.getClienteLogado().MostrarListaMidiaAssistida());
+        System.out.println(streaming.getClienteLogado().MostrarListaEspecifica(1));
     }
 
     private static void verMidiaFutura() {
         limparTela();
-        System.out.println(streaming.getClienteLogado().MostrarListaMidiaFutura());
+        System.out.println(streaming.getClienteLogado().MostrarListaEspecifica(2));
     }
 
     private static void buscarMidias() {
