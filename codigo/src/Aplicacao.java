@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
 import src.Exceptions.AuthorizationException;
@@ -253,9 +255,33 @@ public class Aplicacao {
         ler.close();
     }
 
+    private static Cliente clienteQueMaisAssistiu() {
+        Cliente clienteComMaisMidias = null;
+        int maxMidiasAssistidas = 0;
+
+        for (Cliente cliente : streaming.getClientes().values()) {
+            int numMidiasAssistidas = cliente.getMidiasAssistidas().size();
+            if (numMidiasAssistidas > maxMidiasAssistidas) {
+                maxMidiasAssistidas = numMidiasAssistidas;
+                clienteComMaisMidias = cliente;
+            }
+        }
+
+        return clienteComMaisMidias;
+    }
+
+    // private static Cliente clienteComMaisAvaliacoes(){
+    // Cliente result =
+    // }
+
+    private static double porcClientesMin15avaliacoes() {
+        Long result = streaming.getClientes().entrySet().stream()
+                .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15).count();
+        return (double) (result / streaming.getClientes().size()) * 100.0;
+    }
+
     private static void exibirMenuRelatorios() {
         limparTela();
-
         while (true) {
             System.out.println("== Relatórios ==");
             System.out.println("1. Cliente que mais assistiu");
@@ -273,39 +299,53 @@ public class Aplicacao {
             switch (opcao) {
                 // Qual cliente assistiu mais mídias, e quantas mídias.
                 case 1:
+                    limparTela();
+                    System.out.println("Cliente que mais assistiu Mídias: " + "\nNome: "
+                            + clienteQueMaisAssistiu().getNome() + "\nNome Usuário: "
+                            + clienteQueMaisAssistiu().getNomeUsuario()
+                            + "\nTotal Mídias: " + clienteQueMaisAssistiu().getMidiasAssistidas().size());
                     break;
 
                 // Qual cliente tem mais avaliações, e quantas avaliações.
                 case 2:
+                    limparTela();
                     break;
 
                 // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
                 case 3:
+                    limparTela();
+                    System.out.println("Porcentagem de clientes com pelo menos 15 Avaliações: "
+                            + porcClientesMin15avaliacoes() + "%");
                     break;
 
                 // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
                 // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
                 case 4:
+                    limparTela();
                     break;
 
                 // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
                 case 5:
+                    limparTela();
                     break;
 
                 //
                 case 6:
+                    limparTela();
                     return;
 
                 //
                 case 7:
-                    // TODO: Implementar funcao
+                    limparTela();
 
                     return;
                 case 8:
+                    limparTela();
                     System.out.println("Voltando menu do cliente...");
                     exibirMenuCliente();
                     return;
                 default:
+                    limparTela();
                     System.out.println("Opção inválida. Tente novamente.");
                     exibirMenuRelatorios();
                     break;
