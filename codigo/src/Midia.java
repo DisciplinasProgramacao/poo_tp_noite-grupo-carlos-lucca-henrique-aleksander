@@ -33,7 +33,7 @@ public class Midia {
         this.data = data;
         this.identificador = identificador;
         this.assistidaPorClientes = 0;
-        this.avaliacoes = new ArrayList<>(null);
+        this.avaliacoes = new ArrayList<>();
     }
 
     /**
@@ -67,6 +67,10 @@ public class Midia {
         this.assistidaPorClientes++;
     }
 
+    /**
+     * Adiciona uma avaliação a lista de avaliações da Mídia.
+     * 
+     */
     public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
         avaliacoes.add(avaliacao);
     }
@@ -125,15 +129,25 @@ public class Midia {
         return assistidaPorClientes;
     }
 
+    /**
+     * Responsável pelo cálculo das médias de avaliações da Mídia.
+     * Calcula a média das avaliações da Mídia com base nas avaliações armazenadas.
+     * Se não houver avaliações, retorna 0.0.
+     *
+     * @return A média das avaliações da Mídia.
+     */
     public double calculaMediaAvaliacoes() {
+        // Verifica se não há avaliações
         if (avaliacoes.isEmpty()) {
             return 0.0;
         }
-
         double totalAvaliacoes = 0;
+        // Percorre cada avaliação na lista de avaliações
         for (Avaliacao avaliacao : avaliacoes) {
+            // Soma a avaliação atual ao total
             totalAvaliacoes += avaliacao.getAvaliacao();
         }
+        // Calcula a média dividindo a soma total pelas quantidade de avaliações
         return (double) totalAvaliacoes / avaliacoes.size();
     }
 
@@ -150,10 +164,8 @@ public class Midia {
         sb.append("Idioma: ").append(idioma).append("\n");
         sb.append("Gênero: ").append(genero).append("\n");
         sb.append("Data: ").append(getData()).append("\n");
-        sb.append("Assista por: ").append(assistidaPorClientes).append("pessoas").append("\n");
-        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append("estrelas").append("\n");
+        sb.append("Assista por: ").append(assistidaPorClientes).append(" pessoas").append("\n");
+        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append(" estrelas").append("\n");
         return sb.toString();
-
     }
-
 }

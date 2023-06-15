@@ -3,7 +3,7 @@ package src;
 import src.Exceptions.AuthorizationException;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cliente {
@@ -155,7 +155,17 @@ public class Cliente {
         return avaliacoes;
     }
 
-    public Avaliacao avaliar(int avaliacao, Midia midia) {
+    /**
+     * Realiza uma avaliação de uma mídia.
+     *
+     * @param avaliacao A nota atribuída à mídia.
+     * @param midia     A mídia a ser avaliada.
+     * @return A avaliação realizada.
+     * @throws IllegalArgumentException Se a mídia não estiver na lista de mídias
+     *                                  assistidas.
+     */
+    public Avaliacao avaliar(int avaliacao, Midia midia) throws IllegalArgumentException {
+        // Verifica se a mídia está na lista de mídias assistidas
         if (!midiasAssistidas.contains(midia)) {
             throw new IllegalArgumentException("Você só pode avaliar uma mídia em sua lista de mídias assistidas");
         }
@@ -166,14 +176,29 @@ public class Cliente {
         return avaliacaoClient;
     }
 
-    public Avaliacao comentar(Avaliacao avaliacao, String comentario) {
+    /**
+     * Adiciona um comentário a uma avaliação existente.
+     *
+     * @param avaliacao  A avaliação à qual o comentário será adicionado.
+     * @param comentario O comentário a ser adicionado.
+     * @return A avaliação com o comentário adicionado.
+     * @throws AuthorizationException Se o tipo de cliente for nulo.
+     */
+    public Avaliacao comentar(Avaliacao avaliacao, String comentario) throws AuthorizationException {
         if (tipoCliente == null) {
             throw new AuthorizationException();
         }
+        // Adiciona o comentário à avaliação
         avaliacao.addComentario(comentario);
         return avaliacao;
     }
 
+    /**
+     * Atualiza o tipo do cliente com base no número de avaliações realizadas no
+     * último mês.
+     * Se o cliente tiver realizado mais de cinco avaliações, o tipo do cliente será
+     * atualizado para ClienteEspecialista.
+     */
     private void atualizarTipoCliente() {
         if (temMaisDeCincoAvaliacoesUltimoMes()) {
             this.tipoCliente = new ClienteEspecialista();
