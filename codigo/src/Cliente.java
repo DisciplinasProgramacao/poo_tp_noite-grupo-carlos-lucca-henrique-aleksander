@@ -152,15 +152,10 @@ public class Cliente {
      * @param op número interio sinalizando a opção do usuário
      * @return um StringBuilder contendo a lista das mídias do cliente.
      */
-    public String MostrarListaEspecifica(int op) {
+    public String MostrarListaEspecifica(ArrayList<Midia> valor) {
         StringBuilder sb = new StringBuilder();
-        if (op == 1) {
-            midiasAssistidas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
-            return sb.toString();
-        } else {
-            midiasFuturas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
-            return sb.toString();
-        }
+        valor.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
+        return sb.toString();
     }
 
     /**
