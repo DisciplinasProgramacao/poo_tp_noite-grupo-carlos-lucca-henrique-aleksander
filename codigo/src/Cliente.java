@@ -118,6 +118,7 @@ public class Cliente {
     public String getNomeUsuario() {
         return nomeUsuario;
     }
+
     /**
      * Retorna o tipo do cliente.
      * 
@@ -144,27 +145,28 @@ public class Cliente {
     public ArrayList<Midia> getMidiasAssistidas() {
         return midiasAssistidas;
     }
-/**
+
+    /**
      * Mostra lista de mídias assistidas pelo cliente.
      * 
      * @return um StringBuilder contendo mídias assistidas pelo cliente.
      */
-    public String MostrarListaMidiaAssistida(){
+    public String MostrarListaMidiaAssistida() {
         StringBuilder sb = new StringBuilder();
-        midiasAssistidas.stream().forEach(midia -> sb.append(midia.getNome()+"\n"));
+        midiasAssistidas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
         return sb.toString();
     }
-/**
+
+    /**
      * Mostra lista de mídias Futuras pelo cliente.
      * 
      * @return um StringBuilder contendo mídias futuras pelo cliente.
      */
-    public String MostrarListaMidiaFutura(){
+    public String MostrarListaMidiaFutura() {
         StringBuilder sb = new StringBuilder();
-        midiasFuturas.stream().forEach(midia -> sb.append(midia.getNome()+"\n"));
+        midiasFuturas.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
         return sb.toString();
     }
-    
 
     /**
      * Retorna a lista de mídias futuras do cliente.

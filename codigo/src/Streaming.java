@@ -136,10 +136,10 @@ public class Streaming {
                         Cliente cliente = clientes.get(values[2]);
                         LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         Avaliacao av;
-                        if(values.length==4){
+                        if (values.length == 4) {
                             String comentario = values[4];
-                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data );
-                        }else{
+                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
+                        } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
                         }
                         criarAvaliacao(av, midia, cliente);
@@ -179,9 +179,9 @@ public class Streaming {
      * @param midia a mídia a ser cadastrada.
      * @return uma mensagem indicando o resultado do cadastro.
      */
-    public void criarAvaliacao(Avaliacao avaliacao, Midia midia,Cliente cliente){
-       midia.addAvaliacaoToAvaliacoesList(avaliacao);
-       cliente.avaliar(avaliacao, midia);
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        cliente.avaliar(avaliacao, midia);
     }
 
     /**
