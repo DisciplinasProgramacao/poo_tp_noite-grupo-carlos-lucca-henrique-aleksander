@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
@@ -116,12 +117,12 @@ public class Aplicacao {
         while (true) {
             System.out.println("== Menu do Cliente ==");
             System.out.println("1. Buscar");
-            System.out.println("2. Adicionar Mídia Futura");
-            System.out.println("3. Terminar Mídia");
-            System.out.println("4. Avaliar Mídia");
-            System.out.println("5. Relatórios");
-            System.out.println("6. Ver midias vistas");
-            System.out.println("7. Ver midias futuras");
+            System.out.println("2. Ver minhas Mídias Assistidas");
+            System.out.println("3. Ver minhas Mídias Futuras");
+            System.out.println("4. Adicionar Mídia a lista de futuras / Assistir futuramente");
+            System.out.println("5. Terminar Mídia");
+            System.out.println("6. Avaliar Mídia");
+            System.out.println("7. Relatórios");
             System.out.println("8. Sair");
 
             System.out.print("Escolha uma opção: ");
@@ -135,27 +136,27 @@ public class Aplicacao {
                     break;
                 case 2:
                     limparTela();
-                    adicionarMidiaFutura();
+                    verMidiaAssistida();
                     break;
                 case 3:
                     limparTela();
-                    terminarMidia();
+                    verMidiaFutura();
                     break;
                 case 4:
                     limparTela();
-                    avaliarMidia();
+                    adicionarMidiaFutura();
                     break;
                 case 5:
                     limparTela();
-                    exibirMenuRelatorios();
+                    terminarMidia();
                     break;
                 case 6:
                     limparTela();
-                    verMidiaAssistida();
+                    avaliarMidia();
                     break;
                 case 7:
                     limparTela();
-                    verMidiaFutura();
+                    exibirMenuRelatorios();
                     break;
                 case 8:
                     System.out.println("Saindo do menu do cliente...");
@@ -283,34 +284,25 @@ public class Aplicacao {
         scanner.nextLine();
         String coment = scanner.nextLine();
         if (streaming.getClienteLogado().getTipoCliente() == null) {
-            avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado(), LocalDate.now()); // Criar a avaliação}
+            avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado(), LocalDate.now());
         } else {
-            avaliacao = new Avaliacao(nota, coment, midia, streaming.getClienteLogado(), LocalDate.now()); // Criar a
-                                                                                                           // avaliação
+            avaliacao = new Avaliacao(nota, coment, midia, streaming.getClienteLogado(), LocalDate.now());
         }
         streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
         System.out.println("Mídia avaliada com sucesso.");
-        System.out.println(avaliacao);
     }
 
     private static Cliente clienteQueMaisAssistiu() {
-        Cliente clienteComMaisMidias = null;
-        int maxMidiasAssistidas = 0;
-
-        for (Cliente cliente : streaming.getClientes().values()) {
-            int numMidiasAssistidas = cliente.getMidiasAssistidas().size();
-            if (numMidiasAssistidas > maxMidiasAssistidas) {
-                maxMidiasAssistidas = numMidiasAssistidas;
-                clienteComMaisMidias = cliente;
-            }
-        }
-
-        return clienteComMaisMidias;
+        return streaming.getClientes().values().stream()
+                .max(Comparator.comparingInt(cliente -> cliente.getMidiasAssistidas().size()))
+                .orElse(null);
     }
 
-    // private static Cliente clienteComMaisAvaliacoes(){
-    // Cliente result =
-    // }
+    private static Cliente clienteComMaisAvaliacoes() {
+        return streaming.getClientes().values().stream()
+                .max(Comparator.comparingInt(cliente -> cliente.getAvaliacoes().size()))
+                .orElse(null);
+    }
 
     private static double porcClientesMin15avaliacoes() {
         Long result = streaming.getClientes().entrySet().stream()
@@ -329,7 +321,7 @@ public class Aplicacao {
             System.out.println("5. Mídias com mais avaliações");
             System.out.println("6. Mídias com melhores avaliadas por categoria");
             System.out.println("7. Mídias com mais avaliações por categoria");
-            System.out.println("8. Voltar ao menu cliente");
+            System.out.println("8. Voltar");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Consumir a quebra de linha após a leitura do número
@@ -347,6 +339,10 @@ public class Aplicacao {
                 // Qual cliente tem mais avaliações, e quantas avaliações.
                 case 2:
                     limparTela();
+                    System.out.println("Cliente que mais avaliou Mídias: " + "\nNome: "
+                            + clienteComMaisAvaliacoes().getNome() + "\nNome Usuário: "
+                            + clienteComMaisAvaliacoes().getNomeUsuario() + "\nTotal de Avaliações: "
+                            + clienteComMaisAvaliacoes().getAvaliacoes().size());
                     break;
 
                 // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
