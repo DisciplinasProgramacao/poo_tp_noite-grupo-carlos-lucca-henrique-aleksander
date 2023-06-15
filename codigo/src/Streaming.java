@@ -229,10 +229,9 @@ public class Streaming {
         if (midias.containsKey(midia.getIdentificador())) {
             // throw new InvalidMidiaException("Midia já cadastrada no sistema");
             System.out.println("Midia duplicada: " + midia.getIdentificador());
-            return "Midia já cadastrada no sistema.";
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Mídia cadastrada com sucesso!";
+        return "Mídia cadastrada com sucesso";
     }
 
     /**
