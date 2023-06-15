@@ -237,34 +237,34 @@ public class Aplicacao {
         System.out.println("Mídia adicionada com sucesso.");
     }
 
-    // private static void avaliarMidia() {
-    //     limparTela();
-    //     Avaliacao avaliacao;
-    //     System.out.println("== Avaliar Mídia ==");
-    //     ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
-    //     int contador = 1;
-    //     System.out.println("== Selecione a mídia ==");
-    //     for (Midia midia : midias) {
-    //         System.out.println(contador + ": " + midia);
-    //         contador++;
-    //     }
-    //     System.out.println("Qual a sua escolha? Digite o numero dela");
-    //     int op = scanner.nextInt();
-    //     Midia midia = streaming.getClienteLogado().getMidiasAssistidas().get(op-1);
-    //     System.out.println("Escolha uma nota de 1 a 5");
-    //     int nota = scanner.nextInt();
-    //     System.out.println("Qual seu comentario");
-    //     scanner.nextLine();
-    //     String coment = scanner.nextLine();
-    //     if(streaming.getClienteLogado().getTipoCliente()==null){
-    //     avaliacao = new Avaliacao(nota ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação} 
-    //     }else{
-    //      avaliacao = new Avaliacao(nota, coment ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação
-    //     }
-    //     streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
-    //     System.out.println("Mídia avaliada com sucesso.");
-    //     System.out.println(avaliacao);
-    // } 
+    private static void avaliarMidia() {
+        limparTela();
+        Avaliacao avaliacao;
+        System.out.println("== Avaliar Mídia ==");
+        ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
+        int contador = 1;
+        System.out.println("== Selecione a mídia ==");
+        for (Midia midia : midias) {
+            System.out.println(contador + ": " + midia);
+            contador++;
+        }
+        System.out.println("Qual a sua escolha? Digite o numero dela");
+        int op = scanner.nextInt();
+        Midia midia = streaming.getClienteLogado().getMidiasAssistidas().get(op-1);
+        System.out.println("Escolha uma nota de 1 a 5");
+        int nota = scanner.nextInt();
+        System.out.println("Qual seu comentario");
+        scanner.nextLine();
+        String coment = scanner.nextLine();
+        if(streaming.getClienteLogado().getTipoCliente()==null){
+        avaliacao = new Avaliacao(nota ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação} 
+        }else{
+         avaliacao = new Avaliacao(nota, coment ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação
+        }
+        streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
+        System.out.println("Mídia avaliada com sucesso.");
+        System.out.println(avaliacao);
+    } 
 
     private static void exibirMenuRelatorios() {
         limparTela();
