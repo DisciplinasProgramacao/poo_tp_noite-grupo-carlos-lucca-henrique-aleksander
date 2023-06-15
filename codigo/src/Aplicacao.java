@@ -115,8 +115,8 @@ public class Aplicacao {
     }
 
     private static void exibirMenuCliente() {
+       
         limparTela();
-
         while (true) {
             System.out.println("== Menu do Cliente ==");
             System.out.println("1. Buscar");
@@ -124,29 +124,44 @@ public class Aplicacao {
             System.out.println("3. Terminar Mídia");
             System.out.println("4. Avaliar Mídia");
             System.out.println("5. Relatórios");
-            System.out.println("6. Sair");
+            System.out.println("6. Ver midias vistas");
+            System.out.println("7. Ver midias futuras");
+            System.out.println("8. Sair");
 
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine();
-
+        
             switch (opcao) {
                 case 1:
+                     limparTela();
                     buscarMidias();
                     break;
                 case 2:
+                 limparTela();
                     adicionarMidiaFutura();
                     break;
                 case 3:
+                 limparTela();
                     terminarMidia();
                     break;
                 case 4:
+                 limparTela();
                     avaliarMidia();
                     break;
                 case 5:
+                 limparTela();
                     exibirMenuRelatorios();
                     break;
                 case 6:
+                 limparTela();
+                    verMidiaAssistida();
+                    break;
+                case 7:
+                 limparTela();
+                    verMidiaFutura();
+                    break;
+                case 8:
                     System.out.println("Saindo do menu do cliente...");
                     return;
                 default:
@@ -156,6 +171,15 @@ public class Aplicacao {
 
             System.out.println();
         }
+    }
+
+    private static void verMidiaAssistida(){       
+        limparTela();
+        System.out.println(streaming.getClienteLogado().MostrarListaMidiaAssistida());
+    }
+     private static void verMidiaFutura(){       
+        limparTela();
+        System.out.println(streaming.getClienteLogado().MostrarListaMidiaFutura());
     }
 
     private static void buscarMidias() {
@@ -213,34 +237,34 @@ public class Aplicacao {
         System.out.println("Mídia adicionada com sucesso.");
     }
 
-    private static void avaliarMidia() {
-        limparTela();
-        Avaliacao avaliacao;
-        System.out.println("== Avaliar Mídia ==");
-        ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
-        int contador = 1;
-        System.out.println("== Selecione a mídia ==");
-        for (Midia midia : midias) {
-            System.out.println(contador + ": " + midia);
-            contador++;
-        }
-        System.out.println("Qual a sua escolha? Digite o numero dela");
-        int op = scanner.nextInt();
-        Midia midia = streaming.getClienteLogado().getMidiasAssistidas().get(op-1);
-        System.out.println("Escolha uma nota de 1 a 5");
-        int nota = scanner.nextInt();
-        System.out.println("Qual seu comentario");
-        scanner.nextLine();
-        String coment = scanner.nextLine();
-        if(streaming.getClienteLogado().getTipoCliente()==null){
-        avaliacao = new Avaliacao(nota ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação} 
-        }else{
-         avaliacao = new Avaliacao(nota, coment ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação
-        }
-        streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
-        System.out.println("Mídia avaliada com sucesso.");
-        System.out.println(avaliacao);
-    } 
+    // private static void avaliarMidia() {
+    //     limparTela();
+    //     Avaliacao avaliacao;
+    //     System.out.println("== Avaliar Mídia ==");
+    //     ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
+    //     int contador = 1;
+    //     System.out.println("== Selecione a mídia ==");
+    //     for (Midia midia : midias) {
+    //         System.out.println(contador + ": " + midia);
+    //         contador++;
+    //     }
+    //     System.out.println("Qual a sua escolha? Digite o numero dela");
+    //     int op = scanner.nextInt();
+    //     Midia midia = streaming.getClienteLogado().getMidiasAssistidas().get(op-1);
+    //     System.out.println("Escolha uma nota de 1 a 5");
+    //     int nota = scanner.nextInt();
+    //     System.out.println("Qual seu comentario");
+    //     scanner.nextLine();
+    //     String coment = scanner.nextLine();
+    //     if(streaming.getClienteLogado().getTipoCliente()==null){
+    //     avaliacao = new Avaliacao(nota ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação} 
+    //     }else{
+    //      avaliacao = new Avaliacao(nota, coment ,midia, streaming.getClienteLogado(), LocalDate.now());  // Criar a avaliação
+    //     }
+    //     streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
+    //     System.out.println("Mídia avaliada com sucesso.");
+    //     System.out.println(avaliacao);
+    // } 
 
     private static void exibirMenuRelatorios() {
         limparTela();
