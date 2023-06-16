@@ -120,6 +120,15 @@ public class Cliente {
     }
 
     /**
+     * Retorna o tipo do cliente.
+     * 
+     * @return String contendo o nome de usuário do cliente.
+     */
+    public IComentarista getTipoCliente() {
+        return tipoCliente;
+    }
+
+    /**
      * Retorna a senha do cliente.
      * 
      * @return String contendo a senha do cliente.
@@ -135,6 +144,18 @@ public class Cliente {
      */
     public ArrayList<Midia> getMidiasAssistidas() {
         return midiasAssistidas;
+    }
+
+    /**
+     * Mostra uma lista específica das mídias de um cliente.
+     *
+     * @param op número interio sinalizando a opção do usuário
+     * @return um StringBuilder contendo a lista das mídias do cliente.
+     */
+    public String MostrarListaEspecifica(ArrayList<Midia> valor) {
+        StringBuilder sb = new StringBuilder();
+        valor.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
+        return sb.toString();
     }
 
     /**
