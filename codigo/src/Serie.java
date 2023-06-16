@@ -1,46 +1,35 @@
-package codigo.src;
+package src;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 
-public class Serie {
+public class Serie extends Midia {
 
-    private String nome;
-    private ArrayList<String> idioma;
-    private ArrayList<String> genero;
-    private String identificador;
-    private int assistidaPorClientes;
+    // #region variável de instância
+    private int qtdEpisodios;
+    // #endregion
 
-    public Serie(String nome, ArrayList<String> idioma, ArrayList<String> genero, String identificador,
-            int assistidaPorClientes) {
-        this.nome = nome;
-        this.idioma = idioma;
-        this.genero = genero;
-        this.identificador = identificador;
-        this.assistidaPorClientes = assistidaPorClientes;
+    /**
+     * Construtor para criar uma Série com nome, identificador, data e quantidade de
+     * episódios.
+     * Responsável por atribuir valor ao construtor da classe-mãe (Midia) e
+     * instancia-la
+     * 
+     * @param nome          Nome do filme
+     * @param identificador Identificador do filme
+     * @param data          Data de lançamento do filme
+     * @param qtdEpisodios  Quantidade de episódios
+     */
+    public Serie(String nome, String identificador, LocalDate data, int qtdEpisodios) {
+        super(nome, identificador, data);
+        this.qtdEpisodios = qtdEpisodios;
     }
 
-    public void adicionaAssistido() {
-        this.assistidaPorClientes++;
+    /**
+     * Retorna a quantidade de episódios da série.
+     * 
+     * @return int contendo a quantidade de episódios da série.
+     */
+    public int getQtdEpisodios() {
+        return qtdEpisodios;
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public ArrayList<String> getIdioma() {
-        return idioma;
-    }
-
-    public ArrayList<String> getGenero() {
-        return genero;
-    }
-
-    public String getIdentificador() {
-        return identificador;
-    }
-
-    public int getAssistidaPorClientes() {
-        return assistidaPorClientes;
-    }
-
 }
