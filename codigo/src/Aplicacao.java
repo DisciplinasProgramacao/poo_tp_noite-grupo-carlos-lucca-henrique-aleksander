@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.InputMismatchException;
-import java.util.Map;
+//import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
 import src.Exceptions.AuthorizationException;
@@ -19,6 +19,7 @@ public class Aplicacao {
     private static Streaming streaming;
     public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
+    private static boolean sair = false;
 
     public static void main(String[] args) {
         streaming = new Streaming();
@@ -41,15 +42,14 @@ public class Aplicacao {
     private static void exibirMenuPrincipal() {
         limparTela();
         try {
-            while (true) {
-                System.out.println("== Menu Principal ==");
+            while (!sair) {
+                System.out.println("\u001B[33m== Menu Principal ==\u001B[37m");
                 System.out.println("1. Cadastrar Cliente");
                 System.out.println("2. Login");
-                System.out.println("3. Sair");
+                System.out.println("\u001B[31m3. Sair	\u001B[37m");
                 System.out.print("Escolha uma opção: ");
                 int opcao = scanner.nextInt();
                 scanner.nextLine();
-
                 switch (opcao) {
                     case 1:
                         cadastrarCliente();
@@ -59,12 +59,13 @@ public class Aplicacao {
                         break;
                     case 3:
                         System.out.println("Saindo do programa...");
-                        return;
+                        sair = true;
+                        break;
                     default:
-                        System.out.println("Opção inválida. Tente novamente.");
+                        limparTela();
+                        System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
                         break;
                 }
-
                 System.out.println();
             }
         } catch (InputMismatchException e) {
@@ -78,8 +79,7 @@ public class Aplicacao {
 
     private static void cadastrarCliente() {
         limparTela();
-
-        System.out.println("== Cadastro de Cliente ==");
+        System.out.println("\u001b[38;5;214m== Cadastro de Cliente ==\u001B[37m");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
 
@@ -90,13 +90,13 @@ public class Aplicacao {
         String nomeUsuario = scanner.nextLine();
 
         String resultado = streaming.cadastrarCliente(nome, senha, nomeUsuario);
-        System.out.println(resultado);
+        System.out.println("\u001B[32m" + resultado + "\u001B[37m");
     }
 
     private static void fazerLogin() {
         limparTela();
 
-        System.out.println("== Login ==");
+        System.out.println("\u001b[38;5;214m== Login ==\u001B[37m");
         System.out.print("Nome de Usuário: ");
         String nomeUsuario = scanner.nextLine();
 
@@ -114,8 +114,8 @@ public class Aplicacao {
     private static void exibirMenuCliente() {
 
         limparTela();
-        while (true) {
-            System.out.println("== Menu do Cliente ==");
+        while (!sair) {
+            System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
             System.out.println("1. Buscar");
             System.out.println("2. Ver minhas Mídias Assistidas");
             System.out.println("3. Ver minhas Mídias Futuras");
@@ -123,7 +123,7 @@ public class Aplicacao {
             System.out.println("5. Terminar Mídia");
             System.out.println("6. Avaliar Mídia");
             System.out.println("7. Relatórios");
-            System.out.println("8. Sair");
+            System.out.println("\u001B[31m8. Sair	\u001B[37m");
 
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -160,6 +160,7 @@ public class Aplicacao {
                     break;
                 case 8:
                     System.out.println("Saindo do menu do cliente...");
+                    exibirMenuPrincipal();
                     return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
@@ -172,45 +173,58 @@ public class Aplicacao {
 
     private static void verMidiaAssistida() {
         limparTela();
+        System.out.println("\u001B[32m== Mídias Assistidas ==\u001B[37m \n");
         System.out.println(streaming.getClienteLogado()
                 .MostrarListaEspecifica(streaming.getClienteLogado().getMidiasAssistidas()));
+        System.out.println("\u001B[32m== Fim da lista ==\u001B[37m ");
     }
 
     private static void verMidiaFutura() {
         limparTela();
+        System.out.println("\u001B[32m== Mídias Futuras ==\u001B[37m \n");
         System.out.println(
                 streaming.getClienteLogado().MostrarListaEspecifica(streaming.getClienteLogado().getMidiasFuturas()));
+        System.out.println("\u001B[32m== Fim da lista ==\u001B[37m ");
     }
 
     private static void buscarMidias() {
         limparTela();
         ArrayList<Midia> resultado = null;
-        System.out.println("Deseja buscar por \nn - Nome g - Gênero  i - Idioma");
-        char op = scanner.next().toLowerCase().charAt(0);
-        System.out.println("Informe a sua busca:");
-        String valor = scanner.next();
-        limparTela();
-        switch (op) {
-            case 'n':
-                System.out.println("== Buscar Séries por Nome ==");
-                resultado = streaming.buscarMidia(valor, ComparatorMidia.porNome());
-                break;
-            case 'g':
-                System.out.println("== Buscar Séries por Gênero ==");
-                resultado = streaming.buscarMidia(valor, ComparatorMidia.porGenero());
-                break;
-            case 'i':
-                System.out.println("== Buscar Séries por Idioma ==");
-                resultado = streaming.buscarMidia(valor, ComparatorMidia.porIdioma());
-                break;
-            default:
-                break;
+        System.out.println("\u001B[32m== Buscar Mídia ==\u001B[37m");
+        System.out.println(
+                "\u001B[32mn - Nome \u001B[37m ¬ \u001B[35m g - Gênero \u001B[37m ¬ \u001B[33m i - Idioma \u001B[37m");
+        try {
+            char op = scanner.next().toLowerCase().charAt(0);
+
+            System.out.println("Informe a sua busca:");
+            String valor = scanner.next();
+            limparTela();
+
+            switch (op) {
+                case 'n':
+                    System.out.println("\u001B[35m== Buscar Séries por Nome ==\u001B[37m");
+                    resultado = streaming.buscarMidia(valor, ComparatorMidia.porNome());
+                    break;
+                case 'g':
+                    System.out.println("\u001B[35m== Buscar Séries por Gênero ==\u001B[37m");
+                    resultado = streaming.buscarMidia(valor, ComparatorMidia.porGenero());
+                    break;
+                case 'i':
+                    System.out.println("\u001B[35m== Buscar Séries por Idioma ==\u001B[37m");
+                    resultado = streaming.buscarMidia(valor, ComparatorMidia.porIdioma());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Opção inválida. Por favor, escolha uma das opções fornecidas.");
+            }
+
+            resultado.stream().forEach(m -> System.out.println(m.toString()));
+            System.out.println("\u001B[35m== Fim da Busca ==\u001B[37m");
+        } catch (IllegalArgumentException e) {
+            System.out.println("\u001B[31mErro: \u001B[37m" + e.getMessage());
         }
-        resultado.stream().forEach(m -> System.out.println(m.toString()));
     }
 
     private static Midia buscaMidiaTituloParaMetodos() {
-        limparTela();
         System.out.print("Título da Mídia: ");
         String titulo = scanner.nextLine();
         ArrayList<Midia> resultado = streaming.buscarMidia(titulo, ComparatorMidia.porNome());
@@ -234,7 +248,7 @@ public class Aplicacao {
 
     private static void adicionarMidiaFutura() {
         limparTela();
-        System.out.println("== Adicionar Mídia Futura ==");
+        System.out.println("\u001B[32m== Adicionar Mídia Futura ==\u001B[37m");
         Midia retorno = buscaMidiaTituloParaMetodos();
         if (retorno == null) {
             System.out.println("Mídia inválida, tente novamente");
@@ -246,12 +260,12 @@ public class Aplicacao {
             System.out.println(e.getMessage());
             exibirMenuCliente();
         }
-        System.out.println("Mídia adicionada com sucesso.");
+        System.out.println("\u001B[32mMídia adicionada com sucesso. \u001B[37m");
     }
 
     private static void terminarMidia() {
         limparTela();
-        System.out.println("== Terminar Mídia ==");
+        System.out.println("\u001B[32m== Terminar Mídia ==\u001B[37m");
         Midia retorno = buscaMidiaTituloParaMetodos();
         if (retorno == null) {
             System.out.println("Mídia inválida, tente novamente");
@@ -263,16 +277,15 @@ public class Aplicacao {
             System.out.println(e.getMessage());
             exibirMenuCliente();
         }
-        System.out.println("Mídia adicionada com sucesso.");
+        System.out.println("\u001B[32mMídia terminada e adiciona a lista de assistidas. \u001B[37m");
     }
 
     private static void avaliarMidia() {
         limparTela();
         Avaliacao avaliacao;
-        System.out.println("== Avaliar Mídia ==");
+        System.out.println("\u001B[32m== Avaliar Mídia ==\u001B[37m");
         ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
         int contador = 1;
-        System.out.println("== Selecione a mídia ==");
         for (Midia midia : midias) {
             System.out.println(contador + ": " + midia);
             contador++;
@@ -291,31 +304,13 @@ public class Aplicacao {
             avaliacao = new Avaliacao(nota, coment, midia, streaming.getClienteLogado(), LocalDate.now());
         }
         streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
-        System.out.println("Mídia avaliada com sucesso.");
-    }
-
-    private static Cliente clienteQueMaisAssistiu() {
-        return streaming.getClientes().values().stream()
-                .max(Comparator.comparingInt(cliente -> cliente.getMidiasAssistidas().size()))
-                .orElse(null);
-    }
-
-    private static Cliente clienteComMaisAvaliacoes() {
-        return streaming.getClientes().values().stream()
-                .max(Comparator.comparingInt(cliente -> cliente.getAvaliacoes().size()))
-                .orElse(null);
-    }
-
-    private static double porcClientesMin15avaliacoes() {
-        Long result = streaming.getClientes().entrySet().stream()
-                .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15).count();
-        return (double) (result / streaming.getClientes().size()) * 100.0;
+        System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
     }
 
     private static void exibirMenuRelatorios() {
         limparTela();
-        while (true) {
-            System.out.println("== Relatórios ==");
+        while (!sair) {
+            System.out.println("\u001B[33m== Menu de Relatórios ==\u001B[37m");
             System.out.println("1. Cliente que mais assistiu");
             System.out.println("2. Cliente com mais avaliações");
             System.out.println("3. Porcentagem de clientes com 15 avaliações");
@@ -386,9 +381,26 @@ public class Aplicacao {
                     exibirMenuRelatorios();
                     break;
             }
-
             System.out.println();
         }
+    }
+
+    private static Cliente clienteQueMaisAssistiu() {
+        return streaming.getClientes().values().stream()
+                .max(Comparator.comparingInt(cliente -> cliente.getMidiasAssistidas().size()))
+                .orElse(null);
+    }
+
+    private static Cliente clienteComMaisAvaliacoes() {
+        return streaming.getClientes().values().stream()
+                .max(Comparator.comparingInt(cliente -> cliente.getAvaliacoes().size()))
+                .orElse(null);
+    }
+
+    private static double porcClientesMin15avaliacoes() {
+        Long result = streaming.getClientes().entrySet().stream()
+                .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15).count();
+        return (double) (result / streaming.getClientes().size()) * 100.0;
     }
 
 }
