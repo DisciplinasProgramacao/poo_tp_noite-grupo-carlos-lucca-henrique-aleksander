@@ -62,28 +62,6 @@ public class Cliente {
     }
 
     /**
-     * Busca uma mídia na lista de mídias futuras e na lista de mídias assistidas do
-     * cliente.
-     * Retorna a mídia se encontrada, caso contrário, retorna null.
-     * 
-     * @param midia A mídia a ser buscada.
-     * @return A mídia encontrada ou null se não encontrada.
-     */
-    public Midia buscarMidia(Midia midia) {
-        for (Midia m : this.midiasFuturas) {
-            if (m.equals(midia)) {
-                return m;
-            }
-        }
-        for (Midia m : this.midiasAssistidas) {
-            if (m.equals(midia)) {
-                return m;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Verifica se o cliente fez mais de cinco avaliações no último mês.
      * 
      * @return true se o cliente fez mais de cinco avaliações, false caso contrário.
@@ -164,7 +142,7 @@ public class Cliente {
      * @return um ArrayList contendo mídias futuras do cliente.
      */
     public ArrayList<Midia> getMidiasFuturas() {
-        return midiasFuturas;
+        return this.midiasFuturas;
     }
 
     /**

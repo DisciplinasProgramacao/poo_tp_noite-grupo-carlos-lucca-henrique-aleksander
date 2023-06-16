@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import src.Comparators.ComparatorMidia;
-import src.Exceptions.AuthorizationException;
+import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.InvalidMidiaException;
+import src.Exceptions.NameUserExistsException;
 import src.Exceptions.ReadFileError;
 
 public class Streaming {
@@ -141,19 +142,20 @@ public class Streaming {
                         Cliente cliente = clientes.get(values[2]);
                         LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         Avaliacao av;
-                        System.out.println(midia);
+                        // System.out.println(midia);
                         if (values.length == 5) {
                             String comentario = values[4];
                             av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
                         } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
-                        }if (midia==null){
-                            System.out.println(values[1]);
-                        }else {
-                            criarAvaliacao(av, midia, cliente);
-                            System.out.println(midia);
                         }
-                        });
+                        if (midia == null) {
+                            System.out.println(values[1]);
+                        } else {
+                            criarAvaliacao(av, midia, cliente);
+                            // System.out.println(midia);
+                        }
+                    });
         } catch (IOException e) {
             throw new ReadFileError();
         }
@@ -175,12 +177,21 @@ public class Streaming {
     }
 
     /**
-     * Retorna o cliente logado no sistema de ‘streaming’.
+     * Retorna o cliente logado no sistema de streaming.
      *
      * @return o cliente logado.
      */
     public Cliente getClienteLogado() {
         return clienteLogado;
+    }
+
+    /**
+     * Retorna todas as midias do streaming.
+     *
+     * @return HashMap de midias.
+     */
+    public HashMap<String, Midia> getMidias() {
+        return midias;
     }
 
     /**
@@ -204,7 +215,7 @@ public class Streaming {
      */
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
         if (clientes.containsKey(nomeUsuario)) {
-            throw new AuthorizationException();
+            throw new NameUserExistsException();
         }
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         clientes.put(nomeUsuario, cliente);
@@ -247,8 +258,10 @@ public class Streaming {
     /**
      * Exibe as informações de todas as mídias no sistema de streaming.
      */
-    public void mostraTodasMidias() {
-        midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
+    public String mostraTodasMidias() {
+        StringBuilder sb = new StringBuilder();
+        midias.forEach((identificador, midia) -> sb.append(midia.toString() + "\n"));
+        return sb.toString();
     }
 
     /**
@@ -266,7 +279,7 @@ public class Streaming {
                 return "Login feito com sucesso";
             }
         }
-        throw new AuthorizationException();
+        throw new IncorrectUserNameOrPasswordException();
     }
 
     /**

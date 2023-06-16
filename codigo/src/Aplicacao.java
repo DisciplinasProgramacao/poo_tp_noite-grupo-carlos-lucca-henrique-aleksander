@@ -12,7 +12,9 @@ import java.util.Scanner;
 
 import src.Comparators.ComparatorMidia;
 import src.Exceptions.AuthorizationException;
+import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.InvalidMidiaException;
+import src.Exceptions.NameUserExistsException;
 import src.Exceptions.ReadFileError;
 
 public class Aplicacao {
@@ -34,15 +36,28 @@ public class Aplicacao {
         }
     }
 
-    public static void limparTela() {
+    /**
+     * Limpar mensagens antigas da tela
+     * 
+     */
+    static void limparTela() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * Pausa para leitura de mensagens em console
+     * 
+     */
+    static void pausa() {
+        System.out.println("Pressione Enter para continuar.");
+        System.console().readLine(); // Aguarda o usuário pressionar Enter
+    }
+
     private static void exibirMenuPrincipal() {
-        limparTela();
         try {
             while (!sair) {
+                limparTela();
                 System.out.println("\u001B[33m== Menu Principal ==\u001B[37m");
                 System.out.println("1. Cadastrar Cliente");
                 System.out.println("2. Login");
@@ -89,8 +104,14 @@ public class Aplicacao {
         System.out.print("Nome de Usuário: ");
         String nomeUsuario = scanner.nextLine();
 
-        String resultado = streaming.cadastrarCliente(nome, senha, nomeUsuario);
-        System.out.println("\u001B[32m" + resultado + "\u001B[37m");
+        try {
+            String resultado = streaming.cadastrarCliente(nome, senha, nomeUsuario);
+            System.out.println("\u001B[32m" + resultado + "\u001B[37m");
+        } catch (NameUserExistsException e) {
+            System.out.println("\u001B[31mErro: " + e.getMessage() + "\u001B[37m");
+        }
+
+        pausa();
     }
 
     private static void fazerLogin() {
@@ -103,18 +124,23 @@ public class Aplicacao {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
-        String resultado = streaming.login(nomeUsuario, senha);
-        System.out.println(resultado);
+        try {
+            String resultado = streaming.login(nomeUsuario, senha);
+            System.out.println("\u001B[32m" + resultado + "\u001B[37m");
 
-        if (resultado.equals("Login feito com sucesso")) {
-            exibirMenuCliente();
+            if (resultado.equals("Login feito com sucesso")) {
+                pausa();
+                exibirMenuCliente();
+            }
+        } catch (IncorrectUserNameOrPasswordException e) {
+            System.out.println("\u001B[31m" + e.getMessage() + "\u001B[37m");
+            pausa();
         }
     }
 
     private static void exibirMenuCliente() {
-
-        limparTela();
         while (!sair) {
+            limparTela();
             System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
             System.out.println("1. Buscar");
             System.out.println("2. Ver minhas Mídias Assistidas");
@@ -124,39 +150,38 @@ public class Aplicacao {
             System.out.println("6. Avaliar Mídia");
             System.out.println("7. Relatórios");
             System.out.println("\u001B[31m8. Sair	\u001B[37m");
-
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Descarta o caractere de nova linha
 
             switch (opcao) {
                 case 1:
-                    limparTela();
                     buscarMidias();
+                    pausa();
                     break;
                 case 2:
-                    limparTela();
                     verMidiaAssistida();
+                    pausa();
                     break;
                 case 3:
-                    limparTela();
                     verMidiaFutura();
+                    pausa();
                     break;
                 case 4:
-                    limparTela();
                     adicionarMidiaFutura();
+                    pausa();
                     break;
                 case 5:
-                    limparTela();
                     terminarMidia();
+                    pausa();
                     break;
                 case 6:
-                    limparTela();
                     avaliarMidia();
+                    pausa();
                     break;
                 case 7:
-                    limparTela();
                     exibirMenuRelatorios();
+                    pausa();
                     break;
                 case 8:
                     System.out.println("Saindo do menu do cliente...");
@@ -166,7 +191,6 @@ public class Aplicacao {
                     System.out.println("Opção inválida. Tente novamente.");
                     break;
             }
-
             System.out.println();
         }
     }
@@ -398,9 +422,11 @@ public class Aplicacao {
     }
 
     private static double porcClientesMin15avaliacoes() {
-        Long result = streaming.getClientes().entrySet().stream()
-                .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15).count();
-        return (double) (result / streaming.getClientes().size()) * 100.0;
+        double result = streaming.getClientes().entrySet().stream()
+                .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15)
+                .count();
+        double totalClientes = streaming.getClientes().size();
+        return (result / totalClientes) * 100.0;
     }
 
 }

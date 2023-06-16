@@ -120,6 +120,15 @@ public class Avaliacao {
     }
 
     /**
+     * Obtém o cliente que avaliou a midia.
+     *
+     * @return O cliente que avaliou.
+     */
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    /**
      * Obtém o comentário associado à avaliação.
      * Se não houver comentário, retorna a string "Sem comentário".
      *

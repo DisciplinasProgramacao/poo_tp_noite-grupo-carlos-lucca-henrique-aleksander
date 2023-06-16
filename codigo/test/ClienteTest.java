@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
+import src.Avaliacao;
 import src.Cliente;
 import src.Midia;
 
@@ -22,7 +24,10 @@ public class ClienteTest {
         cliente = new Cliente("João", "senha123", "joao123");
         midia1 = new Midia("Midia 1", "123456", LocalDate.of(2014, 11, 7));
         midia2 = new Midia("Midia 2", "234567", LocalDate.of(2018, 12, 20));
-        midia3 = new Midia("Midia 3", "345678", LocalDate.of(2004, 02, 9));
+
+        cliente.adicionarMidiaFutura(midia1);
+        cliente.adicionarMidiaFutura(midia2);
+        cliente.terminarMidia(midia1);
     }
 
     @Test
@@ -65,29 +70,31 @@ public class ClienteTest {
         Assertions.assertEquals(1, midiasAssistidas.size());
     }
 
-    // @Test
-    // public void terminarMidia_deveIncrementarContagemAssistidos() {
-    // cliente.terminarMidia(midia1);
-    // cliente.terminarMidia(midia2);
-    // cliente.terminarMidia(midia3);
-
-    // int contagemAssistidos = midia1.getContagemAssistidos();
-    // Assertions.assertEquals(1, contagemAssistidos);
-    // }
-
     @Test
-    public void buscarMidia() {
-        cliente.adicionarMidiaFutura(midia1);
-        cliente.adicionarMidiaFutura(midia2);
-        Midia midiaEncontrada = cliente.buscarMidia(midia2);
-        Assertions.assertEquals(midia2, midiaEncontrada);
+    public void testAvaliar() {
+        Avaliacao avaliacao1 = new Avaliacao(4, midia1, cliente);
+        cliente.avaliar(avaliacao1, midia1);
+        ArrayList<Avaliacao> avaliacoes = cliente.getAvaliacoes();
+        assertEquals(1, avaliacoes.size());
+        assertTrue(avaliacoes.contains(avaliacao1));
+        assertEquals(1, avaliacoes.size());
     }
 
     @Test
-    public void buscarMidia_deveRetornarNullSeMidiaNaoEncontrada() {
-        cliente.adicionarMidiaFutura(midia1);
-        cliente.adicionarMidiaFutura(midia2);
-        Midia midiaEncontrada = cliente.buscarMidia(midia3);
-        Assertions.assertNull(midiaEncontrada);
+    public void testAvaliar_SemTerVisto() {
+        cliente.terminarMidia(midia1);
+        Avaliacao avaliacao1 = new Avaliacao(4, midia1, cliente);
+        cliente.avaliar(avaliacao1, midia1);
+        Avaliacao avaliacao2 = new Avaliacao(4, midia2, cliente);
+        // Verifique se o método avaliar() lança a exceção correta
+        try {
+            cliente.avaliar(avaliacao2, midia2);
+            fail("Uma exceção IllegalArgumentException deveria ter sido lançada");
+        } catch (IllegalArgumentException e) {
+            // Verifique se a mensagem da exceção é a esperada
+            String mensagemEsperada = "Você só pode avaliar uma mídia em sua lista de mídias assistidas";
+            assertEquals(mensagemEsperada, e.getMessage());
+        }
     }
+
 }
