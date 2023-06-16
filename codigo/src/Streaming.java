@@ -159,8 +159,8 @@ public class Streaming {
     public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
-        lerArquivoAudiencia();
         lerArquivoFilmes();
+        lerArquivoAudiencia();
         lerArquivoAvaliacao();
     }
 
