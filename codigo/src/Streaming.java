@@ -123,7 +123,7 @@ public class Streaming {
     }
 
     /**
-     * Lê o arquivo de clientes e cadastra os clientes no sistema.
+     * Lê o arquivo de avaliações e cadastra as avaliações no sistema.
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
      */
@@ -136,10 +136,10 @@ public class Streaming {
                         Cliente cliente = clientes.get(values[2]);
                         LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         Avaliacao av;
-                        if(values.length==4){
+                        if (values.length == 4) {
                             String comentario = values[4];
-                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data );
-                        }else{
+                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
+                        } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
                         }
                         criarAvaliacao(av, midia, cliente);
@@ -179,9 +179,9 @@ public class Streaming {
      * @param midia a mídia a ser cadastrada.
      * @return uma mensagem indicando o resultado do cadastro.
      */
-    public void criarAvaliacao(Avaliacao avaliacao, Midia midia,Cliente cliente){
-       midia.addAvaliacaoToAvaliacoesList(avaliacao);
-       cliente.avaliar(avaliacao, midia);
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        cliente.avaliar(avaliacao, midia);
     }
 
     /**
@@ -229,10 +229,9 @@ public class Streaming {
         if (midias.containsKey(midia.getIdentificador())) {
             // throw new InvalidMidiaException("Midia já cadastrada no sistema");
             System.out.println("Midia duplicada: " + midia.getIdentificador());
-            return "Midia já cadastrada no sistema.";
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Mídia cadastrada com sucesso!";
+        return "Mídia cadastrada com sucesso";
     }
 
     /**
