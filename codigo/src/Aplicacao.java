@@ -11,7 +11,6 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
-import src.Exceptions.AuthorizationException;
 import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.InvalidMidiaException;
 import src.Exceptions.NameUserExistsException;
@@ -63,31 +62,35 @@ public class Aplicacao {
                 System.out.println("2. Login");
                 System.out.println("\u001B[31m3. Sair	\u001B[37m");
                 System.out.print("Escolha uma opção: ");
-                int opcao = scanner.nextInt();
-                scanner.nextLine();
-                switch (opcao) {
-                    case 1:
-                        cadastrarCliente();
-                        break;
-                    case 2:
-                        fazerLogin();
-                        break;
-                    case 3:
-                        System.out.println("Saindo do programa...");
-                        sair = true;
-                        break;
-                    default:
-                        limparTela();
-                        System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
-                        break;
+                if (scanner.hasNextInt()) {
+                    int opcao = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (opcao) {
+                        case 1:
+                            cadastrarCliente();
+                            break;
+                        case 2:
+                            fazerLogin();
+                            break;
+                        case 3:
+                            System.out.println("Saindo do programa...");
+                            sair = true;
+                            break;
+                        default:
+                            limparTela();
+                            System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
+                            break;
+                    }
+                } else {
+                    limparTela();
+                    System.out.println(
+                            "\u001B[31mOpção inválida, não coloque valor diferente de números. Tente novamente\u001B[37m");
+                    scanner.nextLine(); // Limpa o buffer do scanner
                 }
-                System.out.println();
+                pausa();
             }
         } catch (InputMismatchException e) {
             System.out.println("Insira um valor válido");
-            exibirMenuPrincipal();
-        } catch (AuthorizationException invalid) {
-            System.out.println(invalid.getMessage());
             exibirMenuPrincipal();
         }
     }
@@ -110,8 +113,6 @@ public class Aplicacao {
         } catch (NameUserExistsException e) {
             System.out.println("\u001B[31mErro: " + e.getMessage() + "\u001B[37m");
         }
-
-        pausa();
     }
 
     private static void fazerLogin() {
@@ -134,69 +135,81 @@ public class Aplicacao {
             }
         } catch (IncorrectUserNameOrPasswordException e) {
             System.out.println("\u001B[31m" + e.getMessage() + "\u001B[37m");
-            pausa();
         }
     }
 
     private static void exibirMenuCliente() {
-        while (!sair) {
-            limparTela();
-            System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
-            System.out.println("1. Buscar");
-            System.out.println("2. Ver minhas Mídias Assistidas");
-            System.out.println("3. Ver minhas Mídias Futuras");
-            System.out.println("4. Listas minhas Avaliações");
-            System.out.println("5. Adicionar Mídia a lista de futuras / Assistir futuramente");
-            System.out.println("6. Terminar Mídia");
-            System.out.println("7. Avaliar Mídia");
-            System.out.println("8. Relatórios");
-            System.out.println("\u001B[31m9. Sair	\u001B[37m");
-            System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); // Descarta o caractere de nova linha
+        try {
+            while (!sair) {
+                limparTela();
+                System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
+                System.out.println("1. Buscar");
+                System.out.println("2. Ver minhas Mídias Assistidas");
+                System.out.println("3. Ver minhas Mídias Futuras");
+                System.out.println("4. Listas minhas Avaliações");
+                System.out.println("5. Adicionar Mídia a lista de futuras / Assistir futuramente");
+                System.out.println("6. Terminar Mídia");
+                System.out.println("7. Avaliar Mídia");
+                System.out.println("8. Relatórios");
+                System.out.println("\u001B[31m9. Sair	\u001B[37m");
+                System.out.print("Escolha uma opção: ");
+                if (scanner.hasNextInt()) {
+                    int opcao = scanner.nextInt();
+                    scanner.nextLine();
 
-            switch (opcao) {
-                case 1:
-                    buscarMidias();
-                    pausa();
-                    break;
-                case 2:
-                    verMidiaAssistida();
-                    pausa();
-                    break;
-                case 3:
-                    verMidiaFutura();
-                    pausa();
-                    break;
-                case 4:
-                    listarAvaliacoes();
-                    pausa();
-                    break;
-                case 5:
-                    adicionarMidiaFutura();
-                    pausa();
-                    break;
-                case 6:
-                    terminarMidia();
-                    pausa();
-                    break;
-                case 7:
-                    avaliarMidia();
-                    pausa();
-                    break;
-                case 8:
-                    exibirMenuRelatorios();
-                    pausa();
-                    break;
-                case 9:
-                    System.out.println("Saindo do menu do cliente...");
-                    exibirMenuPrincipal();
-                    return;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+                    switch (opcao) {
+                        case 1:
+                            buscarMidias();
+                            pausa();
+                            break;
+                        case 2:
+                            verMidiaAssistida();
+                            pausa();
+                            break;
+                        case 3:
+                            verMidiaFutura();
+                            pausa();
+                            break;
+                        case 4:
+                            listarAvaliacoes();
+                            pausa();
+                            break;
+                        case 5:
+                            adicionarMidiaFutura();
+                            pausa();
+                            break;
+                        case 6:
+                            terminarMidia();
+                            pausa();
+                            break;
+                        case 7:
+                            avaliarMidia();
+                            pausa();
+                            break;
+                        case 8:
+                            exibirMenuRelatorios();
+                            pausa();
+                            break;
+                        case 9:
+                            System.out.println("Saindo do menu do cliente...");
+                            exibirMenuPrincipal();
+                            return;
+                        default:
+                            limparTela();
+                            System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
+                            break;
+                    }
+                } else {
+                    limparTela();
+                    System.out.println(
+                            "\u001B[31mOpção inválida, não coloque valor diferente de números. Tente novamente\u001B[37m");
+                    scanner.nextLine(); // Limpa o buffer do scanner
+                }
+                pausa();
             }
-            System.out.println();
+        } catch (InputMismatchException e) {
+            System.out.println("Insira um valor válido");
+            exibirMenuPrincipal();
         }
     }
 
@@ -341,95 +354,100 @@ public class Aplicacao {
     }
 
     private static void exibirMenuRelatorios() {
-        while (!sair) {
-            limparTela();
-            System.out.println("\u001B[33m== Menu de Relatórios ==\u001B[37m");
-            System.out.println("1. Cliente que mais assistiu");
-            System.out.println("2. Cliente com mais Avaliações");
-            System.out.println("3. Porcentagem de clientes com 15 Avaliações");
-            System.out.println("4. Mídias melhores Avaliadas");
-            System.out.println("5. Mídias com mais Vizualizações");
-            System.out.println("6. Mídias com melhores avaliadas por categoria");
-            System.out.println("7. Mídias com mais avaliações por categoria");
-            System.out.println("8. Voltar");
-            System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha após a leitura do número
+        try {
+            while (!sair) {
+                limparTela();
+                System.out.println("\u001B[33m== Menu de Relatórios ==\u001B[37m");
+                System.out.println("1. Cliente que mais assistiu");
+                System.out.println("2. Cliente com mais Avaliações");
+                System.out.println("3. Porcentagem de clientes com 15 Avaliações");
+                System.out.println("4. Mídias melhores Avaliadas");
+                System.out.println("5. Mídias com mais Vizualizações");
+                System.out.println("6. Mídias com melhores avaliadas por categoria");
+                System.out.println("7. Mídias com mais avaliações por categoria");
+                System.out.println("\u001B[31m8. Voltar \u001B[37m");
+                System.out.print("Escolha uma opção: ");
+                if (scanner.hasNextInt()) {
+                    int opcao = scanner.nextInt();
+                    scanner.nextLine();
 
-            switch (opcao) {
-                // Qual cliente assistiu mais mídias, e quantas mídias.
-                case 1:
-                    limparTela();
-                    System.out.println("\u001b[38;5;214mCliente que mais assistiu Mídias: \u001B[37m" + "\nNome: "
-                            + clienteQueMaisAssistiu().getNome() + "\nNome Usuário: "
-                            + clienteQueMaisAssistiu().getNomeUsuario()
-                            + "\nTotal Mídias: " + clienteQueMaisAssistiu().getMidiasAssistidas().size());
-                    pausa();
-                    break;
+                    switch (opcao) {
+                        // Qual cliente assistiu mais mídias, e quantas mídias.
+                        case 1:
+                            limparTela();
+                            System.out.println("\u001b[38;5;214mCliente que mais assistiu Mídias: \u001B[37m"
+                                    + "\nNome: "
+                                    + clienteQueMaisAssistiu().getNome() + "\nNome Usuário: "
+                                    + clienteQueMaisAssistiu().getNomeUsuario()
+                                    + "\nTotal Mídias: " + clienteQueMaisAssistiu().getMidiasAssistidas().size());
+                            break;
 
-                // Qual cliente tem mais avaliações, e quantas avaliações.
-                case 2:
-                    limparTela();
-                    System.out.println("\u001b[38;5;214mCliente que mais avaliou Mídias: \u001B[37m" + "\nNome: "
-                            + clienteComMaisAvaliacoes().getNome() + "\nNome Usuário: "
-                            + clienteComMaisAvaliacoes().getNomeUsuario() + "\nTotal de Avaliações: "
-                            + clienteComMaisAvaliacoes().getAvaliacoes().size());
-                    pausa();
-                    break;
+                        // Qual cliente tem mais avaliações, e quantas avaliações.
+                        case 2:
+                            limparTela();
+                            System.out
+                                    .println("\u001b[38;5;214mCliente que mais avaliou Mídias: \u001B[37m" + "\nNome: "
+                                            + clienteComMaisAvaliacoes().getNome() + "\nNome Usuário: "
+                                            + clienteComMaisAvaliacoes().getNomeUsuario() + "\nTotal de Avaliações: "
+                                            + clienteComMaisAvaliacoes().getAvaliacoes().size());
+                            break;
 
-                // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
-                case 3:
-                    limparTela();
-                    System.out
-                            .println("\u001b[38;5;214mPorcentagem de clientes com pelo menos 15 Avaliações: \u001B[37m"
-                                    + String.format("%.5f", porcClientesMin15avaliacoes()) + "%");
-                    pausa();
-                    break;
+                        // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
+                        case 3:
+                            limparTela();
+                            System.out
+                                    .println(
+                                            "\u001b[38;5;214mPorcentagem de clientes com pelo menos 15 Avaliações: \u001B[37m"
+                                                    + String.format("%.5f", porcClientesMin15avaliacoes()) + "%");
+                            break;
 
-                // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
-                // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
-                case 4:
+                        // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
+                        // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
+                        case 4:
+                            limparTela();
+                            System.out.println(
+                                    "\u001b[38;5;214mAs 10 Mídias melhores avaliadas e com 100 vizualizações: \u001B[37m");
+                            System.out.println(melhoresAvaliadasEAssistidas());
+                            break;
+
+                        // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
+                        case 5:
+                            limparTela();
+                            System.out.println(
+                                    "\u001b[38;5;214mAs 10 Mídias com mais vizualizações: \u001B[37m");
+                            System.out.println(midiasComMaisVizualizacoes());
+                            break;
+
+                        //
+                        case 6:
+                            limparTela();
+                            return;
+
+                        //
+                        case 7:
+                            limparTela();
+                            return;
+                        case 8:
+                            limparTela();
+                            System.out.println("Voltando menu do cliente...");
+                            exibirMenuCliente();
+                            return;
+                        default:
+                            limparTela();
+                            System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
+                            break;
+                    }
+                } else {
                     limparTela();
                     System.out.println(
-                            "\u001b[38;5;214mAs 10 Mídias melhores avaliadas e com 100 vizualizações: \u001B[37m");
-                    System.out.println(melhoresAvaliadasEAssistidas());
-                    pausa();
-                    break;
-
-                // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
-                case 5:
-                    limparTela();
-                    System.out.println(
-                            "\u001b[38;5;214mAs 10 Mídias com mais vizualizações: \u001B[37m");
-                    System.out.println(midiasComMaisVizualizacoes());
-                    pausa();
-                    break;
-
-                //
-                case 6:
-                    limparTela();
-
-                    pausa();
-                    return;
-
-                //
-                case 7:
-                    limparTela();
-
-                    pausa();
-                    return;
-                case 8:
-                    limparTela();
-                    System.out.println("Voltando menu do cliente...");
-                    exibirMenuCliente();
-                    return;
-                default:
-                    limparTela();
-                    System.out.println("Opção inválida. Tente novamente.");
-                    exibirMenuRelatorios();
-                    break;
+                            "\u001B[31mOpção inválida, não coloque valor diferente de números. Tente novamente\u001B[37m");
+                    scanner.nextLine();
+                }
+                pausa();
             }
-            System.out.println();
+        } catch (InputMismatchException e) {
+            System.out.println("Insira um valor válido");
+            exibirMenuPrincipal();
         }
     }
 
