@@ -1,6 +1,7 @@
 package src;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -237,21 +238,48 @@ public class Aplicacao {
     }
 
     private static void avaliarMidia() {
-        limparTela();
-        Scanner ler = new Scanner(System.in);
+        try {
+            limparTela();
+            Avaliacao avaliacao;
+            System.out.println("\u001B[32m== Avaliar Mídia ==\u001B[37m");
+            ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
+            int contador = 1;
+            for (Midia midia : midias) {
+                System.out.println(contador + ": " + midia);
+                contador++;
+            }
+            System.out.println("Qual a sua escolha? Digite o numero dela");
+            int op = scanner.nextInt();
+            Midia midia = streaming.getClienteLogado().getMidiasAssistidas().get(op - 1);
+            System.out.println("Escolha uma nota de 1 a 5");
+            int nota = scanner.nextInt();
+            System.out.println();
+            avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado(), LocalDate.now());
+            streaming.getClienteLogado().avaliar(avaliacao, midia);
+            System.out.println("Deseja comentar ? s - sim / n - nao");
+            scanner.nextLine();
+            String opComen = scanner.nextLine();
+            while (opComen.equals("s") && opComen.equals("n")) {
+                System.out.println("opcao invalida");
+                System.out.println("Deseja comentar ? s - sim / s - nao");
+                opComen = scanner.nextLine();
+            }
 
-        System.out.println("== Avaliar Mídia ==");
-        ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
-        int contador = 1;
-        System.out.println("== Selecione a mídia ==");
-        for (Midia midia : midias) {
-            System.out.println(contador + ": " + midia);
-            contador++;
+
+            if(opComen.equals("s")) {
+                System.out.println("Qual seu comentario");
+                String coment = scanner.nextLine();
+                streaming.getClienteLogado().comentar((IComentarista) streaming.getClienteLogado().getTipoCliente(), avaliacao, coment);
+            }
+
+
+            streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
+            System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        System.out.println("Escolha uma nota de 1 a 5");
-        int nota = ler.nextInt();
-        System.out.println("Mídia avaliada com sucesso.");
-        ler.close();
+
+
     }
 
     private static void exibirMenuRelatorios() {

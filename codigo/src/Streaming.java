@@ -142,7 +142,7 @@ public class Streaming {
                         }else{
                             av = new Avaliacao(avaliacao, midia, cliente, data);
                         }
-                        criarAvaliacao(av, midia, cliente);
+                        criarAvaliacaoArquivo(av, midia, cliente);
                     });
         } catch (IOException e) {
             throw new ReadFileError();
@@ -174,17 +174,24 @@ public class Streaming {
     }
 
     /**
-     * Cria uma nova avaliacao.
+     * Cria uma avaliacao.
      *
      * @param midia a mídia a ser cadastrada.
      * @return uma mensagem indicando o resultado do cadastro.
      */
-    private void criarAvaliacao(Avaliacao avaliacao, Midia midia,Cliente cliente){
+    private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia,Cliente cliente){
         if(midia!=null && cliente!=null) {
-            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+            cliente.terminarMidia(midia);
             cliente.avaliar(avaliacao, midia);
+            midia.addAvaliacaoToAvaliacoesList(avaliacao);
         }
     }
+
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+            cliente.avaliar(avaliacao, midia);
+            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+    }
+
 
     public void avaliar(Avaliacao avaliacao, Midia midia){
             midia.addAvaliacaoToAvaliacoesList(avaliacao);
