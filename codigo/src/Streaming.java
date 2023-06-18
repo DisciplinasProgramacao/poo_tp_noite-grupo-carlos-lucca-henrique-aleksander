@@ -73,6 +73,8 @@ public class Streaming {
         } catch (IOException e) {
             throw new ReadFileError();
         }
+        System.out.println("Acabou filmes");
+
     }
 
     /**
@@ -100,6 +102,8 @@ public class Streaming {
         } catch (IOException e) {
             throw new ReadFileError();
         }
+        System.out.println("Acabou audiencia");
+
     }
 
     /**
@@ -107,7 +111,7 @@ public class Streaming {
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
      */
-    private void lerArquivoSeries() throws IOException, ReadFileError {
+    private void lerArquivoSeries() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> {
@@ -120,10 +124,11 @@ public class Streaming {
         } catch (IOException e) {
             throw new ReadFileError();
         }
+        System.out.println("Acabou series");
     }
 
     /**
-     * Lê o arquivo de clientes e cadastra os clientes no sistema.
+     * Lê o arquivo de avaliações e cadastra as avaliações no sistema.
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
      */
@@ -136,11 +141,18 @@ public class Streaming {
                         Cliente cliente = clientes.get(values[2]);
                         LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         Avaliacao av;
-                        if(values.length==4){
+                        System.out.println(midia);
+                        if (values.length == 5) {
                             String comentario = values[4];
-                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data );
-                        }else{
+                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
+                        } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
+                        }
+                        if (midia == null) {
+                            System.out.println(values[1]);
+                        } else {
+                            criarAvaliacao(av, midia, cliente);
+                            System.out.println(midia);
                         }
                         criarAvaliacaoArquivo(av, midia, cliente);
                     });
@@ -159,13 +171,13 @@ public class Streaming {
     public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
-        lerArquivoAudiencia();
         lerArquivoFilmes();
+        lerArquivoAudiencia();
         lerArquivoAvaliacao();
     }
 
     /**
-     * Retorna o cliente logado no sistema de streaming.
+     * Retorna o cliente logado no sistema de ‘streaming’.
      *
      * @return o cliente logado.
      */
@@ -175,12 +187,12 @@ public class Streaming {
 
     /**
      * Cria uma avaliacao.
+     * Cria uma avaliacao.
      *
      * @param midia a mídia a ser cadastrada.
-     * @return uma mensagem indicando o resultado do cadastro.
      */
-    private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia,Cliente cliente){
-        if(midia!=null && cliente!=null) {
+    private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        if (midia != null && cliente != null) {
             cliente.terminarMidia(midia);
             cliente.avaliar(avaliacao, midia);
             midia.addAvaliacaoToAvaliacoesList(avaliacao);
@@ -188,18 +200,17 @@ public class Streaming {
     }
 
     public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
-            cliente.avaliar(avaliacao, midia);
-            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        cliente.avaliar(avaliacao, midia);
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
     }
 
-
-    public void avaliar(Avaliacao avaliacao, Midia midia){
-            midia.addAvaliacaoToAvaliacoesList(avaliacao);
-            clienteLogado.avaliar(avaliacao, midia);
+    public void avaliar(Avaliacao avaliacao, Midia midia) {
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        clienteLogado.avaliar(avaliacao, midia);
     }
 
     /**
-     * Cadastra um novo cliente no sistema de streaming.
+     * Cadastra um novo cliente no sistema de ‘streaming’.
      *
      * @param nome        o nome do cliente.
      * @param senha       a senha do cliente.
@@ -216,7 +227,7 @@ public class Streaming {
     }
 
     /**
-     * Busca por mídias no sistema de streaming.
+     * Busca por mídias no sistema de ‘streaming’.
      *
      * @param valor o valor de busca.
      * @param comp  o comparador de mídia.
@@ -234,7 +245,7 @@ public class Streaming {
     }
 
     /**
-     * Cadastra uma nova mídia no sistema de streaming.
+     * Cadastra uma nova mídia no sistema de ‘streaming’.
      *
      * @param midia a mídia a ser cadastrada.
      * @return uma mensagem indicando o resultado do cadastro.
@@ -242,11 +253,10 @@ public class Streaming {
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
             // throw new InvalidMidiaException("Midia já cadastrada no sistema");
-            System.out.println("Midia duplicada: " + midia.getIdentificador());
-            return "Midia já cadastrada no sistema.";
+            return "Nãp";
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Mídia cadastrada com sucesso!";
+        return "Mídia cadastrada com sucesso";
     }
 
     /**

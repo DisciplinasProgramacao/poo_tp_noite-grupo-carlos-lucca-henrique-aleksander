@@ -160,6 +160,18 @@ public class Cliente {
     }
 
     /**
+     * Mostra uma lista específica das mídias de um cliente.
+     *
+     * @param op número interio sinalizando a opção do usuário
+     * @return um StringBuilder contendo a lista das mídias do cliente.
+     */
+    public String MostrarListaEspecifica(ArrayList<Midia> valor) {
+        StringBuilder sb = new StringBuilder();
+        valor.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
+        return sb.toString();
+    }
+
+    /**
      * Retorna a lista de mídias futuras do cliente.
      *
      * @return um ArrayList contendo mídias futuras do cliente.
@@ -203,7 +215,8 @@ public class Cliente {
      * @return A avaliação com o comentário adicionado.
      * @throws AuthorizationException Se o tipo de cliente for nulo.
      */
-    public void comentar(IComentarista clienteComentarista, Avaliacao avaliacao, String comentario) throws AuthorizationException {
+    public void comentar(IComentarista clienteComentarista, Avaliacao avaliacao, String comentario)
+            throws AuthorizationException {
         String comentarioAvaliacao = clienteComentarista.addComentario(comentario);
         for (Avaliacao avaliacao1 : avaliacoes) {
             if (avaliacao1.getMidiaAvaliada().getNome().equals(avaliacao.getMidiaAvaliada().getNome())) {
@@ -219,7 +232,7 @@ public class Cliente {
      * atualizado para ClienteEspecialista.
      */
     private void atualizarTipoCliente() {
-        //desa forma o cliente pode voltar a ser regular
+        // desa forma o cliente pode voltar a ser regular
         this.tipoCliente = temMaisDeCincoAvaliacoesUltimoMes() ? new ClienteEspecialista() : new ClienteRegular();
     }
 
