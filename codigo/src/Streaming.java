@@ -147,13 +147,15 @@ public class Streaming {
                             av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
                         } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
-                        }if (midia==null){
+                        }
+                        if (midia == null) {
                             System.out.println(values[1]);
-                        }else {
+                        } else {
                             criarAvaliacao(av, midia, cliente);
                             System.out.println(midia);
                         }
-                        });
+                        criarAvaliacaoArquivo(av, midia, cliente);
+                    });
         } catch (IOException e) {
             throw new ReadFileError();
         }
@@ -185,13 +187,26 @@ public class Streaming {
 
     /**
      * Cria uma avaliacao.
+     * Cria uma avaliacao.
      *
      * @param midia a mídia a ser cadastrada.
      */
+    private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        if (midia != null && cliente != null) {
+            cliente.terminarMidia(midia);
+            cliente.avaliar(avaliacao, midia);
+            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        }
+    }
+
     public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
-        midia.addAvaliacaoToAvaliacoesList(avaliacao);
-        cliente.terminarMidia(midia);
         cliente.avaliar(avaliacao, midia);
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+    }
+
+    public void avaliar(Avaliacao avaliacao, Midia midia) {
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        clienteLogado.avaliar(avaliacao, midia);
     }
 
     /**
