@@ -160,18 +160,6 @@ public class Cliente {
     }
 
     /**
-     * Mostra uma lista específica das mídias de um cliente.
-     *
-     * @param op número interio sinalizando a opção do usuário
-     * @return um StringBuilder contendo a lista das mídias do cliente.
-     */
-    public String MostrarListaEspecifica(ArrayList<Midia> valor) {
-        StringBuilder sb = new StringBuilder();
-        valor.stream().forEach(midia -> sb.append(midia.getNome() + "\n"));
-        return sb.toString();
-    }
-
-    /**
      * Retorna a lista de mídias futuras do cliente.
      *
      * @return um ArrayList contendo mídias futuras do cliente.
