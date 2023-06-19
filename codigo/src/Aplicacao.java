@@ -9,6 +9,7 @@ import java.util.InputMismatchException;
 //import java.util.Map;
 import java.util.Scanner;
 //import java.util.stream.Collectors;
+import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
 import src.Exceptions.AuthorizationException;
@@ -114,7 +115,7 @@ public class Aplicacao {
     private static void exibirMenuCliente() {
 
         limparTela();
-        while (!sair) {
+        while (streaming.getClienteLogado() != null) {
             System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
             System.out.println("1. Buscar");
             System.out.println("2. Ver minhas Mídias Assistidas");
@@ -160,6 +161,7 @@ public class Aplicacao {
                     break;
                 case 8:
                     System.out.println("Saindo do menu do cliente...");
+                    streaming.logout();
                     exibirMenuPrincipal();
                     return;
                 default:
@@ -369,11 +371,25 @@ public class Aplicacao {
                 // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
                 case 4:
                     limparTela();
+                    System.out.println("10 mídias com a melhor médias de avaliação e foram vistas pelo menos 100 vezes");
+                    ArrayList<Midia> top10Midia = getMostReviewedMidiasDesc();
+                    int index = 1;
+                    for (Midia midia : top10Midia) {
+                        System.out.println(index +"- "+ midia);
+                        index++;
+                    }
                     break;
 
                 // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
                 case 5:
                     limparTela();
+                    System.out.println("10 mídias mais vistas");
+                    ArrayList<Midia> top10MidiaVistas =getTop10MaisVistas();
+                    for (Midia midia : top10MidiaVistas) {
+                        int indexMidiaVista = 1;
+                        System.out.println(indexMidiaVista +"- "+ midia);
+                        indexMidiaVista++;
+                    }
                     break;
 
                 //
@@ -400,6 +416,37 @@ public class Aplicacao {
             System.out.println();
         }
     }
+
+   private static ArrayList<Midia> getMostReviewedMidiasDesc() {
+    ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
+    
+    ArrayList<Midia> filteredMidias = midias.stream()
+        .filter(midia -> midia.getAssistidaPorClientes() >= 100)
+        .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
+        .collect(Collectors.toCollection(ArrayList::new));
+    
+    ArrayList<Midia> top10Midias = new ArrayList<>();
+    
+    if (filteredMidias.size() >= 10) {
+        top10Midias.addAll(filteredMidias.subList(0, 10));
+    } else {
+        top10Midias.addAll(filteredMidias);
+    }
+    
+    return top10Midias;
+}
+
+private static ArrayList<Midia> getTop10MaisVistas() {
+    ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
+    
+    ArrayList<Midia> top10Midias = midias.stream()
+        .sorted(Comparator.comparingInt(Midia::getAssistidaPorClientes).reversed())
+        .limit(10)
+        .collect(Collectors.toCollection(ArrayList::new));
+    
+    return top10Midias;
+}
+
 
     private static Cliente clienteQueMaisAssistiu() {
         return streaming.getClientes().values().stream()

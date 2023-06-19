@@ -40,6 +40,15 @@ public class Streaming {
     }
 
     /**
+     * Retorna o mapa de midias.
+     *
+     * @return o HashMap de midias.
+     */
+    public HashMap<String, Midia> getMidias() {
+        return midias;
+    }
+
+    /**
      * Lê o arquivo de clientes e cadastra os clientes no sistema.
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
@@ -183,6 +192,14 @@ public class Streaming {
      */
     public Cliente getClienteLogado() {
         return clienteLogado;
+    }
+
+      /**
+     * Desloga o cliente.
+     *
+     */
+    public void logout() {
+        clienteLogado = null;
     }
 
     /**
