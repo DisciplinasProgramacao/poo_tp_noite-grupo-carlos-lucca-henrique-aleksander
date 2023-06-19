@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Filme extends Midia {
 
     // #region variável de instância
-    private int duracao;
+    private final int duracao;
     // #endregion
 
     /**
@@ -18,8 +18,8 @@ public class Filme extends Midia {
      * @param data          Data de lançamento do filme
      * @param duracao       Duração do filme
      */
-    public Filme(String nome, String identificador, LocalDate data, int duracao) {
-        super(nome, identificador, data);
+    public Filme(String nome, String identificador, LocalDate data, int duracao, boolean lancamento) {
+        super(nome, identificador, data, lancamento);
         this.duracao = duracao;
     }
 

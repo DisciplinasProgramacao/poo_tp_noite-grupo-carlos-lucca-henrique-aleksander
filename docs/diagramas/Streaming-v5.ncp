@@ -1,13 +1,13 @@
 <Project>
   <Name>Streaming</Name>
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
-    <Name>Streaming-v4</Name>
+    <Name>Streaming-v5</Name>
     <Language>Java</Language>
     <Entities>
       <Entity type="Class">
         <Name>Cliente</Name>
         <Access>Public</Access>
-        <Location left="115" top="936" />
+        <Location left="213" top="872" />
         <Size width="529" height="383" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
@@ -33,7 +33,7 @@
       <Entity type="Class">
         <Name>Midia</Name>
         <Access>Public</Access>
-        <Location left="1302" top="1224" />
+        <Location left="1534" top="900" />
         <Size width="325" height="315" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
@@ -55,7 +55,7 @@
       <Entity type="Class">
         <Name>Streaming</Name>
         <Access>Public</Access>
-        <Location left="739" top="1001" />
+        <Location left="989" top="936" />
         <Size width="464" height="451" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private Cliente clienteLogado</Member>
@@ -85,7 +85,7 @@
       <Entity type="Class">
         <Name>Filme</Name>
         <Access>Public</Access>
-        <Location left="1278" top="1644" />
+        <Location left="1517" top="1320" />
         <Size width="162" height="101" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private int duracao</Member>
@@ -94,7 +94,7 @@
       <Entity type="Class">
         <Name>Serie</Name>
         <Access>Public</Access>
-        <Location left="1512" top="1644" />
+        <Location left="1744" top="1320" />
         <Size width="162" height="101" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private int qtdEpisodios</Member>
@@ -103,7 +103,7 @@
       <Entity type="Enum">
         <Name>Genero</Name>
         <Access>Public</Access>
-        <Location left="1721" top="1126" />
+        <Location left="1953" top="802" />
         <Size width="162" height="214" />
         <Collapsed>False</Collapsed>
         <Value>ACAO</Value>
@@ -119,7 +119,7 @@
       <Entity type="Enum">
         <Name>Idioma</Name>
         <Access>Public</Access>
-        <Location left="1979" top="1092" />
+        <Location left="2211" top="768" />
         <Size width="162" height="248" />
         <Collapsed>False</Collapsed>
         <Value>ALEMAO</Value>
@@ -155,7 +155,7 @@
       <Entity type="Interface">
         <Name>ComparatorMidia</Name>
         <Access>Public</Access>
-        <Location left="883" top="1525" />
+        <Location left="1210" top="1486" />
         <Size width="202" height="128" />
         <Collapsed>False</Collapsed>
         <Member type="Method">static ComparatorMidia porNome()</Member>
@@ -165,17 +165,18 @@
       <Entity type="Class">
         <Name>ClienteEspecialista</Name>
         <Access>Public</Access>
-        <Location left="67" top="1650" />
-        <Size width="306" height="111" />
+        <Location left="480" top="1502" />
+        <Size width="306" height="128" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public Avaliacao avaliar(Avaliacao avaliacao, Cliente cliente)</Member>
+        <Member type="Method">public String addComentario(String comentario)</Member>
         <Member type="Method">public boolean terminarMidia(Cliente cliente, Midia midia)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>ClienteRegular</Name>
         <Access>Public</Access>
-        <Location left="502" top="1650" />
+        <Location left="805" top="1502" />
         <Size width="309" height="111" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public Avaliacao avaliar(Avaliacao avaliacao, Cliente cliente)</Member>
@@ -185,7 +186,7 @@
       <Entity type="Interface">
         <Name>ICliente</Name>
         <Access>Public</Access>
-        <Location left="231" top="1451" />
+        <Location left="365" top="1309" />
         <Size width="333" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Method">Avaliacao avaliar(Avaliacao avaliacao, Cliente cliente)</Member>
@@ -193,33 +194,48 @@
       <Entity type="Interface">
         <Name>Icomentarista</Name>
         <Access>Public</Access>
-        <Location left="90" top="1859" />
+        <Location left="365" top="1780" />
         <Size width="265" height="94" />
         <Collapsed>False</Collapsed>
         <Member type="Method">String addComentario(String comentario)</Member>
       </Entity>
+      <Entity type="Class">
+        <Name>ClienteProfissional</Name>
+        <Access>Public</Access>
+        <Location left="144" top="1502" />
+        <Size width="306" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public Avaliacao avaliar(Avaliacao avaliacao, Cliente cliente)</Member>
+        <Member type="Method">public boolean terminarMidia(Cliente cliente, Midia midia)</Member>
+        <Member type="Method">public String addComentario(String comentario)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>714</X>
-          <Y>1115</Y>
+          <X>964</X>
+          <Y>1050</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>670</X>
-          <Y>1114</Y>
+          <X>768</X>
+          <Y>1050</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>1231</X>
-          <Y>1113</Y>
+          <X>1481</X>
+          <Y>1048</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
@@ -228,47 +244,45 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>1472</X>
-          <Y>1578</Y>
+          <X>1704</X>
+          <Y>1254</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="4" second="1">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>1597</X>
-          <Y>1615</Y>
+          <X>1829</X>
+          <Y>1291</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>1472</X>
-          <Y>1581</Y>
+          <X>1704</X>
+          <Y>1257</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="1" second="5">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>1652</X>
-          <Y>1419</Y>
+          <X>1884</X>
+          <Y>1095</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="6">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>1652</X>
-          <Y>1419</Y>
+          <X>1884</X>
+          <Y>1095</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="7" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -276,13 +290,15 @@
           <Y>720</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
-          <X>1463</X>
-          <Y>1190</Y>
+          <X>1695</X>
+          <Y>866</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="7" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -293,14 +309,14 @@
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="8" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="11">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -309,12 +325,28 @@
       <Relationship type="Realization" first="9" second="11">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>532</X>
+          <Y>1436</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Realization" first="10" second="11">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Realization" first="9" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>498</X>
+          <Y>1755</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="13" second="11">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="13" second="12">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>

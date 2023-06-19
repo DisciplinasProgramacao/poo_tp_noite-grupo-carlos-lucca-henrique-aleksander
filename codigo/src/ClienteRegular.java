@@ -1,21 +1,6 @@
 package src;
 
-/**
- * Implementação da interface IComentarista para o cliente profissional.
- * Permite adicionar um comentário a uma avaliação.
- */
-public class ClienteProfissional implements ICliente, IComentarista {
-
-    /**
-     * Adiciona um comentário a uma avaliação.
-     *
-     * @param comentario O comentário a ser adicionado.
-     */
-    @Override
-    public String addComentario(String comentario) {
-        return comentario;
-    }
-
+public class ClienteRegular implements ICliente {
     @Override
     public Avaliacao avaliar(Avaliacao avaliacao, Cliente cliente) {
         Midia midiaAvaliada = avaliacao.getMidiaAvaliada();
@@ -25,7 +10,11 @@ public class ClienteProfissional implements ICliente, IComentarista {
         if (jaAvaliouOFilme) {
             throw new IllegalArgumentException("Avaliação já existe na lista.");
         } else {
-            return avaliacao;
+            if (midiaAvaliada.getIsLancamentoFuturo()) {
+                throw new IllegalArgumentException("Apenas Clientes profissionais podem acessar midias lancamento");
+            } else {
+                return avaliacao;
+            }
         }
     }
 
@@ -37,7 +26,11 @@ public class ClienteProfissional implements ICliente, IComentarista {
         if (jaAssistiu) {
             throw new IllegalArgumentException("Essa midia ja foi vista");
         } else {
-            return true;
+            if (midia.getIsLancamentoFuturo()) {
+                throw new IllegalArgumentException("Essa midia so pode ser vista por um cliente profissional");
+            } else {
+                return true;
+            }
         }
     }
 }

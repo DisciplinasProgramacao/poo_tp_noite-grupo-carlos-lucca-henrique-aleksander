@@ -14,32 +14,27 @@ public class Midia {
     private String identificador;
     private int assistidaPorClientes;
     private static Random rd = new Random();
+
+    private boolean lancamentoFuturo;
     private ArrayList<Avaliacao> avaliacoes;
 
-    /**
-     * Construtor para criar uma Mídia com nome, identificador e a data de
-     * lançamento.
-     * 
-     * @param nome          Nome da Mídia
-     * @param identificador Identificador da Mídia
-     * @param data          Data de lançamento da Mídia
-     */
-    public Midia(String nome, String identificador, LocalDate data) {
+    public Midia(String nome, String identificador, LocalDate data, boolean lancamentoFuturo) {
         this.nome = nome;
+        this.data = data;
+        this.identificador = identificador;
+        this.lancamentoFuturo = (lancamentoFuturo == true) ? true : false;
         // atribui um valor aleatório ao idioma
         this.idioma = sorteiaEnum(Idioma.class);
         // atribui um valor aleatório ao genero
         this.genero = sorteiaEnum(Genero.class);
-        this.data = data;
-        this.identificador = identificador;
-        this.assistidaPorClientes = 0;
         this.avaliacoes = new ArrayList<>();
+        this.assistidaPorClientes = 0;
     }
 
     /**
      * Sorteia um valor aleatório de um enum específico, assim fazendo as Mídias
      * ficarem com Idiomas e Gêneros aleatórios.
-     * 
+     *
      * @param <T>       O tipo do enum.
      * @param enumClass A classe do enum.
      * @return Um valor aleatório do enum.
@@ -50,9 +45,13 @@ public class Midia {
         return values[indiceAleatorio];
     }
 
+    public boolean getIsLancamentoFuturo() {
+        return this.lancamentoFuturo;
+    }
+
     /**
      * Retorna a data de lançamento da Mídia.
-     * 
+     *
      * @return data de lançamento da Mídia.
      */
     public String getData() {
@@ -61,7 +60,7 @@ public class Midia {
 
     /**
      * Incrementa o contador de assistidos da Mídia.
-     * 
+     *
      */
     public void adicionaAssistido() {
         this.assistidaPorClientes++;
@@ -69,7 +68,7 @@ public class Midia {
 
     /**
      * Adiciona uma avaliação a lista de avaliações da Mídia.
-     * 
+     *
      */
     public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
         avaliacoes.add(avaliacao);
@@ -77,7 +76,7 @@ public class Midia {
 
     /**
      * Retorna a lista de avaliações do cliente.
-     * 
+     *
      * @return ArrayList de avaliações.
      */
     public ArrayList<Avaliacao> getAvaliacoes() {
@@ -86,7 +85,7 @@ public class Midia {
 
     /**
      * Retorna o nome da Mídia.
-     * 
+     *
      * @return String contendo o nome da Mídia.
      */
     public String getNome() {
@@ -95,7 +94,7 @@ public class Midia {
 
     /**
      * Retorna o idioma da Mídia.
-     * 
+     *
      * @return Idioma da Mídia.
      */
     public Idioma getIdioma() {
@@ -104,7 +103,7 @@ public class Midia {
 
     /**
      * Retorna o gênero da Mídia.
-     * 
+     *
      * @return Genero da Mídia.
      */
     public Genero getGenero() {
@@ -113,7 +112,7 @@ public class Midia {
 
     /**
      * Retorna o identificador da Mídia.
-     * 
+     *
      * @return String contendo o identificador da Mídia.
      */
     public String getIdentificador() {
@@ -122,7 +121,7 @@ public class Midia {
 
     /**
      * Retorna a quantidade de clientes que assistiram a Mídia.
-     * 
+     *
      * @return int da quantidade de clientes que assistiram.
      */
     public int getAssistidaPorClientes() {
@@ -153,7 +152,7 @@ public class Midia {
 
     /**
      * Descrição da Midia em string, com os seus respectivos dados.
-     * 
+     *
      * @return String com nome, idioma, genero, data de lançamento, quantidade de
      *         clientes que assistiram e a media de avaliações dos clientes.
      */

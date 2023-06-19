@@ -11,7 +11,8 @@ public class SerieTest {
 
     @Test
     public void testCriacaoFilme() {
-        Serie serie = new Serie("Mushoku Tensei: Jobless Reincarnation", "000012", LocalDate.of(2021, 01, 01), 23);
+        Serie serie = new Serie("Mushoku Tensei: Jobless Reincarnation", "000012", LocalDate.of(2021, 01, 01), 23,
+                true);
 
         assertEquals("Mushoku Tensei: Jobless Reincarnation", serie.getNome());
         assertEquals("000012", serie.getIdentificador());

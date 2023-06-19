@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import src.Comparators.ComparatorMidia;
-import src.Exceptions.AuthorizationException;
+import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.InvalidMidiaException;
+import src.Exceptions.NameUserExistsException;
 import src.Exceptions.ReadFileError;
 
 public class Streaming {
@@ -40,14 +41,28 @@ public class Streaming {
     }
 
     /**
+     * Retorna o mapa de midias.
+     *
+     * @return o HashMap de midias.
+     */
+    public HashMap<String, Midia> getMidias() {
+        return midias;
+    }
+
+    /**
      * Lê o arquivo de clientes e cadastra os clientes no sistema.
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
      */
     private void lerArquivoClientes() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
-            lines.map(line -> line.split(";"))
-                    .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
+            lines.map(line -> line.split(";")).forEach(values -> {
+                String nomeUsuario = values[1];
+                String nome = values[0];
+                String senha = values[2];
+                char tipo = values[3].charAt(0);
+                cadastrarCliente(nome, senha, nomeUsuario, tipo);
+            });
         } catch (IOException e) {
             throw new ReadFileError();
         }
@@ -64,10 +79,17 @@ public class Streaming {
                 String[] values = line.split(";");
                 String identificador = values[0];
                 String nome = values[1];
-                String lancamento = values[2];
+                String data = values[2];
                 int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme = new Filme(nome, identificador,
-                        LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
+                char lancamento = values[4].charAt(0);
+                Midia novoFilme;
+                if (lancamento == 'L') {
+                    novoFilme = new Filme(nome, identificador,
+                            LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao, true);
+                } else {
+                    novoFilme = new Filme(nome, identificador,
+                            LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao, false);
+                }
                 cadastrarMidia(novoFilme);
             });
         } catch (IOException e) {
@@ -91,7 +113,7 @@ public class Streaming {
                 Midia midiaLinha = midias.get(identificadorSerie);
                 if (midiaLinha != null && cliente != null) {
                     if (tipo == 'A') {
-                        cliente.terminarMidia(midiaLinha);
+                        cliente.adicionarMidiaAssistida(midiaLinha);
                     } else if (tipo == 'F') {
                         cliente.adicionarMidiaFutura(midiaLinha);
                     }
@@ -99,6 +121,7 @@ public class Streaming {
             });
         } catch (IOException e) {
             throw new ReadFileError();
+        } catch (Exception err) {
         }
     }
 
@@ -107,18 +130,54 @@ public class Streaming {
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
      */
-    private void lerArquivoSeries() throws IOException, ReadFileError {
+    private void lerArquivoSeries() throws ReadFileError {
         try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
             lines.map(line -> line.split(";"))
                     .forEach(values -> {
                         int qtdEpisodios = Integer.parseInt(values[3]);
-                        Midia novaSerie = new Serie(values[1], values[0],
-                                LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                                qtdEpisodios);
+                        char lancamento = values[4].charAt(0);
+                        Midia novaSerie;
+                        if (lancamento == 'L') {
+                            novaSerie = new Serie(values[1], values[0],
+                                    LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), qtdEpisodios,
+                                    true);
+                        } else {
+                            novaSerie = new Serie(values[1], values[0],
+                                    LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                    qtdEpisodios, false);
+                        }
                         cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {
             throw new ReadFileError();
+        }
+    }
+
+    /**
+     * Lê o arquivo de avaliações e cadastra as avaliações no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoAvaliacao() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("avaliacoes.csv"))) {
+            lines.map(line -> line.split(";"))
+                    .forEach(values -> {
+                        int avaliacao = Integer.parseInt(values[0]);
+                        Midia midia = midias.get(values[1]);
+                        Cliente cliente = clientes.get(values[2]);
+                        LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        Avaliacao av;
+                        if (values.length == 5) {
+                            String comentario = values[4];
+                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
+                        } else {
+                            av = new Avaliacao(avaliacao, midia, cliente, data);
+                        }
+                        criarAvaliacaoArquivo(av, midia, cliente);
+                    });
+        } catch (IOException e) {
+            throw new ReadFileError();
+        } catch (Exception e) {
         }
     }
 
@@ -132,8 +191,13 @@ public class Streaming {
     public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
-        lerArquivoAudiencia();
+
         lerArquivoFilmes();
+
+        lerArquivoAudiencia();
+
+        lerArquivoAvaliacao();
+
     }
 
     /**
@@ -146,7 +210,57 @@ public class Streaming {
     }
 
     /**
-     * Cadastra um novo cliente no sistema de streaming.
+     * Desloga o cliente.
+     *
+     */
+    public void logout() {
+        clienteLogado = null;
+    }
+
+    /**
+     * Cria uma avaliacao.
+     * Cria uma avaliacao.
+     *
+     * @param midia a mídia a ser cadastrada.
+     */
+    private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        try {
+            if (midia != null && cliente != null) {
+                cliente.terminarMidia(midia);
+                cliente.avaliar(avaliacao, midia);
+                midia.addAvaliacaoToAvaliacoesList(avaliacao);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        cliente.avaliar(avaliacao, midia);
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+    }
+
+    public void avaliar(Avaliacao avaliacao, Midia midia) {
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        clienteLogado.avaliar(avaliacao, midia);
+    }
+
+    /**
+     * Cadastra um novo cliente no sistema de 'streaming'.
+     *
+     * @param nome        o nome do cliente.
+     * @param senha       a senha do cliente.
+     * @param nomeUsuario o nome de usuário do cliente.
+     * @param tipo        o tipo do cliente (opcional).
+     * @return uma mensagem indicando o resultado do cadastro.
+     */
+    public String cadastrarCliente(String nome, String senha, String nomeUsuario, char tipo) {
+        Cliente cliente = new Cliente(nome, senha, nomeUsuario, tipo);
+        return verificarEAdicionarCliente(cliente);
+    }
+
+    /**
+     * Cadastra um novo cliente no sistema de 'streaming'.
      *
      * @param nome        o nome do cliente.
      * @param senha       a senha do cliente.
@@ -154,16 +268,27 @@ public class Streaming {
      * @return uma mensagem indicando o resultado do cadastro.
      */
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
-        if (clientes.containsKey(nomeUsuario)) {
-            throw new AuthorizationException();
-        }
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
-        clientes.put(nomeUsuario, cliente);
-        return "Usuário cadastrado com sucesso!";
+        return verificarEAdicionarCliente(cliente);
     }
 
     /**
-     * Busca por mídias no sistema de streaming.
+     * Verifica se o nome de usuário do cliente já existe no sistema.
+     * Se não existir, adiciona o cliente ao mapa de clientes.
+     *
+     * @param cliente o cliente a ser verificado e adicionado.
+     * @return uma mensagem indicando o resultado do cadastro.
+     */
+    private String verificarEAdicionarCliente(Cliente cliente) {
+        if (clientes.containsKey(cliente.getNomeUsuario())) {
+            throw new NameUserExistsException();
+        }
+        clientes.put(cliente.getNomeUsuario(), cliente);
+        return "Usuário cadastrado com sucesso";
+    }
+
+    /**
+     * Busca por mídias no sistema de ‘streaming’.
      *
      * @param valor o valor de busca.
      * @param comp  o comparador de mídia.
@@ -181,7 +306,7 @@ public class Streaming {
     }
 
     /**
-     * Cadastra uma nova mídia no sistema de streaming.
+     * Cadastra uma nova mídia no sistema de ‘streaming’.
      *
      * @param midia a mídia a ser cadastrada.
      * @return uma mensagem indicando o resultado do cadastro.
@@ -189,18 +314,19 @@ public class Streaming {
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
             // throw new InvalidMidiaException("Midia já cadastrada no sistema");
-            System.out.println("Midia duplicada: " + midia.getIdentificador());
-            return "Midia já cadastrada no sistema.";
+            return "Não";
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Mídia cadastrada com sucesso!";
+        return "Mídia cadastrada com sucesso";
     }
 
     /**
      * Exibe as informações de todas as mídias no sistema de streaming.
      */
-    public void mostraTodasMidias() {
-        midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
+    public String mostraTodasMidias() {
+        StringBuilder sb = new StringBuilder();
+        midias.forEach((identificador, midia) -> sb.append(midia.toString() + "\n"));
+        return sb.toString();
     }
 
     /**
@@ -218,7 +344,7 @@ public class Streaming {
                 return "Login feito com sucesso";
             }
         }
-        throw new AuthorizationException();
+        throw new IncorrectUserNameOrPasswordException();
     }
 
     /**

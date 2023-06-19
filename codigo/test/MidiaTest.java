@@ -20,7 +20,7 @@ class MidiaTest {
 
     @BeforeEach
     void base() {
-        midia = new Midia("Suzume", "123456", LocalDate.now());
+        midia = new Midia("Suzume", "123456", LocalDate.now(), true);
         cliente = new Cliente("João Caram", "caram123", "Caram");
         cliente2 = new Cliente("Nogueira", "nog123", "Nog");
     }
@@ -89,7 +89,7 @@ class MidiaTest {
 
     @Test
     void toStringTest() {
-        String expected = "Nome: Filme\n" +
+        String expected = "Nome: " + midia.getNome() + "\n" +
                 "Idioma: " + midia.getIdioma() + "\n" +
                 "Gênero: " + midia.getGenero() + "\n" +
                 "Data: " + midia.getData() + "\n" +
