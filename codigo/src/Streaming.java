@@ -1,63 +1,90 @@
 package src;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
+
+import src.Comparators.ComparatorMidia;
+import src.Exceptions.AuthorizationException;
+import src.Exceptions.InvalidMidiaException;
+import src.Exceptions.ReadFileError;
 
 public class Streaming {
     private Cliente clienteLogado;
     private HashMap<String, Cliente> clientes;
     private HashMap<String, Midia> midias;
 
+    /**
+     * Construtor da classe Streaming.
+     * Inicializa as variáveis clienteLogado, midias e clientes.
+     */
     public Streaming() {
         clienteLogado = null;
         this.midias = new HashMap<>();
         this.clientes = new HashMap<>();
- 
     }
 
-    private void lerArquivoClientes() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("espectadores.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(";");
-                String nome = values[0];
-                String nomeUsuario = values[1];
-                String senha = values[2];
-                cadastrarCliente(nome, senha, nomeUsuario);
-            }
+    /**
+     * Retorna o mapa de clientes.
+     *
+     * @return o HashMap de clientes.
+     */
+    public HashMap<String, Cliente> getClientes() {
+        return clientes;
+    }
+
+    /**
+     * Lê o arquivo de clientes e cadastra os clientes no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoClientes() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
+            lines.map(line -> line.split(";"))
+                    .forEach(values -> cadastrarCliente(values[0], values[2], values[1]));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoSeries() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("series.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+    /**
+     * Lê o arquivo de filmes e cadastra os filmes no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoFilmes() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("filmes.csv"))) {
+            lines.forEach(line -> {
                 String[] values = line.split(";");
                 String identificador = values[0];
                 String nome = values[1];
-                String anoLancamento = values[2];
-                Midia novaSerie = new Serie(nome, identificador, null, null,
-                        LocalDate.parse(anoLancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), 10);
-                cadastrarMidia(novaSerie);
-            }
+                String lancamento = values[2];
+                int duracao = Integer.parseInt(values[3]);
+                Midia novoFilme = new Filme(nome, identificador,
+                        LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
+                cadastrarMidia(novoFilme);
+            });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
         }
+        System.out.println("Acabou filmes");
+
     }
 
-    private void lerArquivoAudiencia() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("audiencia.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+    /**
+     * Lê o arquivo de audiência e atualiza a visualização dos clientes.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoAudiencia() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("audiencia.csv"))) {
+            lines.forEach(line -> {
                 String[] values = line.split(";");
                 String nomeUsuario = values[0];
                 char tipo = values[1].charAt(0);
@@ -70,158 +97,213 @@ public class Streaming {
                     } else if (tipo == 'F') {
                         cliente.adicionarMidiaFutura(midiaLinha);
                     }
-
                 }
-            }
+            });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ReadFileError();
+        }
+        System.out.println("Acabou audiencia");
+
+    }
+
+    /**
+     * Lê o arquivo de séries e cadastra as séries no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoSeries() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("series.csv"))) {
+            lines.map(line -> line.split(";"))
+                    .forEach(values -> {
+                        int qtdEpisodios = Integer.parseInt(values[3]);
+                        Midia novaSerie = new Serie(values[1], values[0],
+                                LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                qtdEpisodios);
+                        cadastrarMidia(novaSerie);
+                    });
+        } catch (IOException e) {
+            throw new ReadFileError();
+        }
+        System.out.println("Acabou series");
+    }
+
+    /**
+     * Lê o arquivo de avaliações e cadastra as avaliações no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoAvaliacao() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("avaliacoes.csv"))) {
+            lines.map(line -> line.split(";"))
+                    .forEach(values -> {
+                        int avaliacao = Integer.parseInt(values[0]);
+                        Midia midia = midias.get(values[1]);
+                        Cliente cliente = clientes.get(values[2]);
+                        LocalDate data = LocalDate.parse(values[3], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        Avaliacao av;
+                        System.out.println(midia);
+                        if (values.length == 5) {
+                            String comentario = values[4];
+                            av = new Avaliacao(avaliacao, comentario, midia, cliente, data);
+                        } else {
+                            av = new Avaliacao(avaliacao, midia, cliente, data);
+                        }
+                        if (midia == null) {
+                            System.out.println(values[1]);
+                        } else {
+                            criarAvaliacao(av, midia, cliente);
+                            System.out.println(midia);
+                        }
+                        criarAvaliacaoArquivo(av, midia, cliente);
+                    });
+        } catch (IOException e) {
+            throw new ReadFileError();
         }
     }
 
-    private void lerArquivoFilmes() throws FileNotFoundException {
-        try (BufferedReader br = new BufferedReader(new FileReader("filmes.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(";");
-                String identificador = values[0];
-                String nome = values[1];
-                String lancamento = values[2];
-                int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme= new Filme(nome, identificador, null, null,
-                         LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")),duracao);
-              
-                cadastrarMidia(novoFilme);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void iniciar() throws FileNotFoundException {
+    /**
+     * Inicia o sistema de streaming, lendo os arquivos e cadastrando os clientes e
+     * as mídias.
+     *
+     * @throws IOException   caso ocorra um erro ao ler os arquivos.
+     * @throws ReadFileError caso ocorra um erro ao ler os arquivos.
+     */
+    public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
-        lerArquivoAudiencia();
         lerArquivoFilmes();
+        lerArquivoAudiencia();
+        lerArquivoAvaliacao();
     }
 
+    /**
+     * Retorna o cliente logado no sistema de ‘streaming’.
+     *
+     * @return o cliente logado.
+     */
+    public Cliente getClienteLogado() {
+        return clienteLogado;
+    }
+
+    /**
+     * Cria uma avaliacao.
+     * Cria uma avaliacao.
+     *
+     * @param midia a mídia a ser cadastrada.
+     */
+    private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        if (midia != null && cliente != null) {
+            cliente.terminarMidia(midia);
+            cliente.avaliar(avaliacao, midia);
+            midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        }
+    }
+
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
+        cliente.avaliar(avaliacao, midia);
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+    }
+
+    public void avaliar(Avaliacao avaliacao, Midia midia) {
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        clienteLogado.avaliar(avaliacao, midia);
+    }
+
+    /**
+     * Cadastra um novo cliente no sistema de ‘streaming’.
+     *
+     * @param nome        o nome do cliente.
+     * @param senha       a senha do cliente.
+     * @param nomeUsuario o nome de usuário do cliente.
+     * @return uma mensagem indicando o resultado do cadastro.
+     */
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
         if (clientes.containsKey(nomeUsuario)) {
-            return "Já existe uma conta com esse nome de usuário";
+            throw new AuthorizationException();
         }
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         clientes.put(nomeUsuario, cliente);
-        return "Usuário cadastrado com sucesso!";
+        return "Usuário cadastrado com sucesso";
     }
 
+    /**
+     * Busca por mídias no sistema de ‘streaming’.
+     *
+     * @param valor o valor de busca.
+     * @param comp  o comparador de mídia.
+     * @return uma ArrayList contendo as informações das mídias encontradas.
+     */
+    public ArrayList<Midia> buscarMidia(String valor, ComparatorMidia comp) {
+        ArrayList<Midia> resultado = new ArrayList<>();
+        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
+            Midia midia = entry.getValue();
+            if (comp.compare(midia, valor) == 0) {
+                resultado.add(midia);
+            }
+        }
+        return resultado;
+    }
+
+    /**
+     * Cadastra uma nova mídia no sistema de ‘streaming’.
+     *
+     * @param midia a mídia a ser cadastrada.
+     * @return uma mensagem indicando o resultado do cadastro.
+     */
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
-            return "Midia já cadastrada no sistema";
+            // throw new InvalidMidiaException("Midia já cadastrada no sistema");
+            return "Nãp";
         }
         midias.put(midia.getIdentificador(), midia);
-        return "Midia cadastrada";
+        return "Mídia cadastrada com sucesso";
     }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieGeneroSerie(String genero) {
-        ArrayList<Midia> listaPorGenero = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getGenero().contains(genero)) {
-                listaPorGenero.add(midia);
-            }
-        }
-        return listaPorGenero;
+    /**
+     * Exibe as informações de todas as mídias no sistema de streaming.
+     */
+    public void mostraTodasMidias() {
+        midias.forEach((identificador, midia) -> System.out.println(midia.toString()));
     }
 
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieNomeSerie(String nome) {
-        ArrayList<Midia> listaPorNome = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getNome().equals(nome)) {
-                listaPorNome.add(midia);
-            }
-        }
-        return listaPorNome;
-    }
-
-    // Temos que fazer esse metodos de busca serem genericos
-    public ArrayList<Midia> buscaSerieIdiomaSerie(String idioma) {
-        ArrayList<Midia> listaPorIdioma = new ArrayList<>();
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (midia.getIdioma().contains(idioma)) {
-                listaPorIdioma.add(midia);
-            }
-        }
-        return listaPorIdioma;
-    }
-
-
-    public <T> ArrayList<Midia> buscarFilme(T criterio) {
-        ArrayList<Midia> resultados = new ArrayList<>();
-
-        for (Map.Entry<String, Midia> entry : midias.entrySet()) {
-            Midia midia = entry.getValue();
-            if (criterio instanceof String) {
-                if (midia.getNome().equalsIgnoreCase((String) criterio)) {
-                    resultados.add(midia);
-                }
-            } else if (criterio instanceof String[]) {
-                String[] arrayTexto = (String[]) criterio;
-                if (contemGenerosOuIdiomas(midia, arrayTexto)) {
-                    resultados.add(midia);
-                }
-            } else if (criterio instanceof Midia ) {
-                if (midia.equals((Midia) criterio)) {
-                    resultados.add(midia);
-                }
-            }
-        }
-
-        return resultados;
-    }
-   
-        private boolean contemGenerosOuIdiomas(Midia midia, String[] arrayTexto) {
-            for (String texto : arrayTexto) {
-                if (contemValor(midia.getGenero(), texto) || contemValor(midia.getIdioma(), texto)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    
-        private boolean contemValor(ArrayList<String> array, String valor) {
-            for (String elemento : array) {
-                if (elemento.equals(valor)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
+    /**
+     * Realiza o login de um cliente no sistema de streaming.
+     *
+     * @param nomeUsuario o nome de usuário do cliente.
+     * @param senha       a senha do cliente.
+     * @return uma mensagem indicando o resultado do login.
+     */
     public String login(String nomeUsuario, String senha) {
         if (clientes.containsKey(nomeUsuario)) {
             Cliente autenticar = clientes.get(nomeUsuario);
-            if (senha == autenticar.getSenha()) {
+            if (senha.equals(autenticar.getSenha())) {
                 clienteLogado = autenticar;
                 return "Login feito com sucesso";
             }
-            return "Senha incorreta";
         }
-        return "Usuário não encontrado";
-
+        throw new AuthorizationException();
     }
 
+    /**
+     * Adiciona uma mídia futura para o cliente logado no sistema de streaming.
+     *
+     * @param midia a mídia futura a ser adicionada.
+     */
     public void adicionarMidiaFutura(Midia midia) {
         clienteLogado.adicionarMidiaFutura(midia);
+        // Illegal argument aqui
     }
 
+    /**
+     * Marca uma mídia como terminada para o cliente logado no sistema de streaming.
+     *
+     * @param identificador o identificador da mídia a ser terminada.
+     */
     public void terminarMidia(String identificador) {
         Midia midiaTerminada = midias.get(identificador);
-        if (midiaTerminada != null) {
-            clienteLogado.terminarMidia(midiaTerminada);
+        if (midiaTerminada == null) {
+            throw new InvalidMidiaException(identificador + " e Mídia não existem");
         }
+        clienteLogado.terminarMidia(midiaTerminada);
     }
-
 }
