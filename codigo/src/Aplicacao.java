@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-<<<<<<< Updated upstream
-=======
-import java.util.Comparator;
-import java.util.HashMap;
->>>>>>> Stashed changes
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -329,41 +324,12 @@ public class Aplicacao {
                 case 5:
                     // TODO: Implementar funcao
                     break;
-<<<<<<< Updated upstream
                 case 6:
                     // TODO: Implementar funcao
-=======
-
-                // Quais são as 10 mídias com mais vizualizações, em ordem descrescente e separadas por genero.
-                case 6:
-                 limparTela();
-                System.out.println("10 mídias mais vistas");
-                HashMap<String, ArrayList<Midia>> midiasPorGenero = getTop10MaisVistasPorGenero();
-                int indexMidiaVista = 1;
-                for (ArrayList<Midia> midiasVistasPorGenero : midiasPorGenero.values()) {
-                    for (Midia midia : midiasVistasPorGenero) {
-                        System.out.println(indexMidiaVista + "- " + midia);
-                        indexMidiaVista++;
-                    }
-                } 
->>>>>>> Stashed changes
                     return;
                 case 7:
-<<<<<<< Updated upstream
                     // TODO: Implementar funcao
 
-=======
-                    limparTela();
-                System.out.println("10 bem avaliadas por genero");
-                HashMap<String, ArrayList<Midia>> midiasPorGeneroAvaliacoes = getTop10MaisAvaliadasPorGenero();
-                int indexAva = 1;
-                for (ArrayList<Midia> midiasVistasPorGenero : midiasPorGeneroAvaliacoes.values()) {
-                    for (Midia midia : midiasVistasPorGenero) {
-                        System.out.println(indexAva + "- " + midia);
-                        indexAva++;
-                    }
-                } 
->>>>>>> Stashed changes
                     return;
                 case 8:
                     System.out.println("Voltando menu do cliente...");
@@ -379,113 +345,4 @@ public class Aplicacao {
         }
     }
 
-<<<<<<< Updated upstream
-=======
-   private static ArrayList<Midia> getMostReviewedMidiasDesc() {
-    ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
-    
-    ArrayList<Midia> filteredMidias = midias.stream()
-        .filter(midia -> midia.getAssistidaPorClientes() >= 100)
-        .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
-        .collect(Collectors.toCollection(ArrayList::new));
-    
-    ArrayList<Midia> top10Midias = new ArrayList<>();
-    
-    if (filteredMidias.size() >= 10) {
-        top10Midias.addAll(filteredMidias.subList(0, 10));
-    } else {
-        top10Midias.addAll(filteredMidias);
-    }
-    
-    return top10Midias;
-}
-private static HashMap<String, ArrayList<Midia>> getTop10MaisAvaliadasPorGenero() {
-        limparTela();
-        System.out.println("10 mídias mais bem avaliadas por genero");
-        ArrayList<Midia> top10MidiaAvaliadas = getMostReviewedMidiasDesc();
-        HashMap<String, ArrayList<Midia>> midiasPorGenero = new HashMap<>();
-
-        for (Midia midia : top10MidiaAvaliadas) {
-            String genero = midia.getGenero().toString();
-            if (!midiasPorGenero.containsKey(genero)) {
-                midiasPorGenero.put(genero, new ArrayList<>());
-            }
-
-            midiasPorGenero.get(genero).add(midia);
-        }
-
-        for (String genero : midiasPorGenero.keySet()) {
-            int indexMidiaVista = 1;
-            ArrayList<Midia> midiasAvaliadasPorGenero = midiasPorGenero.get(genero);
-            for (Midia midia : midiasAvaliadasPorGenero) {
-                System.out.println(indexMidiaVista + "- " + midia);
-                indexMidiaVista++;
-            }
-
-            System.out.println();
-        }
-
-        return midiasPorGenero;
-    }
-
-private static ArrayList<Midia> getTop10MaisVistas() {
-    ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
-    
-    ArrayList<Midia> top10Midias = midias.stream()
-        .sorted(Comparator.comparingInt(Midia::getAssistidaPorClientes).reversed())
-        .limit(10)
-        .collect(Collectors.toCollection(ArrayList::new));
-    
-    return top10Midias;
-}
-        private static HashMap<String, ArrayList<Midia>> getTop10MaisVistasPorGenero() {
-        limparTela();
-        System.out.println("10 mídias mais vistas");
-        ArrayList<Midia> top10MidiaVistas = getTop10MaisVistas();
-        HashMap<String, ArrayList<Midia>> midiasPorGenero = new HashMap<>();
-        
-
-        for (Midia midia : top10MidiaVistas) {
-            String genero = midia.getGenero().toString();
-            if (!midiasPorGenero.containsKey(genero)) {
-                midiasPorGenero.put(genero, new ArrayList<>());
-            }
-
-            midiasPorGenero.get(genero).add(midia);
-        }
-
-        for (String genero : midiasPorGenero.keySet()) {
-            int indexMidiaVista = 1;
-            ArrayList<Midia> midiasVistasPorGenero = midiasPorGenero.get(genero);
-            for (Midia midia : midiasVistasPorGenero) {
-                System.out.println(indexMidiaVista + "- " + midia);
-                indexMidiaVista++;
-            }
-
-            System.out.println();
-        }
-
-        return midiasPorGenero;
-    }
-
-
-    private static Cliente clienteQueMaisAssistiu() {
-        return streaming.getClientes().values().stream()
-                .max(Comparator.comparingInt(cliente -> cliente.getMidiasAssistidas().size()))
-                .orElse(null);
-    }
-
-    private static Cliente clienteComMaisAvaliacoes() {
-        return streaming.getClientes().values().stream()
-                .max(Comparator.comparingInt(cliente -> cliente.getAvaliacoes().size()))
-                .orElse(null);
-    }
-
-    private static double porcClientesMin15avaliacoes() {
-        Long result = streaming.getClientes().entrySet().stream()
-                .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15).count();
-        return (double) (result / streaming.getClientes().size()) * 100.0;
-    }
-
->>>>>>> Stashed changes
 }
