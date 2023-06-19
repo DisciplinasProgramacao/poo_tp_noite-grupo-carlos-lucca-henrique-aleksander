@@ -13,6 +13,8 @@ public class Cliente {
     private String senha;
     private String nomeUsuario;
     private ICliente tipoCliente;
+
+    private boolean isProfissional;
     private ArrayList<Midia> midiasFuturas;
     private ArrayList<Midia> midiasAssistidas;
     private ArrayList<Avaliacao> avaliacoes;
@@ -42,8 +44,10 @@ public class Cliente {
         this.avaliacoes = new ArrayList<>();
         if (tipo == 'P') {
             this.tipoCliente = new ClienteProfissional();
+            this.isProfissional = true;
         } else {
             this.tipoCliente = new ClienteRegular();
+            this.isProfissional = false;
         }
     }
 
@@ -220,7 +224,10 @@ public class Cliente {
     public Avaliacao avaliar(Avaliacao avaliacaoClient, Midia midia) throws IllegalArgumentException {
         // Verifica se a mídia está na lista de mídias assistidas
         avaliacaoClient = tipoCliente.avaliar(avaliacaoClient, this);
-        atualizarTipoCliente();
+
+        if (!isProfissional){
+            atualizarTipoCliente();
+        }
         avaliacoes.add(avaliacaoClient);
         midia.addAvaliacaoToAvaliacoesList(avaliacaoClient);
         return avaliacaoClient;
