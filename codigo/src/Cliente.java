@@ -1,7 +1,6 @@
 package src;
 
 import src.Exceptions.AuthorizationException;
-import src.Exceptions.InvalidAvaliacaoException;
 import src.Exceptions.InvalidMidiaException;
 
 import java.time.LocalDateTime;

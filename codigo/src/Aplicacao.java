@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-//import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
@@ -371,8 +370,8 @@ public class Aplicacao {
                 System.out.println("3. Porcentagem de clientes com 15 Avaliações");
                 System.out.println("4. Mídias melhores Avaliadas");
                 System.out.println("5. Mídias com mais Vizualizações");
-                System.out.println("6. Mídias com melhores avaliadas por categoria");
-                System.out.println("7. Mídias com mais avaliações por categoria");
+                System.out.println("6. Mídias com melhores avaliadas por Categoria");
+                System.out.println("7. Mídias com mais Vizualizações por Categoria");
                 System.out.println("\u001B[31m8. Voltar \u001B[37m");
                 System.out.print("Escolha uma opção: ");
                 if (scanner.hasNextInt()) {
@@ -426,14 +425,24 @@ public class Aplicacao {
                             System.out.println(midiasComMaisVizualizacoes());
                             break;
 
-                        //
+                        // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
+                        // vistas pelo menos 100 vezes, apresentada em ordem descrescente e por gênero.
                         case 6:
                             limparTela();
+                            System.out.println(
+                                    "\u001b[38;5;214mAs 10 Mídias melhores avaliadas e com 100 vizualizações por Gênero: \u001B[37m");
+                            System.out.print("Qual o gênero que deseja fazer a busca? ");
+                            System.out.println(melhoresAvaliadasEAssistidasGenero(scanner.nextLine()));
                             return;
 
-                        //
+                        // Quais são as 10 mídias com mais vizualizações, em ordem descrescente e por
+                        // gênero.
                         case 7:
                             limparTela();
+                            System.out.println(
+                                    "\u001b[38;5;214mAs 10 Mídias com mais vizualizações por Gênero: \u001B[37m");
+                            System.out.print("Qual o gênero que deseja fazer a busca? ");
+                            System.out.println(midiasComMaisVizualizacoesGenero(scanner.nextLine()));
                             return;
                         case 8:
                             limparTela();
@@ -458,36 +467,6 @@ public class Aplicacao {
             exibirMenuPrincipal();
         }
     }
-
-    // private static ArrayList<Midia> getMostReviewedMidiasDesc() {
-    // ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
-
-    // ArrayList<Midia> filteredMidias = midias.stream()
-    // .filter(midia -> midia.getAssistidaPorClientes() >= 100)
-    // .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
-    // .collect(Collectors.toCollection(ArrayList::new));
-
-    // ArrayList<Midia> top10Midias = new ArrayList<>();
-
-    // if (filteredMidias.size() >= 10) {
-    // top10Midias.addAll(filteredMidias.subList(0, 10));
-    // } else {
-    // top10Midias.addAll(filteredMidias);
-    // }
-
-    // return top10Midias;
-    // }
-
-    // private static ArrayList<Midia> getTop10MaisVistas() {
-    // ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
-
-    // ArrayList<Midia> top10Midias = midias.stream()
-    // .sorted(Comparator.comparingInt(Midia::getAssistidaPorClientes).reversed())
-    // .limit(10)
-    // .collect(Collectors.toCollection(ArrayList::new));
-
-    // return top10Midias;
-    // }
 
     private static Cliente clienteQueMaisAssistiu() {
         return streaming.getClientes().values().stream()
@@ -524,7 +503,8 @@ public class Aplicacao {
                 sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m "
                         + "\u001B[32m" + results.get(i).getNome() + "\u001B[37m"
                         + " ¦   Médias Avaliações: "
-                        + String.format("%.2f", results.get(i).calculaMediaAvaliacoes()).replace(",", ".") + "\n");
+                        + String.format("%.2f", results.get(i).calculaMediaAvaliacoes()).replace(",", ".")
+                        + " ¦   Vizualizações: " + results.get(i).getAssistidaPorClientes() + "\n");
             }
         }
         return sb.toString();
@@ -537,13 +517,59 @@ public class Aplicacao {
                 .sorted(Comparator.comparingDouble(Midia::getAssistidaPorClientes).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
-
-        for (int i = 0; i < results.size(); i++) {
-            sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m " + "\u001B[32m" + results.get(i).getNome()
-                    + "\u001B[37m" + " ¦   Vizualizações: " + results.get(i).getAssistidaPorClientes() + "\n");
+        if (results.isEmpty()) {
+            sb.append("Não há nenhuma mídia");
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m " + "\u001B[32m" + results.get(i).getNome()
+                        + "\u001B[37m" + " ¦   Vizualizações: " + results.get(i).getAssistidaPorClientes() + "\n");
+            }
         }
-
         return sb.toString();
     }
 
+    private static String melhoresAvaliadasEAssistidasGenero(String valor) {
+        StringBuilder sb = new StringBuilder();
+        List<Midia> resultsGenero = streaming.buscarMidia(valor, ComparatorMidia.porGenero());
+        List<Midia> results = resultsGenero.stream()
+                .filter(midia -> midia.getAssistidaPorClientes() >= 100)
+                .filter(midia -> !midia.getAvaliacoes().isEmpty())
+                .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+        if (results.isEmpty()) {
+            sb.append("Não há nenhuma mídia");
+        } else {
+            sb.append("Gênero: " + valor + "\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m "
+                        + "\u001B[32m" + results.get(i).getNome() + "\u001B[37m"
+                        + " ¦   Médias Avaliações: "
+                        + String.format("%.2f", results.get(i).calculaMediaAvaliacoes()).replace(",", ".")
+                        + "\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    private static String midiasComMaisVizualizacoesGenero(String valor) {
+        StringBuilder sb = new StringBuilder();
+        List<Midia> resultsGenero = streaming.buscarMidia(valor, ComparatorMidia.porGenero());
+        List<Midia> results = resultsGenero.stream()
+                .filter(midia -> midia.getAssistidaPorClientes() != 0)
+                .sorted(Comparator.comparingDouble(Midia::getAssistidaPorClientes).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+
+        if (results.isEmpty()) {
+            sb.append("Não há nenhuma mídia");
+        } else {
+            sb.append("Gênero: " + valor + "\n");
+            for (int i = 0; i < results.size(); i++) {
+                sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m " + "\u001B[32m" + results.get(i).getNome()
+                        + "\u001B[37m" + " ¦   Vizualizações: " + results.get(i).getAssistidaPorClientes() + "\n");
+            }
+        }
+        return sb.toString();
+    }
 }
