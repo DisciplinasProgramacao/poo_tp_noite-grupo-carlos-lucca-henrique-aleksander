@@ -6,14 +6,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.InputMismatchException;
-//import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
 //import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
-import src.Exceptions.AuthorizationException;
+import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.InvalidMidiaException;
+import src.Exceptions.NameUserExistsException;
 import src.Exceptions.ReadFileError;
 
 public class Aplicacao {
@@ -30,25 +31,41 @@ public class Aplicacao {
             System.out.println(e.getMessage());
         } catch (IOException | ReadFileError e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Erro inesperado! contate os desenvolvedores e informe o erro seguinte " + e);
         } finally {
+            System.out.println(streaming.mostraTodasMidias());
             exibirMenuPrincipal();
         }
     }
 
-    public static void limparTela() {
+    /**
+     * Limpar mensagens antigas da tela
+     * 
+     */
+    static void limparTela() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * Pausa para leitura de mensagens em console
+     * 
+     */
+    static void pausa() {
+        System.out.println("Pressione Enter para continuar.");
+        System.console().readLine(); // Aguarda o usuário pressionar Enter
+    }
+
     private static void exibirMenuPrincipal() {
-        limparTela();
-        try {
-            while (!sair) {
-                System.out.println("\u001B[33m== Menu Principal ==\u001B[37m");
-                System.out.println("1. Cadastrar Cliente");
-                System.out.println("2. Login");
-                System.out.println("\u001B[31m3. Sair	\u001B[37m");
-                System.out.print("Escolha uma opção: ");
+        while (!sair) {
+            limparTela();
+            System.out.println("\u001B[33m== Menu Principal ==\u001B[37m");
+            System.out.println("1. Cadastrar Cliente");
+            System.out.println("2. Login");
+            System.out.println("\u001B[31m3. Sair	\u001B[37m");
+            System.out.print("Escolha uma opção: ");
+            if (scanner.hasNextInt()) {
                 int opcao = scanner.nextInt();
                 scanner.nextLine();
                 switch (opcao) {
@@ -67,14 +84,13 @@ public class Aplicacao {
                         System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
                         break;
                 }
-                System.out.println();
+            } else {
+                limparTela();
+                System.out.println(
+                        "\u001B[31mValor Inválido. Entre com apenas números.\u001B[37m");
+                scanner.nextLine();
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Insira um valor válido");
-            exibirMenuPrincipal();
-        } catch (AuthorizationException invalid) {
-            System.out.println(invalid.getMessage());
-            exibirMenuPrincipal();
+            pausa();
         }
     }
 
@@ -90,8 +106,12 @@ public class Aplicacao {
         System.out.print("Nome de Usuário: ");
         String nomeUsuario = scanner.nextLine();
 
-        String resultado = streaming.cadastrarCliente(nome, senha, nomeUsuario);
-        System.out.println("\u001B[32m" + resultado + "\u001B[37m");
+        try {
+            String resultado = streaming.cadastrarCliente(nome, senha, nomeUsuario);
+            System.out.println("\u001B[32m" + resultado + "\u001B[37m");
+        } catch (NameUserExistsException e) {
+            System.out.println("\u001B[31mErro: " + e.getMessage() + "\u001B[37m");
+        }
     }
 
     private static void fazerLogin() {
@@ -104,73 +124,89 @@ public class Aplicacao {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
-        String resultado = streaming.login(nomeUsuario, senha);
-        System.out.println(resultado);
+        try {
+            String resultado = streaming.login(nomeUsuario, senha);
+            System.out.println("\u001B[32m" + resultado + "\u001B[37m");
 
-        if (resultado.equals("Login feito com sucesso")) {
-            exibirMenuCliente();
+            if (resultado.equals("Login feito com sucesso")) {
+                pausa();
+                exibirMenuCliente();
+            }
+        } catch (IncorrectUserNameOrPasswordException e) {
+            System.out.println("\u001B[31m" + e.getMessage() + "\u001B[37m");
         }
     }
 
     private static void exibirMenuCliente() {
+        try {
+            while (!sair) {
+                limparTela();
+                System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
+                System.out.println("1. Buscar");
+                System.out.println("2. Ver minhas Mídias Assistidas");
+                System.out.println("3. Ver minhas Mídias Futuras");
+                System.out.println("4. Listas minhas Avaliações");
+                System.out.println("5. Adicionar Mídia a lista de futuras / Assistir futuramente");
+                System.out.println("6. Terminar Mídia");
+                System.out.println("7. Avaliar Mídia");
+                System.out.println("8. Relatórios");
+                System.out.println("\u001B[31m9. Sair	\u001B[37m");
+                System.out.print("Escolha uma opção: ");
+                if (scanner.hasNextInt()) {
+                    int opcao = scanner.nextInt();
+                    scanner.nextLine();
 
-        limparTela();
-        while (streaming.getClienteLogado() != null) {
-            System.out.println("\u001B[33m== Menu do Cliente ==\u001B[37m");
-            System.out.println("1. Buscar");
-            System.out.println("2. Ver minhas Mídias Assistidas");
-            System.out.println("3. Ver minhas Mídias Futuras");
-            System.out.println("4. Adicionar Mídia a lista de futuras / Assistir futuramente");
-            System.out.println("5. Terminar Mídia");
-            System.out.println("6. Avaliar Mídia");
-            System.out.println("7. Relatórios");
-            System.out.println("\u001B[31m8. Sair	\u001B[37m");
-
-            System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcao) {
-                case 1:
+                    switch (opcao) {
+                        case 1:
+                            buscarMidias();
+                            break;
+                        case 2:
+                            verMidiaAssistida();
+                            break;
+                        case 3:
+                            verMidiaFutura();
+                            break;
+                        case 4:
+                            listarAvaliacoes();
+                            break;
+                        case 5:
+                            adicionarMidiaFutura();
+                            break;
+                        case 6:
+                            terminarMidia();
+                            break;
+                        case 7:
+                            avaliarMidia();
+                            break;
+                        case 8:
+                            exibirMenuRelatorios();
+                            break;
+                        case 9:
+                            System.out.println("Saindo do menu do cliente...");
+                            streaming.logout();
+                            exibirMenuPrincipal();
+                            return;
+                        default:
+                            limparTela();
+                            System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
+                            break;
+                    }
+                } else {
                     limparTela();
-                    buscarMidias();
-                    break;
-                case 2:
-                    limparTela();
-                    verMidiaAssistida();
-                    break;
-                case 3:
-                    limparTela();
-                    verMidiaFutura();
-                    break;
-                case 4:
-                    limparTela();
-                    adicionarMidiaFutura();
-                    break;
-                case 5:
-                    limparTela();
-                    terminarMidia();
-                    break;
-                case 6:
-                    limparTela();
-                    avaliarMidia();
-                    break;
-                case 7:
-                    limparTela();
-                    exibirMenuRelatorios();
-                    break;
-                case 8:
-                    System.out.println("Saindo do menu do cliente...");
-                    streaming.logout();
-                    exibirMenuPrincipal();
-                    return;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-                    break;
+                    System.out.println(
+                            "\u001B[31mOpção inválida, não coloque valor diferente de números. Tente novamente\u001B[37m");
+                    scanner.nextLine(); // Limpa o buffer do scanner
+                }
+                pausa();
             }
-
-            System.out.println();
+        } catch (InputMismatchException e) {
+            System.out.println("Insira um valor válido");
+            exibirMenuPrincipal();
         }
+    }
+
+    private static void listarAvaliacoes() {
+        streaming.getClienteLogado().getAvaliacoes().stream().forEach(avaliacao -> System.out.println(avaliacao));
     }
 
     private static void verMidiaAssistida() {
@@ -310,7 +346,7 @@ public class Aplicacao {
                 opComen = scanner.nextLine();
             }
 
-            if (opComen.equals("s")) {
+            if (opComen.equalsIgnoreCase("s")) {
                 System.out.println("Qual seu comentario");
                 String coment = scanner.nextLine();
                 streaming.getClienteLogado().comentar((IComentarista) streaming.getClienteLogado().getTipoCliente(),
@@ -326,127 +362,132 @@ public class Aplicacao {
     }
 
     private static void exibirMenuRelatorios() {
-        limparTela();
-        while (!sair) {
-            System.out.println("\u001B[33m== Menu de Relatórios ==\u001B[37m");
-            System.out.println("1. Cliente que mais assistiu");
-            System.out.println("2. Cliente com mais avaliações");
-            System.out.println("3. Porcentagem de clientes com 15 avaliações");
-            System.out.println("4. Mídias melhores avaliadas");
-            System.out.println("5. Mídias com mais avaliações");
-            System.out.println("6. Mídias com melhores avaliadas por categoria");
-            System.out.println("7. Mídias com mais avaliações por categoria");
-            System.out.println("8. Voltar");
-            System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha após a leitura do número
+        try {
+            while (!sair) {
+                limparTela();
+                System.out.println("\u001B[33m== Menu de Relatórios ==\u001B[37m");
+                System.out.println("1. Cliente que mais assistiu");
+                System.out.println("2. Cliente com mais Avaliações");
+                System.out.println("3. Porcentagem de clientes com 15 Avaliações");
+                System.out.println("4. Mídias melhores Avaliadas");
+                System.out.println("5. Mídias com mais Vizualizações");
+                System.out.println("6. Mídias com melhores avaliadas por categoria");
+                System.out.println("7. Mídias com mais avaliações por categoria");
+                System.out.println("\u001B[31m8. Voltar \u001B[37m");
+                System.out.print("Escolha uma opção: ");
+                if (scanner.hasNextInt()) {
+                    int opcao = scanner.nextInt();
+                    scanner.nextLine();
 
-            switch (opcao) {
-                // Qual cliente assistiu mais mídias, e quantas mídias.
-                case 1:
-                    limparTela();
-                    System.out.println("Cliente que mais assistiu Mídias: " + "\nNome: "
-                            + clienteQueMaisAssistiu().getNome() + "\nNome Usuário: "
-                            + clienteQueMaisAssistiu().getNomeUsuario()
-                            + "\nTotal Mídias: " + clienteQueMaisAssistiu().getMidiasAssistidas().size());
-                    break;
+                    switch (opcao) {
+                        // Qual cliente assistiu mais mídias, e quantas mídias.
+                        case 1:
+                            limparTela();
+                            System.out.println("\u001b[38;5;214mCliente que mais assistiu Mídias: \u001B[37m"
+                                    + "\nNome: "
+                                    + clienteQueMaisAssistiu().getNome() + "\nNome Usuário: "
+                                    + clienteQueMaisAssistiu().getNomeUsuario()
+                                    + "\nTotal Mídias: " + clienteQueMaisAssistiu().getMidiasAssistidas().size());
+                            break;
 
-                // Qual cliente tem mais avaliações, e quantas avaliações.
-                case 2:
-                    limparTela();
-                    System.out.println("Cliente que mais avaliou Mídias: " + "\nNome: "
-                            + clienteComMaisAvaliacoes().getNome() + "\nNome Usuário: "
-                            + clienteComMaisAvaliacoes().getNomeUsuario() + "\nTotal de Avaliações: "
-                            + clienteComMaisAvaliacoes().getAvaliacoes().size());
-                    break;
+                        // Qual cliente tem mais avaliações, e quantas avaliações.
+                        case 2:
+                            limparTela();
+                            System.out
+                                    .println("\u001b[38;5;214mCliente que mais avaliou Mídias: \u001B[37m" + "\nNome: "
+                                            + clienteComMaisAvaliacoes().getNome() + "\nNome Usuário: "
+                                            + clienteComMaisAvaliacoes().getNomeUsuario() + "\nTotal de Avaliações: "
+                                            + clienteComMaisAvaliacoes().getAvaliacoes().size());
+                            break;
 
-                // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
-                case 3:
-                    limparTela();
-                    System.out.println("Porcentagem de clientes com pelo menos 15 Avaliações: "
-                            + porcClientesMin15avaliacoes() + "%");
-                    break;
+                        // Qual a porcentagem dos clientes com pelo menos 15 avaliações.
+                        case 3:
+                            limparTela();
+                            System.out
+                                    .println(
+                                            "\u001b[38;5;214mPorcentagem de clientes com pelo menos 15 Avaliações: \u001B[37m"
+                                                    + String.format("%.5f", porcClientesMin15avaliacoes()) + "%");
+                            break;
 
-                // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
-                // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
-                case 4:
-                    limparTela();
-                    System.out.println("10 mídias com a melhor médias de avaliação e foram vistas pelo menos 100 vezes");
-                    ArrayList<Midia> top10Midia = getMostReviewedMidiasDesc();
-                    int index = 1;
-                    for (Midia midia : top10Midia) {
-                        System.out.println(index +"- "+ midia);
-                        index++;
+                        // Quais são as 10 mídias com a melhor médias de avaliações e que tenham sido
+                        // vistas pelo menos 100 vezes, apresentada em ordem descrescente.
+                        case 4:
+                            limparTela();
+                            System.out.println(
+                                    "\u001b[38;5;214mAs 10 Mídias melhores avaliadas e com 100 vizualizações: \u001B[37m");
+                            System.out.println(melhoresAvaliadasEAssistidas());
+                            break;
+
+                        // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
+                        case 5:
+                            limparTela();
+                            System.out.println(
+                                    "\u001b[38;5;214mAs 10 Mídias com mais vizualizações: \u001B[37m");
+                            System.out.println(midiasComMaisVizualizacoes());
+                            break;
+
+                        //
+                        case 6:
+                            limparTela();
+                            return;
+
+                        //
+                        case 7:
+                            limparTela();
+                            return;
+                        case 8:
+                            limparTela();
+                            System.out.println("Voltando menu de relatórios...");
+                            exibirMenuCliente();
+                            return;
+                        default:
+                            limparTela();
+                            System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
+                            break;
                     }
-                    break;
-
-                // Quais são as 10 mídias com mais vizualizações, em ordem descrescente.
-                case 5:
+                } else {
                     limparTela();
-                    System.out.println("10 mídias mais vistas");
-                    ArrayList<Midia> top10MidiaVistas =getTop10MaisVistas();
-                    for (Midia midia : top10MidiaVistas) {
-                        int indexMidiaVista = 1;
-                        System.out.println(indexMidiaVista +"- "+ midia);
-                        indexMidiaVista++;
-                    }
-                    break;
-
-                //
-                case 6:
-                    limparTela();
-                    return;
-
-                //
-                case 7:
-                    limparTela();
-
-                    return;
-                case 8:
-                    limparTela();
-                    System.out.println("Voltando menu do cliente...");
-                    exibirMenuCliente();
-                    return;
-                default:
-                    limparTela();
-                    System.out.println("Opção inválida. Tente novamente.");
-                    exibirMenuRelatorios();
-                    break;
+                    System.out.println(
+                            "\u001B[31mOpção inválida, não coloque valor diferente de números. Tente novamente\u001B[37m");
+                    scanner.nextLine();
+                }
+                pausa();
             }
-            System.out.println();
+        } catch (InputMismatchException e) {
+            System.out.println("Insira um valor válido");
+            exibirMenuPrincipal();
         }
     }
 
-   private static ArrayList<Midia> getMostReviewedMidiasDesc() {
-    ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
-    
-    ArrayList<Midia> filteredMidias = midias.stream()
-        .filter(midia -> midia.getAssistidaPorClientes() >= 100)
-        .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
-        .collect(Collectors.toCollection(ArrayList::new));
-    
-    ArrayList<Midia> top10Midias = new ArrayList<>();
-    
-    if (filteredMidias.size() >= 10) {
-        top10Midias.addAll(filteredMidias.subList(0, 10));
-    } else {
-        top10Midias.addAll(filteredMidias);
-    }
-    
-    return top10Midias;
-}
+    // private static ArrayList<Midia> getMostReviewedMidiasDesc() {
+    // ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
 
-private static ArrayList<Midia> getTop10MaisVistas() {
-    ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
-    
-    ArrayList<Midia> top10Midias = midias.stream()
-        .sorted(Comparator.comparingInt(Midia::getAssistidaPorClientes).reversed())
-        .limit(10)
-        .collect(Collectors.toCollection(ArrayList::new));
-    
-    return top10Midias;
-}
+    // ArrayList<Midia> filteredMidias = midias.stream()
+    // .filter(midia -> midia.getAssistidaPorClientes() >= 100)
+    // .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
+    // .collect(Collectors.toCollection(ArrayList::new));
 
+    // ArrayList<Midia> top10Midias = new ArrayList<>();
+
+    // if (filteredMidias.size() >= 10) {
+    // top10Midias.addAll(filteredMidias.subList(0, 10));
+    // } else {
+    // top10Midias.addAll(filteredMidias);
+    // }
+
+    // return top10Midias;
+    // }
+
+    // private static ArrayList<Midia> getTop10MaisVistas() {
+    // ArrayList<Midia> midias = new ArrayList<>(streaming.getMidias().values());
+
+    // ArrayList<Midia> top10Midias = midias.stream()
+    // .sorted(Comparator.comparingInt(Midia::getAssistidaPorClientes).reversed())
+    // .limit(10)
+    // .collect(Collectors.toCollection(ArrayList::new));
+
+    // return top10Midias;
+    // }
 
     private static Cliente clienteQueMaisAssistiu() {
         return streaming.getClientes().values().stream()
@@ -461,9 +502,48 @@ private static ArrayList<Midia> getTop10MaisVistas() {
     }
 
     private static double porcClientesMin15avaliacoes() {
-        Long result = streaming.getClientes().entrySet().stream()
+        double result = streaming.getClientes().entrySet().stream()
                 .filter(cliente -> cliente.getValue().getAvaliacoes().size() >= 15).count();
-        return (double) (result / streaming.getClientes().size()) * 100.0;
+        double totalClientes = streaming.getClientes().size();
+        return (result / totalClientes) * 100.0;
+    }
+
+    private static String melhoresAvaliadasEAssistidas() {
+        StringBuilder sb = new StringBuilder();
+        List<Midia> results = streaming.getMidias().values().stream()
+                .filter(midia -> midia.getAssistidaPorClientes() >= 100)
+                .filter(midia -> !midia.getAvaliacoes().isEmpty())
+                .sorted(Comparator.comparingDouble(Midia::calculaMediaAvaliacoes).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+
+        if (results.isEmpty()) {
+            sb.append("Não há nenhuma mídia");
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m "
+                        + "\u001B[32m" + results.get(i).getNome() + "\u001B[37m"
+                        + " ¦   Médias Avaliações: "
+                        + String.format("%.2f", results.get(i).calculaMediaAvaliacoes()).replace(",", ".") + "\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    private static String midiasComMaisVizualizacoes() {
+        StringBuilder sb = new StringBuilder();
+        List<Midia> results = streaming.getMidias().values().stream()
+                .filter(midia -> midia.getAssistidaPorClientes() != 0)
+                .sorted(Comparator.comparingDouble(Midia::getAssistidaPorClientes).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < results.size(); i++) {
+            sb.append("\u001B[31m" + (i + 1) + "º " + "\u001B[37m " + "\u001B[32m" + results.get(i).getNome()
+                    + "\u001B[37m" + " ¦   Vizualizações: " + results.get(i).getAssistidaPorClientes() + "\n");
+        }
+
+        return sb.toString();
     }
 
 }

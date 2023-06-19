@@ -1,6 +1,8 @@
 package src;
 
 import src.Exceptions.AuthorizationException;
+import src.Exceptions.InvalidAvaliacaoException;
+import src.Exceptions.InvalidMidiaException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,13 +27,25 @@ public class Cliente {
      * @param nomeUsuario Nome de usuário do cliente
      */
     public Cliente(String nome, String senha, String nomeUsuario) {
+        init(nome, senha, nomeUsuario, 'R');
+    }
+
+    public Cliente(String nome, String senha, String nomeUsuario, char tipo) {
+        init(nome, senha, nomeUsuario, tipo);
+    }
+
+    private void init(String nome, String senha, String nomeUsuario, char tipo) {
         this.nome = nome;
         this.senha = senha;
         this.nomeUsuario = nomeUsuario;
         this.midiasFuturas = new ArrayList<>();
         this.midiasAssistidas = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
-        atualizarTipoCliente();
+        if (tipo == 'P') {
+            this.tipoCliente = new ClienteProfissional();
+        } else {
+            this.tipoCliente = new ClienteRegular();
+        }
     }
 
     /**
@@ -48,6 +62,20 @@ public class Cliente {
     }
 
     /**
+     * Adiciona uma mídia à lista de mídias futuras do cliente.
+     * Verifica se a mídia já está na lista antes de adicioná-la.
+     *
+     * @param midia A mídia a ser adicionada. Não deve ser um valor repetido.
+     */
+    public void adicionarMidiaAssistida(Midia midia) {
+        boolean contemMidia = midiasAssistidas.contains(midia);
+        if (!contemMidia) {
+            this.midiasAssistidas.add(midia);
+            midia.adicionaAssistido();
+        }
+    }
+
+    /**
      * Adiciona uma mídia à lista de mídias assistidas do cliente.
      * Verifica se a mídia já está na lista antes de adicioná-la.
      * Se a mídia já foi assistida, não a adiciona novamente e não incrementa a
@@ -56,9 +84,13 @@ public class Cliente {
      * @param midia A mídia a ser adicionada.
      */
     public void terminarMidia(Midia midia) {
-        if (tipoCliente.terminarMidia(this, midia)) {
-            this.midiasAssistidas.add(midia);
-            midia.adicionaAssistido();
+        try {
+            if (tipoCliente.terminarMidia(this, midia)) {
+                this.midiasAssistidas.add(midia);
+                midia.adicionaAssistido();
+            }
+        } catch (Exception e) {
+            throw new InvalidMidiaException("Ja assistiu canalha!");
         }
     }
 
@@ -165,7 +197,7 @@ public class Cliente {
      * @return um ArrayList contendo mídias futuras do cliente.
      */
     public ArrayList<Midia> getMidiasFuturas() {
-        return midiasFuturas;
+        return this.midiasFuturas;
     }
 
     /**

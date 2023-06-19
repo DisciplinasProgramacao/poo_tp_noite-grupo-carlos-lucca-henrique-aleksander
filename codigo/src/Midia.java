@@ -1,13 +1,10 @@
 package src;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-
 public class Midia {
-
 
     // #region variável de instância
     private String nome;
@@ -18,24 +15,22 @@ public class Midia {
     private int assistidaPorClientes;
     private static Random rd = new Random();
 
-
     private boolean lancamentoFuturo;
     private ArrayList<Avaliacao> avaliacoes;
-
 
     /**
      * Construtor para criar uma Mídia com nome, identificador e a data de
      * lançamento.
      *
-     * @param nome Nome da Mídia
+     * @param nome          Nome da Mídia
      * @param identificador Identificador da Mídia
-     * @param data Data de lançamento da Mídia
+     * @param data          Data de lançamento da Mídia
      */
     public Midia(String nome, String identificador, LocalDate data) {
         this.nome = nome;
-// atribui um valor aleatório ao idioma
+        // atribui um valor aleatório ao idioma
         this.idioma = sorteiaEnum(Idioma.class);
-// atribui um valor aleatório ao genero
+        // atribui um valor aleatório ao genero
         this.genero = sorteiaEnum(Genero.class);
         this.data = data;
         this.identificador = identificador;
@@ -44,12 +39,11 @@ public class Midia {
         this.avaliacoes = new ArrayList<>();
     }
 
-
     public Midia(String nome, String identificador, LocalDate data, boolean lancamentoFuturo) {
         this.nome = nome;
-// atribui um valor aleatório ao idioma
+        // atribui um valor aleatório ao idioma
         this.idioma = sorteiaEnum(Idioma.class);
-// atribui um valor aleatório ao genero
+        // atribui um valor aleatório ao genero
         this.genero = sorteiaEnum(Genero.class);
         this.data = data;
         this.identificador = identificador;
@@ -59,12 +53,11 @@ public class Midia {
         this.avaliacoes = new ArrayList<>();
     }
 
-
     /**
      * Sorteia um valor aleatório de um enum específico, assim fazendo as Mídias
      * ficarem com Idiomas e Gêneros aleatórios.
      *
-     * @param <T> O tipo do enum.
+     * @param <T>       O tipo do enum.
      * @param enumClass A classe do enum.
      * @return Um valor aleatório do enum.
      */
@@ -74,11 +67,9 @@ public class Midia {
         return values[indiceAleatorio];
     }
 
-
-    public boolean getIsLancamentoFuturo(){
+    public boolean getIsLancamentoFuturo() {
         return this.lancamentoFuturo;
     }
-
 
     /**
      * Retorna a data de lançamento da Mídia.
@@ -89,7 +80,6 @@ public class Midia {
         return data.format(Aplicacao.DATA_FORMATTER);
     }
 
-
     /**
      * Incrementa o contador de assistidos da Mídia.
      *
@@ -98,7 +88,6 @@ public class Midia {
         this.assistidaPorClientes++;
     }
 
-
     /**
      * Adiciona uma avaliação a lista de avaliações da Mídia.
      *
@@ -106,7 +95,6 @@ public class Midia {
     public void addAvaliacaoToAvaliacoesList(Avaliacao avaliacao) {
         avaliacoes.add(avaliacao);
     }
-
 
     /**
      * Retorna a lista de avaliações do cliente.
@@ -117,7 +105,6 @@ public class Midia {
         return avaliacoes;
     }
 
-
     /**
      * Retorna o nome da Mídia.
      *
@@ -126,7 +113,6 @@ public class Midia {
     public String getNome() {
         return nome;
     }
-
 
     /**
      * Retorna o idioma da Mídia.
@@ -137,7 +123,6 @@ public class Midia {
         return idioma;
     }
 
-
     /**
      * Retorna o gênero da Mídia.
      *
@@ -146,7 +131,6 @@ public class Midia {
     public Genero getGenero() {
         return genero;
     }
-
 
     /**
      * Retorna o identificador da Mídia.
@@ -157,7 +141,6 @@ public class Midia {
         return identificador;
     }
 
-
     /**
      * Retorna a quantidade de clientes que assistiram a Mídia.
      *
@@ -167,7 +150,6 @@ public class Midia {
         return assistidaPorClientes;
     }
 
-
     /**
      * Responsável pelo cálculo das médias de avaliações da Mídia.
      * Calcula a média das avaliações da Mídia com base nas avaliações armazenadas.
@@ -176,26 +158,25 @@ public class Midia {
      * @return A média das avaliações da Mídia.
      */
     public double calculaMediaAvaliacoes() {
-// Verifica se não há avaliações
+        // Verifica se não há avaliações
         if (avaliacoes.isEmpty()) {
             return 0.0;
         }
         double totalAvaliacoes = 0;
-// Percorre cada avaliação na lista de avaliações
+        // Percorre cada avaliação na lista de avaliações
         for (Avaliacao avaliacao : avaliacoes) {
-// Soma a avaliação atual ao total
+            // Soma a avaliação atual ao total
             totalAvaliacoes += avaliacao.getAvaliacao();
         }
-// Calcula a média dividindo a soma total pelas quantidade de avaliações
+        // Calcula a média dividindo a soma total pelas quantidade de avaliações
         return (double) totalAvaliacoes / avaliacoes.size();
     }
-
 
     /**
      * Descrição da Midia em string, com os seus respectivos dados.
      *
      * @return String com nome, idioma, genero, data de lançamento, quantidade de
-     * clientes que assistiram e a media de avaliações dos clientes.
+     *         clientes que assistiram e a media de avaliações dos clientes.
      */
     @Override
     public String toString() {
