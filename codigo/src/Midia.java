@@ -18,39 +18,17 @@ public class Midia {
     private boolean lancamentoFuturo;
     private ArrayList<Avaliacao> avaliacoes;
 
-    /**
-     * Construtor para criar uma Mídia com nome, identificador e a data de
-     * lançamento.
-     *
-     * @param nome          Nome da Mídia
-     * @param identificador Identificador da Mídia
-     * @param data          Data de lançamento da Mídia
-     */
-    public Midia(String nome, String identificador, LocalDate data) {
-        this.nome = nome;
-        // atribui um valor aleatório ao idioma
-        this.idioma = sorteiaEnum(Idioma.class);
-        // atribui um valor aleatório ao genero
-        this.genero = sorteiaEnum(Genero.class);
-        this.data = data;
-        this.identificador = identificador;
-        this.lancamentoFuturo = false;
-        this.assistidaPorClientes = 0;
-        this.avaliacoes = new ArrayList<>();
-    }
-
     public Midia(String nome, String identificador, LocalDate data, boolean lancamentoFuturo) {
         this.nome = nome;
+        this.data = data;
+        this.identificador = identificador;
+        this.lancamentoFuturo = (lancamentoFuturo == true) ? true : false;
         // atribui um valor aleatório ao idioma
         this.idioma = sorteiaEnum(Idioma.class);
         // atribui um valor aleatório ao genero
         this.genero = sorteiaEnum(Genero.class);
-        this.data = data;
-        this.identificador = identificador;
-        this.lancamentoFuturo = false;
-        this.assistidaPorClientes = 0;
-        this.lancamentoFuturo = lancamentoFuturo;
         this.avaliacoes = new ArrayList<>();
+        this.assistidaPorClientes = 0;
     }
 
     /**

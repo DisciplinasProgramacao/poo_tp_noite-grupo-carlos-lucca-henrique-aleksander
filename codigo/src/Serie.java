@@ -19,8 +19,8 @@ public class Serie extends Midia {
      * @param data          Data de lançamento do filme
      * @param qtdEpisodios  Quantidade de episódios
      */
-    public Serie(String nome, String identificador, LocalDate data, int qtdEpisodios) {
-        super(nome, identificador, data);
+    public Serie(String nome, String identificador, LocalDate data, int qtdEpisodios, boolean lancamento) {
+        super(nome, identificador, data, lancamento);
         this.qtdEpisodios = qtdEpisodios;
     }
 

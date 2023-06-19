@@ -64,7 +64,7 @@ public class StreamingTest {
 
     @Test
     public void testCadastrarMidia() {
-        Midia midia = new Filme("Filme A", "001", LocalDate.of(2014, 11, 7), 120);
+        Midia midia = new Filme("Filme A", "001", LocalDate.of(2014, 11, 7), 120, true);
 
         String resultado = streaming.cadastrarMidia(midia);
 
@@ -80,7 +80,7 @@ public class StreamingTest {
     @Test
     public void testCadastrarMidia_MidiaExistente() {
         Midia midia = new Filme("Filme A", "001",
-                LocalDate.of(2014, 11, 7), 120);
+                LocalDate.of(2014, 11, 7), 120, true);
 
         // Cadastrar uma mídia com o mesmo identificador
         streaming.cadastrarMidia(midia);
@@ -128,7 +128,7 @@ public class StreamingTest {
     public void testAdicionarMidiaFutura() {
         Cliente cliente = new Cliente("João", "123456", "joao123");
         Midia midia = new Filme("Filme A", "001",
-                LocalDate.now().plusDays(1), 120);
+                LocalDate.now().plusDays(1), 120, true);
 
         streaming.cadastrarCliente(cliente.getNome(), cliente.getSenha(), cliente.getNomeUsuario());
         streaming.login(cliente.getNomeUsuario(), cliente.getSenha());
@@ -144,7 +144,7 @@ public class StreamingTest {
     @Test
     public void testTerminarMidia() {
         Midia midia = new Filme("Filme A", "001",
-                LocalDate.of(2014, 11, 7), 120);
+                LocalDate.of(2014, 11, 7), 120, true);
         streaming.cadastrarMidia(midia);
         streaming.cadastrarCliente(cliente.getNome(), cliente.getSenha(), cliente.getNomeUsuario());
         streaming.login(cliente.getNomeUsuario(), cliente.getSenha());

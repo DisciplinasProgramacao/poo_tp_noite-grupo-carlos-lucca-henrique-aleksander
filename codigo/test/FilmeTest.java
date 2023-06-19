@@ -11,7 +11,7 @@ public class FilmeTest {
 
     @Test
     public void testCriacaoFilme() {
-        Filme filme = new Filme("Interstellar", "123456", LocalDate.of(2014, 11, 7), 169);
+        Filme filme = new Filme("Interstellar", "123456", LocalDate.of(2014, 11, 7), 169, true);
 
         Assertions.assertEquals("Interstellar", filme.getNome());
         Assertions.assertEquals("123456", filme.getIdentificador());

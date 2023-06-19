@@ -79,10 +79,17 @@ public class Streaming {
                 String[] values = line.split(";");
                 String identificador = values[0];
                 String nome = values[1];
-                String lancamento = values[2];
+                String data = values[2];
                 int duracao = Integer.parseInt(values[3]);
-                Midia novoFilme = new Filme(nome, identificador,
-                        LocalDate.parse(lancamento, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao);
+                char lancamento = values[4].charAt(0);
+                Midia novoFilme;
+                if (lancamento == 'L') {
+                    novoFilme = new Filme(nome, identificador,
+                            LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao, true);
+                } else {
+                    novoFilme = new Filme(nome, identificador,
+                            LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/MM/yyyy")), duracao, false);
+                }
                 cadastrarMidia(novoFilme);
             });
         } catch (IOException e) {
@@ -128,9 +135,17 @@ public class Streaming {
             lines.map(line -> line.split(";"))
                     .forEach(values -> {
                         int qtdEpisodios = Integer.parseInt(values[3]);
-                        Midia novaSerie = new Serie(values[1], values[0],
-                                LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                                qtdEpisodios);
+                        char lancamento = values[4].charAt(0);
+                        Midia novaSerie;
+                        if (lancamento == 'L') {
+                            novaSerie = new Serie(values[1], values[0],
+                                    LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")), qtdEpisodios,
+                                    true);
+                        } else {
+                            novaSerie = new Serie(values[1], values[0],
+                                    LocalDate.parse(values[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                    qtdEpisodios, false);
+                        }
                         cadastrarMidia(novaSerie);
                     });
         } catch (IOException e) {
@@ -299,7 +314,7 @@ public class Streaming {
     public String cadastrarMidia(Midia midia) {
         if (midias.containsKey(midia.getIdentificador())) {
             // throw new InvalidMidiaException("Midia já cadastrada no sistema");
-            return "Nãp";
+            return "Não";
         }
         midias.put(midia.getIdentificador(), midia);
         return "Mídia cadastrada com sucesso";

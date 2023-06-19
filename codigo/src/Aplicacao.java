@@ -33,7 +33,6 @@ public class Aplicacao {
         } catch (Exception e) {
             System.out.println("Erro inesperado! contate os desenvolvedores e informe o erro seguinte " + e);
         } finally {
-            System.out.println(streaming.mostraTodasMidias());
             exibirMenuPrincipal();
         }
     }

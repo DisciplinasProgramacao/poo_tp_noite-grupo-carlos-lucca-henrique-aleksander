@@ -158,7 +158,7 @@ public class Avaliacao {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Cliente: ").append(cliente.getNome());
+        sb.append("Cliente: ").append(cliente.getNome()).append("\n");
         sb.append("Mídia: ").append(getMidiaAvaliada().getNome()).append("\n");
         sb.append("Avaliação: ").append(avaliacao).append("\n");
         if (comentario != null) {

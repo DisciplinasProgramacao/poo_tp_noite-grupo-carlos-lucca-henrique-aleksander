@@ -22,8 +22,8 @@ public class ClienteTest {
     @BeforeEach
     void base() {
         cliente = new Cliente("João", "senha123", "joao123");
-        midia1 = new Midia("Midia 1", "123456", LocalDate.of(2014, 11, 7));
-        midia2 = new Midia("Midia 2", "234567", LocalDate.of(2018, 12, 20));
+        midia1 = new Midia("Midia 1", "123456", LocalDate.of(2014, 11, 7), true);
+        midia2 = new Midia("Midia 2", "234567", LocalDate.of(2018, 12, 20), true);
 
         cliente.adicionarMidiaFutura(midia1);
         cliente.adicionarMidiaFutura(midia2);
