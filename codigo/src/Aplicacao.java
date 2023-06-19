@@ -11,6 +11,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
+import src.Exceptions.AuthorizationException;
+import src.Exceptions.EntradaInvalidException;
 import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.InvalidMidiaException;
 import src.Exceptions.NameUserExistsException;
@@ -54,44 +56,39 @@ public class Aplicacao {
     }
 
     private static void exibirMenuPrincipal() {
-        try {
-            while (!sair) {
-                limparTela();
-                System.out.println("\u001B[33m== Menu Principal ==\u001B[37m");
-                System.out.println("1. Cadastrar Cliente");
-                System.out.println("2. Login");
-                System.out.println("\u001B[31m3. Sair	\u001B[37m");
-                System.out.print("Escolha uma opção: ");
-                if (scanner.hasNextInt()) {
-                    int opcao = scanner.nextInt();
-                    scanner.nextLine();
-                    switch (opcao) {
-                        case 1:
-                            cadastrarCliente();
-                            break;
-                        case 2:
-                            fazerLogin();
-                            break;
-                        case 3:
-                            System.out.println("Saindo do programa...");
-                            sair = true;
-                            break;
-                        default:
-                            limparTela();
-                            System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
-                            break;
-                    }
-                } else {
-                    limparTela();
-                    System.out.println(
-                            "\u001B[31mOpção inválida, não coloque valor diferente de números. Tente novamente\u001B[37m");
-                    scanner.nextLine(); // Limpa o buffer do scanner
+        while (!sair) {
+            limparTela();
+            System.out.println("\u001B[33m== Menu Principal ==\u001B[37m");
+            System.out.println("1. Cadastrar Cliente");
+            System.out.println("2. Login");
+            System.out.println("\u001B[31m3. Sair	\u001B[37m");
+            System.out.print("Escolha uma opção: ");
+            if (scanner.hasNextInt()) {
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
+                switch (opcao) {
+                    case 1:
+                        cadastrarCliente();
+                        break;
+                    case 2:
+                        fazerLogin();
+                        break;
+                    case 3:
+                        System.out.println("Saindo do programa...");
+                        sair = true;
+                        break;
+                    default:
+                        limparTela();
+                        System.out.println("\u001B[31mOpção inválida. Tente novamente\u001B[37m");
+                        break;
                 }
-                pausa();
+            } else {
+                limparTela();
+                System.out.println(
+                        "\u001B[31mValor Inválido. Entre com apenas números.\u001B[37m");
+                scanner.nextLine();
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Insira um valor válido");
-            exibirMenuPrincipal();
+            pausa();
         }
     }
 

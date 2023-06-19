@@ -55,6 +55,33 @@ public class Streaming {
     }
 
     /**
+     * Lê o arquivo de clientes e cadastra os clientes no sistema.
+     *
+     * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
+     */
+    private void lerArquivoClientes() throws ReadFileError {
+        try (Stream<String> lines = Files.lines(Paths.get("espectadores.csv"))) {
+            lines.map(line -> {
+                String[] values = line.split(";");
+                String nomeUsuario = values[1];
+                String nome = values[0];
+                String senha = values[2];
+                char tipo = values[3].charAt(0);
+                if (tipo != null) {
+                    if (tipo == 'P') {
+                        cadastrarCliente(nome, senha, nomeUsuario);
+
+                    } else if (tipo == 'R') {
+                        cliente.adicionarMidiaFutura(midiaLinha);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            throw new ReadFileError();
+        }
+    }
+
+    /**
      * Lê o arquivo de filmes e cadastra os filmes no sistema.
      *
      * @throws ReadFileError caso ocorra um erro ao ler o arquivo.
