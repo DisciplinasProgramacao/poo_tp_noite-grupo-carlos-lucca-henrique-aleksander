@@ -73,7 +73,6 @@ public class Aplicacao {
                         break;
                     case 2:
                         fazerLogin();
-                        eu = streaming.getClienteLogado();
                         break;
                     case 3:
                         System.out.println("Saindo do programa...");
@@ -127,8 +126,8 @@ public class Aplicacao {
         try {
             String resultado = streaming.login(nomeUsuario, senha);
             System.out.println("\u001B[32m" + resultado + "\u001B[37m");
-
             if (resultado.equals("Login feito com sucesso")) {
+                eu = streaming.getClienteLogado();
                 pausa();
                 exibirMenuCliente();
             }
@@ -206,7 +205,9 @@ public class Aplicacao {
     }
 
     private static void listarAvaliacoes() {
+        System.out.println("\u001B[32m== Mídias Avaliadas ==\u001B[37m \n");
         eu.getAvaliacoes().stream().forEach(avaliacao -> System.out.println(avaliacao));
+        System.out.println("\u001B[32m== Fim da lista ==\u001B[37m ");
     }
 
     private static void verMidiaAssistida() {
