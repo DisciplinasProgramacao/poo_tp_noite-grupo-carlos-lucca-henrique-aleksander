@@ -469,16 +469,20 @@ public class Aplicacao {
         }
     }
 
-    private static Cliente clienteQueMaisAssistiu() {
+    private static Cliente clienteComMaximo(Comparator<Cliente> comparador) {
         return streaming.getClientes().values().stream()
-                .max(Comparator.comparingInt(cliente -> cliente.getMidiasAssistidas().size()))
+                .max(comparador)
                 .orElse(null);
     }
 
+    private static Cliente clienteQueMaisAssistiu() {
+        Comparator<Cliente> comparador = Comparator.comparingInt(cliente -> cliente.getMidiasAssistidas().size());
+        return clienteComMaximo(comparador);
+    }
+
     private static Cliente clienteComMaisAvaliacoes() {
-        return streaming.getClientes().values().stream()
-                .max(Comparator.comparingInt(cliente -> cliente.getAvaliacoes().size()))
-                .orElse(null);
+        Comparator<Cliente> comparador = Comparator.comparingInt(cliente -> cliente.getAvaliacoes().size());
+        return clienteComMaximo(comparador);
     }
 
     private static double porcClientesMin15avaliacoes() {
