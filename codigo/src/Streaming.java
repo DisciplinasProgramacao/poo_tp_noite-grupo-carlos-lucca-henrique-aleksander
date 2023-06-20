@@ -237,14 +237,9 @@ public class Streaming {
         }
     }
 
-    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
-        cliente.avaliar(avaliacao, midia);
-        midia.addAvaliacaoToAvaliacoesList(avaliacao);
-    }
-
-    public void avaliar(Avaliacao avaliacao, Midia midia) {
-        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia) {
         clienteLogado.avaliar(avaliacao, midia);
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
     }
 
     /**
@@ -258,7 +253,7 @@ public class Streaming {
      */
     public String cadastrarCliente(String nome, String senha, String nomeUsuario, char tipo) {
         Cliente cliente = new Cliente(nome, senha, nomeUsuario, tipo);
-        boolean sucesso = verificarEAdicionarCliente(cliente);
+        verificarEAdicionarCliente(cliente);
         return "Usuario cadastrado com sucesso";
     }
 
@@ -374,11 +369,10 @@ public class Streaming {
      *
      * @param identificador o identificador da mídia a ser terminada.
      */
-    public void terminarMidia(String identificador) {
-        Midia midiaTerminada = midias.get(identificador);
-        if (midiaTerminada == null) {
-            throw new InvalidMidiaException(identificador + " e Mídia não existem");
+    public void terminarMidia(Midia midia) {
+        if (midia == null) {
+            throw new InvalidMidiaException( "Mídia não existe");
         }
-        clienteLogado.terminarMidia(midiaTerminada);
+        clienteLogado.terminarMidia(midia);
     }
 }

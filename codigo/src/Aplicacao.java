@@ -297,7 +297,9 @@ public class Aplicacao {
         }
         try {
             streaming.getClienteLogado().adicionarMidiaFutura(retorno);
-        } catch (RuntimeException e) {
+        } catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Insira um valor mostrado na lista de filmes!");
+        }catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
         }
@@ -309,13 +311,15 @@ public class Aplicacao {
         System.out.println("\u001B[32m== Terminar Mídia ==\u001B[37m");
         Midia retorno = buscaMidiaTituloParaMetodos();
         if (retorno == null) {
-            System.out.println("Mídia inválida, tente novamente");
-            exibirMenuCliente();
+            throw new InvalidMidiaException("Mídia inválida, tente novamente");
         }
         try {
-            streaming.getClienteLogado().terminarMidia(retorno);
-        } catch (RuntimeException e) {
+            streaming.terminarMidia(retorno);
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Insira um valor mostrado na lista de filmes!");
+        }catch (RuntimeException e) {
             System.out.println(e.getMessage());
+            pausa();
             exibirMenuCliente();
         }
         System.out.println("\u001B[32mMídia terminada e adiciona a lista de assistidas. \u001B[37m");
@@ -327,6 +331,11 @@ public class Aplicacao {
             Avaliacao avaliacao;
             System.out.println("\u001B[32m== Avaliar Mídia ==\u001B[37m");
             ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
+            if(midias.isEmpty()){
+                System.out.println("Poxa, você ainda não assistiu nenhuma mídia!");
+                pausa();
+                exibirMenuCliente();
+            }
             int contador = 1;
             for (Midia midia : midias) {
                 System.out.println(contador + ": " + midia);
@@ -356,9 +365,13 @@ public class Aplicacao {
                         avaliacao, coment);
             }
 
-            streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
+            streaming.criarAvaliacao(avaliacao, midia);
             System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
-        } catch (Exception e) {
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Informe um dos números indicados na lista");
+         }catch(ClassCastException e){
+            System.out.println("Você não pode comentar!");
+        }catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
