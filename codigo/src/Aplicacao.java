@@ -378,8 +378,10 @@ public class Aplicacao {
             if (opComen.equalsIgnoreCase("s")) {
                 System.out.println("Qual seu comentario");
                 String coment = scanner.nextLine();
-                streaming.getClienteLogado().comentar((IComentarista) streaming.getClienteLogado().getTipoCliente(),
+               boolean comentarioSucesso = streaming.getClienteLogado().comentar((IComentarista) streaming.getClienteLogado().getTipoCliente(),
                         avaliacao, coment);
+
+                avaliacao.addComentario(coment);
             }
 
             streaming.criarAvaliacao(avaliacao, midia);
@@ -390,6 +392,8 @@ public class Aplicacao {
             System.out.println("Informe um dos números indicados na lista");
          }catch(ClassCastException e){
             System.out.println("Você não pode comentar!");
+        }catch (IOException e) {
+            System.out.println("Erro ao salvar no arquivo!");
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
