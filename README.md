@@ -4,6 +4,7 @@ O objetivo do trabalho é desenvolver um software que possa ser comercializado p
 ## Alunos integrantes da equipe
 
 * Aleksander Ribeiro Vale
+* Alexandre França
 * Carlos Eduardo Meints
 * Lucca Oliveira Filizzola
 * Henrique Resende Fonseca
@@ -11,5 +12,4 @@ O objetivo do trabalho é desenvolver um software que possa ser comercializado p
 ## Professores responsáveis
 
 * Joao Caram
-* Nome completo do professor 2
 
