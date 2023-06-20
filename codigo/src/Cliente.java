@@ -1,6 +1,7 @@
 package src;
 
 import src.Exceptions.AuthorizationException;
+import src.Exceptions.InvalidAvaliacaoException;
 import src.Exceptions.InvalidMidiaException;
 
 import java.time.LocalDateTime;
@@ -223,8 +224,15 @@ public class Cliente {
      */
     public Avaliacao avaliar(Avaliacao avaliacaoClient, Midia midia) throws IllegalArgumentException {
         // Verifica se a mídia está na lista de mídias assistidas
-        avaliacaoClient = tipoCliente.avaliar(avaliacaoClient, this);
-
+        boolean containsMidia = false;
+        for (Avaliacao avaliacao : avaliacoes) {
+            if(avaliacao.getMidiaAvaliada().equals(midia)){
+                containsMidia = true;
+            }
+        }
+        if(containsMidia) {
+         throw new InvalidAvaliacaoException("Você já avaliou essa mídia!");
+        }
         if (!isProfissional){
             atualizarTipoCliente();
         }

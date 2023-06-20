@@ -167,4 +167,16 @@ public class Midia {
         sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append(" estrelas").append("\n");
         return sb.toString();
     }
+    @Override
+    public boolean equals(Object object) {
+         if (!(object instanceof Midia)) {
+            return false;
+        }
+        if (object == this) {
+                    return true;
+                }  
+        Midia compare = (Midia) object;
+
+        return compare.getNome() == this.getNome();
+}
 }

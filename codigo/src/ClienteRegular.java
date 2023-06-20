@@ -2,23 +2,6 @@ package src;
 
 public class ClienteRegular implements ICliente {
     @Override
-    public Avaliacao avaliar(Avaliacao avaliacao, Cliente cliente) {
-        Midia midiaAvaliada = avaliacao.getMidiaAvaliada();
-        boolean jaAvaliouOFilme = cliente.getAvaliacoes()
-                .stream()
-                .anyMatch(avaliacao1 -> midiaAvaliada.getNome().equals(avaliacao1.getMidiaAvaliada().getNome()));
-        if (jaAvaliouOFilme) {
-            throw new IllegalArgumentException("Avaliação já existe na lista.");
-        } else {
-            if (midiaAvaliada.getIsLancamentoFuturo()) {
-                throw new IllegalArgumentException("Apenas Clientes profissionais podem acessar midias lancamento");
-            } else {
-                return avaliacao;
-            }
-        }
-    }
-
-    @Override
     public boolean terminarMidia(Cliente cliente, Midia midia) {
         boolean jaAssistiu = cliente.getMidiasAssistidas()
                 .stream()

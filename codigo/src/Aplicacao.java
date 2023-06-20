@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import src.Comparators.ComparatorMidia;
 import src.Exceptions.IncorrectUserNameOrPasswordException;
+import src.Exceptions.InvalidAvaliacaoException;
 import src.Exceptions.InvalidMidiaException;
 import src.Exceptions.NameUserExistsException;
 import src.Exceptions.ReadFileError;
@@ -352,7 +353,7 @@ public class Aplicacao {
             System.out.println("Deseja comentar ? s - sim / n - nao");
             scanner.nextLine();
             String opComen = scanner.nextLine();
-            while (opComen.equals("s") && opComen.equals("n")) {
+            while (!opComen.equals("s") && !opComen.equals("n")) {
                 System.out.println("opcao invalida");
                 System.out.println("Deseja comentar ? s - sim / s - nao");
                 opComen = scanner.nextLine();
@@ -367,7 +368,9 @@ public class Aplicacao {
 
             streaming.criarAvaliacao(avaliacao, midia);
             System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
-        }catch(ArrayIndexOutOfBoundsException e){
+        }catch(InvalidAvaliacaoException e){
+            System.out.println(e.getMessage());
+        }    catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Informe um dos números indicados na lista");
          }catch(ClassCastException e){
             System.out.println("Você não pode comentar!");
