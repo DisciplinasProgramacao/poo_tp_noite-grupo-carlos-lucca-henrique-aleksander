@@ -175,7 +175,7 @@ public class Streaming {
                         } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
                         }
-                        if(cliente.getNome().equals("Aleks")){
+                        if (cliente.getNome().equals("Aleks")) {
                             System.out.println(avaliacao);
                             System.out.println(cliente);
                         }
@@ -237,18 +237,41 @@ public class Streaming {
         }
     }
 
+    /**
+     * Cria uma avaliação para uma determinada mídia pelo cliente logado no sistema
+     * de streaming.
+     *
+     * @param avaliacao a avaliação a ser criada.
+     * @param midia     a mídia associada à avaliação.
+     * @throws IOException se ocorrer um erro de entrada/saída durante a operação de
+     *                     escrita no arquivo.
+     */
     public void criarAvaliacao(Avaliacao avaliacao, Midia midia) throws IOException {
+        // Avalia a mídia pelo cliente logado
         clienteLogado.avaliar(avaliacao, midia);
+
+        // Adiciona a avaliação à lista de avaliações da mídia
         midia.addAvaliacaoToAvaliacoesList(avaliacao);
-        String str = avaliacao.getAvaliacao()+";"+midia.getIdentificador()+";"+clienteLogado.getNomeUsuario()+";"+avaliacao.getDataFormatada();
-        if(avaliacao.getComentario()!= "Sem coment\u00E1rio"){
-            str = str+";"+avaliacao.getComentario();
+
+        // Cria a string que representa a avaliação
+        String str = avaliacao.getAvaliacao() + ";" + midia.getIdentificador() + ";" + clienteLogado.getNomeUsuario()
+                + ";" + avaliacao.getDataFormatada();
+
+        // Verifica se há um comentário na avaliação
+        if (!avaliacao.getComentario().equals("Sem comentário")) {
+            str = str + ";" + avaliacao.getComentario();
         }
+
+        // Abre o arquivo em modo de escrita, permitindo a adição de conteúdo no final
+        // do arquivo
         BufferedWriter writer = new BufferedWriter(new FileWriter("avaliacoes.csv", true));
+
+        // Escreve uma nova linha no arquivo com as informações da avaliação
         writer.newLine();
         writer.append(str);
-        writer.close();
 
+        // Fecha o arquivo
+        writer.close();
     }
 
     /**
@@ -278,12 +301,12 @@ public class Streaming {
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) throws IOException {
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         boolean sucesso = verificarEAdicionarCliente(cliente);
-        if(sucesso){
-        String str = nome+";"+nomeUsuario+";"+senha+";R";
-        BufferedWriter writer = new BufferedWriter(new FileWriter("espectadores.csv", true));
-        writer.newLine();
-        writer.append(str);
-        writer.close();
+        if (sucesso) {
+            String str = nome + ";" + nomeUsuario + ";" + senha + ";R";
+            BufferedWriter writer = new BufferedWriter(new FileWriter("espectadores.csv", true));
+            writer.newLine();
+            writer.append(str);
+            writer.close();
         }
         return "Usuario cadastrado com sucesso";
     }
@@ -363,7 +386,7 @@ public class Streaming {
         throw new IncorrectUserNameOrPasswordException();
     }
 
-        /**
+    /**
      * Adiciona uma mídia futura para o cliente logado no sistema de streaming.
      *
      * @param midia a mídia futura a ser adicionada.
@@ -381,7 +404,7 @@ public class Streaming {
      */
     public void adicionarMidiaFutura(Midia midia) throws IOException {
         clienteLogado.adicionarMidiaFutura(midia);
-         salvarAudienciaArquivo('F', midia);
+        salvarAudienciaArquivo('F', midia);
 
         // Illegal argument aqui
     }
@@ -389,26 +412,57 @@ public class Streaming {
     /**
      * Marca uma mídia como terminada para o cliente logado no sistema de streaming.
      *
-     * @param identificador o identificador da mídia a ser terminada.
-     * @throws IOException
+     * @param midia o identificador da mídia a ser terminada.
+     * @throws IOException se ocorrer um erro de entrada/saída durante a operação de
+     *                     escrita no arquivo.
      */
     public void terminarMidia(Midia midia) throws IOException {
+        // Verifica se a mídia é nula
         if (midia == null) {
-            throw new InvalidMidiaException( "Mídia não existe");
+            throw new InvalidMidiaException("Mídia não existe");
         }
+
+        // Marca a mídia como terminada para o cliente logado
         clienteLogado.terminarMidia(midia);
-         salvarAudienciaArquivo('A', midia);
+
+        // Salva a informação da audiência no arquivo
+        salvarAudienciaArquivo('A', midia);
     }
 
-    private void salvarAudienciaArquivo(char letraAouF, Midia midia) throws IOException{
-        String str = clienteLogado.getNomeUsuario()+";"+letraAouF+";"+midia.getIdentificador();
+    /**
+     * Salva as informações da audiência no arquivo.
+     *
+     * @param letraAouF a letra que representa se a mídia foi assistida ('A') ou
+     *                  favoritada ('F').
+     * @param midia     a mídia associada à audiência.
+     * @throws IOException se ocorrer um erro de entrada/saída durante a operação de
+     *                     escrita no arquivo.
+     */
+    private void salvarAudienciaArquivo(char letraAouF, Midia midia) throws IOException {
+        // Cria a string que representa a audiência
+        String str = clienteLogado.getNomeUsuario() + ";" + letraAouF + ";" + midia.getIdentificador();
+
+        // Abre o arquivo em modo de escrita, permitindo a adição de conteúdo no final
+        // do arquivo
         BufferedWriter writer = new BufferedWriter(new FileWriter("audiencia.csv", true));
+
+        // Escreve uma nova linha no arquivo com as informações da audiência
         writer.newLine();
         writer.append(str);
+
+        // Fecha o arquivo
         writer.close();
     }
 
-    public void comentar(String comentario, Avaliacao avaliacao){
+    /**
+     * Adiciona um comentário do cliente logado para uma avaliação específica.
+     *
+     * @param comentario o comentário a ser adicionado.
+     * @param avaliacao  a avaliação associada ao comentário.
+     */
+    public void comentar(String comentario, Avaliacao avaliacao) {
+        // Adiciona o comentário do cliente logado para a avaliação específica
         clienteLogado.adicionarComentario(comentario, avaliacao);
     }
+
 }
