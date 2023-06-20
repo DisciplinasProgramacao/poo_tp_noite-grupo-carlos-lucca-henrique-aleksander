@@ -16,7 +16,7 @@ public class AvaliacaoTest {
 
     @BeforeEach
     public void setUp() {
-        midia = new Midia("Suzume", "123456", LocalDate.now());
+        midia = new Midia("Suzume", "123456", LocalDate.now(), true);
         cliente = new Cliente("João Caram", "caram123", "Caram");
     }
 

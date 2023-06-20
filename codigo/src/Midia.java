@@ -14,21 +14,27 @@ public class Midia {
     private String identificador;
     private int assistidaPorClientes;
     private static Random rd = new Random();
-
     private boolean lancamentoFuturo;
     private ArrayList<Avaliacao> avaliacoes;
+    // #endregion
 
+    /**
+     * Cria um objeto da classe Midia com os parâmetros fornecidos.
+     *
+     * @param nome             O nome da mídia.
+     * @param identificador    O identificador da mídia.
+     * @param data             A data da mídia.
+     * @param lancamentoFuturo Indica se a mídia é um lançamento futuro.
+     */
     public Midia(String nome, String identificador, LocalDate data, boolean lancamentoFuturo) {
         this.nome = nome;
         this.data = data;
         this.identificador = identificador;
         this.lancamentoFuturo = (lancamentoFuturo == true) ? true : false;
-        // atribui um valor aleatório ao idioma
-        this.idioma = sorteiaEnum(Idioma.class);
-        // atribui um valor aleatório ao genero
-        this.genero = sorteiaEnum(Genero.class);
-        this.avaliacoes = new ArrayList<>();
-        this.assistidaPorClientes = 0;
+        this.idioma = sorteiaEnum(Idioma.class); // Atribui um valor aleatório ao idioma
+        this.genero = sorteiaEnum(Genero.class); // Atribui um valor aleatório ao gênero
+        this.avaliacoes = new ArrayList<>(); // Inicializa uma lista vazia de avaliações
+        this.assistidaPorClientes = 0; // Define o número inicial de clientes que assistiram a mídia como 0
     }
 
     /**
@@ -45,6 +51,12 @@ public class Midia {
         return values[indiceAleatorio];
     }
 
+    /**
+     * Retorna o valor da propriedade isLancamentoFuturo, que indica se a mídia é um
+     * lançamento futuro.
+     *
+     * @return true se a mídia for um lançamento futuro, false caso contrário.
+     */
     public boolean getIsLancamentoFuturo() {
         return this.lancamentoFuturo;
     }
@@ -164,19 +176,29 @@ public class Midia {
         sb.append("Gênero: ").append(genero).append("\n");
         sb.append("Data: ").append(getData()).append("\n");
         sb.append("Assista por: ").append(assistidaPorClientes).append(" pessoas").append("\n");
-        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append(" estrelas").append("\n");
+        sb.append("Avaliação média: ").append(String.format("%.2f", calculaMediaAvaliacoes()).replace(",", "."))
+                .append(" estrelas")
+                .append("\n");
         return sb.toString();
     }
+
+    /**
+     * Compara se o objeto atual é igual ao objeto fornecido.
+     *
+     * @param object O objeto a ser comparado.
+     * @return true se os objetos são iguais, false caso contrário.
+     */
     @Override
     public boolean equals(Object object) {
-         if (!(object instanceof Midia)) {
+        if (!(object instanceof Midia)) {
             return false;
         }
         if (object == this) {
-                    return true;
-                }  
+            return true;
+        }
         Midia compare = (Midia) object;
 
         return compare.getNome() == this.getNome();
-}
+    }
+
 }

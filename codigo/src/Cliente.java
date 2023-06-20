@@ -32,10 +32,27 @@ public class Cliente {
         init(nome, senha, nomeUsuario, 'R');
     }
 
+    /**
+     * Construtor para criar um Cliente com nome, senha, nome de usuário e seu tipo.
+     * 
+     * @param nome        Nome do cliente
+     * @param senha       Senha do cliente
+     * @param nomeUsuario Nome de usuário do cliente
+     * @param tipo        Tipo do cliente
+     */
     public Cliente(String nome, String senha, String nomeUsuario, char tipo) {
         init(nome, senha, nomeUsuario, tipo);
     }
 
+    /**
+     * Inicializa um objeto da classe Cliente com os parâmetros fornecidos.
+     *
+     * @param nome        O nome do cliente.
+     * @param senha       A senha do cliente.
+     * @param nomeUsuario O nome de usuário do cliente.
+     * @param tipo        O tipo de cliente, representado por um caractere 'P' para
+     *                    profissional ou qualquer outro caractere para regular.
+     */
     private void init(String nome, String senha, String nomeUsuario, char tipo) {
         this.nome = nome;
         this.senha = senha;
@@ -43,6 +60,8 @@ public class Cliente {
         this.midiasFuturas = new ArrayList<>();
         this.midiasAssistidas = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
+
+        // Verifica o tipo de cliente e atribui o objeto correspondente
         if (tipo == 'P') {
             this.tipoCliente = new ClienteProfissional();
             this.isProfissional = true;
@@ -226,14 +245,14 @@ public class Cliente {
         // Verifica se a mídia está na lista de mídias assistidas
         boolean containsMidia = false;
         for (Avaliacao avaliacao : avaliacoes) {
-            if(avaliacao.getMidiaAvaliada().equals(midia)){
+            if (avaliacao.getMidiaAvaliada().equals(midia)) {
                 containsMidia = true;
             }
         }
-        if(containsMidia) {
-         throw new InvalidAvaliacaoException("Você já avaliou essa mídia!");
+        if (containsMidia) {
+            throw new InvalidAvaliacaoException("Você já avaliou essa mídia!");
         }
-        if (!isProfissional){
+        if (!isProfissional) {
             atualizarTipoCliente();
         }
         avaliacoes.add(avaliacaoClient);
@@ -251,9 +270,9 @@ public class Cliente {
      */
     public boolean comentar(IComentarista clienteComentarista, Avaliacao avaliacao, String comentario)
             throws AuthorizationException {
-         clienteComentarista.addComentario(comentario);
-         return true;
-        
+        clienteComentarista.addComentario(comentario);
+        return true;
+
     }
 
     /**
@@ -267,9 +286,9 @@ public class Cliente {
         this.tipoCliente = temMaisDeCincoAvaliacoesUltimoMes() ? new ClienteEspecialista() : new ClienteRegular();
     }
 
-    public void adicionarComentario(String coment, Avaliacao avaliacao){
+    public void adicionarComentario(String coment, Avaliacao avaliacao) {
         int index = avaliacoes.indexOf(avaliacao);
-        if(index != -1){
+        if (index != -1) {
             Avaliacao ava = avaliacoes.get(index);
 
             ava.addComentario(coment);
