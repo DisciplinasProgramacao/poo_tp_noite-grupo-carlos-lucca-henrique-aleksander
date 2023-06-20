@@ -367,6 +367,7 @@ public class Aplicacao {
             int nota = scanner.nextInt();
             System.out.println();
             avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado(), LocalDate.now());
+            streaming.criarAvaliacao(avaliacao, midia);
             System.out.println("Deseja comentar ? s - sim / n - nao");
             scanner.nextLine();
             String opComen = scanner.nextLine();
@@ -382,11 +383,9 @@ public class Aplicacao {
                 boolean comentarioSucesso = streaming.getClienteLogado().comentar(
                         (IComentarista) streaming.getClienteLogado().getTipoCliente(),
                         avaliacao, coment);
-
-                avaliacao.addComentario(coment);
+                streaming.comentar(coment, avaliacao);
             }
 
-            streaming.criarAvaliacao(avaliacao, midia);
             System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
         } catch (InvalidAvaliacaoException e) {
             System.out.println(e.getMessage());

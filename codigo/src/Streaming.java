@@ -407,4 +407,8 @@ public class Streaming {
         writer.append(str);
         writer.close();
     }
+
+    public void comentar(String comentario, Avaliacao avaliacao){
+        clienteLogado.adicionarComentario(comentario, avaliacao);
+    }
 }

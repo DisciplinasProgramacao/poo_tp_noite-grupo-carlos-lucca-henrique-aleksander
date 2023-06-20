@@ -275,6 +275,15 @@ public class Cliente {
         this.tipoCliente = temMaisDeCincoAvaliacoesUltimoMes() ? new ClienteEspecialista() : new ClienteRegular();
     }
 
+    public void adicionarComentario(String coment, Avaliacao avaliacao){
+        int index = avaliacoes.indexOf(avaliacao);
+        if(index != -1){
+            Avaliacao ava = avaliacoes.get(index);
+
+            ava.addComentario(coment);
+        }
+    }
+
     /**
      * Descrição do cliente em string, com os seus respectivos dados.
      *
