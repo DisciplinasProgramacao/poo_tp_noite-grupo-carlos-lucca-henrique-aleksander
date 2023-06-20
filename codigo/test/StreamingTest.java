@@ -10,6 +10,8 @@ import src.Filme;
 import src.Streaming;
 import src.Exceptions.IncorrectUserNameOrPasswordException;
 import src.Exceptions.NameUserExistsException;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +33,7 @@ public class StreamingTest {
     }
 
     @Test
-    public void testCadastrarCliente() {
+    public void testCadastrarCliente() throws IOException {
         String nome = "João";
         String senha = "123456";
         String nomeUsuario = "joao123";
@@ -48,7 +50,7 @@ public class StreamingTest {
     }
 
     @Test
-    public void testCadastrarCliente_NomeUsuarioExistente() {
+    public void testCadastrarCliente_NomeUsuarioExistente() throws IOException {
         String nome = "João";
         String senha = "123456";
         String nomeUsuario = "joao123";
@@ -125,7 +127,7 @@ public class StreamingTest {
     }
 
     @Test
-    public void testAdicionarMidiaFutura() {
+    public void testAdicionarMidiaFutura() throws IOException {
         Cliente cliente = new Cliente("João", "123456", "joao123");
         Midia midia = new Filme("Filme A", "001",
                 LocalDate.now().plusDays(1), 120, true);
@@ -142,7 +144,7 @@ public class StreamingTest {
     }
 
     @Test
-    public void testTerminarMidia() {
+    public void testTerminarMidia() throws IOException {
         Midia midia = new Filme("Filme A", "001",
                 LocalDate.of(2014, 11, 7), 120, true);
         streaming.cadastrarMidia(midia);
@@ -150,7 +152,7 @@ public class StreamingTest {
         streaming.login(cliente.getNomeUsuario(), cliente.getSenha());
         streaming.getClienteLogado().terminarMidia(midia);
 
-        streaming.terminarMidia(midia.getIdentificador());
+        streaming.terminarMidia(midia);
 
         ArrayList<Midia> midiasTerminadas = streaming.getClienteLogado().getMidiasAssistidas();
 

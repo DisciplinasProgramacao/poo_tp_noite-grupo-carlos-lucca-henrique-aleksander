@@ -299,7 +299,7 @@ public class Aplicacao {
             throw new InvalidMidiaException("Mídia inválida, tente novamente");
         }
         try {
-            streaming.getClienteLogado().adicionarMidiaFutura(retorno);
+            eu.adicionarMidiaFutura(retorno);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Insira um valor mostrado na lista de mídias!");
         } catch (RuntimeException e) {
@@ -320,6 +320,7 @@ public class Aplicacao {
             streaming.terminarMidia(retorno);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Insira um valor mostrado na lista de mídias!");
+            pausa();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             pausa();

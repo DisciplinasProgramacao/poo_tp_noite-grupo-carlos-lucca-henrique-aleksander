@@ -225,7 +225,7 @@ public class Cliente {
         // Verifica se a mídia está na lista de mídias assistidas
         avaliacaoClient = tipoCliente.avaliar(avaliacaoClient, this);
 
-        if (!isProfissional){
+        if (!isProfissional) {
             atualizarTipoCliente();
         }
         avaliacoes.add(avaliacaoClient);

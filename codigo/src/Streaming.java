@@ -269,12 +269,12 @@ public class Streaming {
     public String cadastrarCliente(String nome, String senha, String nomeUsuario) throws IOException {
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         boolean sucesso = verificarEAdicionarCliente(cliente);
-        if(sucesso){
-        String str = nome+";"+nomeUsuario+";"+senha+";P";
-        BufferedWriter writer = new BufferedWriter(new FileWriter("espectadores.csv", true));
-        writer.newLine();
-        writer.append(str);
-        writer.close();
+        if (sucesso) {
+            String str = nome + ";" + nomeUsuario + ";" + senha + ";P";
+            BufferedWriter writer = new BufferedWriter(new FileWriter("espectadores.csv", true));
+            writer.newLine();
+            writer.append(str);
+            writer.close();
         }
         return "Usuario cadastrado com sucesso";
     }
@@ -361,7 +361,6 @@ public class Streaming {
      */
     public void adicionarMidiaFutura(Midia midia) {
         clienteLogado.adicionarMidiaFutura(midia);
-        // Illegal argument aqui
     }
 
     /**
@@ -371,7 +370,7 @@ public class Streaming {
      */
     public void terminarMidia(Midia midia) {
         if (midia == null) {
-            throw new InvalidMidiaException( "Mídia não existe");
+            throw new InvalidMidiaException("Mídia não existe");
         }
         clienteLogado.terminarMidia(midia);
     }
