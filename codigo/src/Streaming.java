@@ -1,5 +1,7 @@
 package src;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -235,14 +237,9 @@ public class Streaming {
         }
     }
 
-    public void criarAvaliacao(Avaliacao avaliacao, Midia midia, Cliente cliente) {
-        cliente.avaliar(avaliacao, midia);
-        midia.addAvaliacaoToAvaliacoesList(avaliacao);
-    }
-
-    public void avaliar(Avaliacao avaliacao, Midia midia) {
-        midia.addAvaliacaoToAvaliacoesList(avaliacao);
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia) {
         clienteLogado.avaliar(avaliacao, midia);
+        midia.addAvaliacaoToAvaliacoesList(avaliacao);
     }
 
     /**
@@ -256,7 +253,8 @@ public class Streaming {
      */
     public String cadastrarCliente(String nome, String senha, String nomeUsuario, char tipo) {
         Cliente cliente = new Cliente(nome, senha, nomeUsuario, tipo);
-        return verificarEAdicionarCliente(cliente);
+        verificarEAdicionarCliente(cliente);
+        return "Usuario cadastrado com sucesso";
     }
 
     /**
@@ -266,10 +264,19 @@ public class Streaming {
      * @param senha       a senha do cliente.
      * @param nomeUsuario o nome de usuário do cliente.
      * @return uma mensagem indicando o resultado do cadastro.
+     * @throws IOException
      */
-    public String cadastrarCliente(String nome, String senha, String nomeUsuario) {
+    public String cadastrarCliente(String nome, String senha, String nomeUsuario) throws IOException {
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
-        return verificarEAdicionarCliente(cliente);
+        boolean sucesso = verificarEAdicionarCliente(cliente);
+        if(sucesso){
+        String str = nome+";"+nomeUsuario+";"+senha+";P";
+        BufferedWriter writer = new BufferedWriter(new FileWriter("espectadores.csv", true));
+        writer.newLine();
+        writer.append(str);
+        writer.close();
+        }
+        return "Usuario cadastrado com sucesso";
     }
 
     /**
@@ -279,12 +286,12 @@ public class Streaming {
      * @param cliente o cliente a ser verificado e adicionado.
      * @return uma mensagem indicando o resultado do cadastro.
      */
-    private String verificarEAdicionarCliente(Cliente cliente) {
+    private boolean verificarEAdicionarCliente(Cliente cliente) {
         if (clientes.containsKey(cliente.getNomeUsuario())) {
             throw new NameUserExistsException();
         }
         clientes.put(cliente.getNomeUsuario(), cliente);
-        return "Usuário cadastrado com sucesso";
+        return true;
     }
 
     /**
@@ -362,11 +369,10 @@ public class Streaming {
      *
      * @param identificador o identificador da mídia a ser terminada.
      */
-    public void terminarMidia(String identificador) {
-        Midia midiaTerminada = midias.get(identificador);
-        if (midiaTerminada == null) {
-            throw new InvalidMidiaException(identificador + " e Mídia não existem");
+    public void terminarMidia(Midia midia) {
+        if (midia == null) {
+            throw new InvalidMidiaException( "Mídia não existe");
         }
-        clienteLogado.terminarMidia(midiaTerminada);
+        clienteLogado.terminarMidia(midia);
     }
 }
