@@ -141,6 +141,9 @@ public class Avaliacao {
         return comentario;
     }
 
+    public String getDataFormatada(){
+       return data.format(Aplicacao.DATA_FORMATTER);
+    }
     /**
      * Adiciona um comentário à avaliação.
      *

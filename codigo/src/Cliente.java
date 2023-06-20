@@ -249,14 +249,11 @@ public class Cliente {
      * @return A avaliação com o comentário adicionado.
      * @throws AuthorizationException Se o tipo de cliente for nulo.
      */
-    public void comentar(IComentarista clienteComentarista, Avaliacao avaliacao, String comentario)
+    public boolean comentar(IComentarista clienteComentarista, Avaliacao avaliacao, String comentario)
             throws AuthorizationException {
-        String comentarioAvaliacao = clienteComentarista.addComentario(comentario);
-        for (Avaliacao avaliacao1 : avaliacoes) {
-            if (avaliacao1.getMidiaAvaliada().getNome().equals(avaliacao.getMidiaAvaliada().getNome())) {
-                avaliacao1.addComentario(comentarioAvaliacao);
-            }
-        }
+         clienteComentarista.addComentario(comentario);
+         return true;
+        
     }
 
     /**

@@ -175,11 +175,16 @@ public class Streaming {
                         } else {
                             av = new Avaliacao(avaliacao, midia, cliente, data);
                         }
+                        if(cliente.getNome().equals("Aleks")){
+                            System.out.println(avaliacao);
+                            System.out.println(cliente);
+                        }
                         criarAvaliacaoArquivo(av, midia, cliente);
                     });
         } catch (IOException e) {
             throw new ReadFileError();
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -228,14 +233,22 @@ public class Streaming {
                 cliente.avaliar(avaliacao, midia);
                 midia.addAvaliacaoToAvaliacoesList(avaliacao);
             }
-        } catch (Exception e) {
-            throw e;
+        } catch (Exception ignored) {
         }
     }
 
-    public void criarAvaliacao(Avaliacao avaliacao, Midia midia) {
+    public void criarAvaliacao(Avaliacao avaliacao, Midia midia) throws IOException {
         clienteLogado.avaliar(avaliacao, midia);
         midia.addAvaliacaoToAvaliacoesList(avaliacao);
+        String str = avaliacao.getAvaliacao()+";"+midia.getIdentificador()+";"+clienteLogado.getNomeUsuario()+";"+avaliacao.getDataFormatada();
+        if(avaliacao.getComentario()!= "Sem coment\u00E1rio"){
+            str = str+";"+avaliacao.getComentario();
+        }
+        BufferedWriter writer = new BufferedWriter(new FileWriter("avaliacoes.csv", true));
+        writer.newLine();
+        writer.append(str);
+        writer.close();
+
     }
 
     /**
