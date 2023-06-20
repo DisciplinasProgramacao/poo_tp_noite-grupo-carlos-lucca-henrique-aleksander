@@ -325,6 +325,8 @@ public class Aplicacao {
             streaming.terminarMidia(retorno);
         }catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Insira um valor mostrado na lista de mídias!");
+            pausa();
+            exibirMenuCliente();
         }catch (RuntimeException e) {
             System.out.println(e.getMessage());
             pausa();

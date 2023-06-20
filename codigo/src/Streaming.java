@@ -358,11 +358,8 @@ public class Streaming {
      */
     public void adicionarMidiaFutura(Midia midia) throws IOException {
         clienteLogado.adicionarMidiaFutura(midia);
-        String str = clienteLogado.getNomeUsuario()+";F;"+midia.getIdentificador();
-        BufferedWriter writer = new BufferedWriter(new FileWriter("audiencia.csv", true));
-        writer.newLine();
-        writer.append(str);
-        writer.close();
+         salvarAudienciaArquivo('F', midia);
+
         // Illegal argument aqui
     }
 
@@ -370,11 +367,21 @@ public class Streaming {
      * Marca uma mídia como terminada para o cliente logado no sistema de streaming.
      *
      * @param identificador o identificador da mídia a ser terminada.
+     * @throws IOException
      */
-    public void terminarMidia(Midia midia) {
+    public void terminarMidia(Midia midia) throws IOException {
         if (midia == null) {
             throw new InvalidMidiaException( "Mídia não existe");
         }
         clienteLogado.terminarMidia(midia);
+         salvarAudienciaArquivo('A', midia);
+    }
+
+    private void salvarAudienciaArquivo(char letraAouF, Midia midia) throws IOException{
+        String str = clienteLogado.getNomeUsuario()+";"+letraAouF+";"+midia.getIdentificador();
+        BufferedWriter writer = new BufferedWriter(new FileWriter("audiencia.csv", true));
+        writer.newLine();
+        writer.append(str);
+        writer.close();
     }
 }
