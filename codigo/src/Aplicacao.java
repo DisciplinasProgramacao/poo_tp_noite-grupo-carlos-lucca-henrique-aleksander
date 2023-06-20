@@ -203,7 +203,7 @@ public class Aplicacao {
         } catch (InputMismatchException e) {
             System.out.println("Insira um valor válido");
             exibirMenuPrincipal();
-        } catch (InvalidMidiaException e){
+        } catch (InvalidMidiaException e) {
             System.out.println(e.getMessage());
             pausa();
             exibirMenuCliente();
@@ -212,7 +212,7 @@ public class Aplicacao {
 
     private static void listarAvaliacoes() {
         ArrayList<Avaliacao> avaliacoesCliente = streaming.fetchListaAvaliacao();
-        if(avaliacoesCliente.isEmpty()){
+        if (avaliacoesCliente.isEmpty()) {
             System.out.println("Você ainda não possui nenhuma avaliação.");
         }
         avaliacoesCliente.stream().forEach(avaliacao -> System.out.println(avaliacao));
@@ -298,20 +298,20 @@ public class Aplicacao {
         System.out.println("\u001B[32m== Adicionar Mídia Futura ==\u001B[37m");
         Midia retorno = buscaMidiaTituloParaMetodos();
         if (retorno == null) {
-           throw new InvalidMidiaException("Mídia inválida, tente novamente");
+            throw new InvalidMidiaException("Mídia inválida, tente novamente");
         }
         try {
             streaming.adicionarMidiaFutura(retorno);
-        }catch(IOException e){
-            System.out.println("Não foi possível salvar sua alteração no arquivo, mas fique tranquilo, você poderá utilizar essa informação enquanto o aplicativo não fechar!");
+        } catch (IOException e) {
+            System.out.println(
+                    "Não foi possível salvar sua alteração no arquivo, mas fique tranquilo, você poderá utilizar essa informação enquanto o aplicativo não fechar!");
             pausa();
             exibirMenuCliente();
-        } 
-        catch(ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Insira um valor mostrado na lista de mídias!");
             pausa();
             exibirMenuCliente();
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
         }
@@ -327,16 +327,17 @@ public class Aplicacao {
         }
         try {
             streaming.terminarMidia(retorno);
-        }catch(ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Insira um valor mostrado na lista de mídias!");
             pausa();
             exibirMenuCliente();
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             pausa();
             exibirMenuCliente();
         } catch (IOException e) {
-            System.out.println("Não foi possível salvar sua alteração no arquivo, mas fique tranquilo, você poderá utilizar essa informação enquanto o aplicativo não fechar!");
+            System.out.println(
+                    "Não foi possível salvar sua alteração no arquivo, mas fique tranquilo, você poderá utilizar essa informação enquanto o aplicativo não fechar!");
             pausa();
             exibirMenuCliente();
         }
@@ -349,7 +350,7 @@ public class Aplicacao {
             Avaliacao avaliacao;
             System.out.println("\u001B[32m== Avaliar Mídia ==\u001B[37m");
             ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
-            if(midias.isEmpty()){
+            if (midias.isEmpty()) {
                 System.out.println("Poxa, você ainda não assistiu nenhuma mídia!");
                 pausa();
                 exibirMenuCliente();
@@ -378,7 +379,8 @@ public class Aplicacao {
             if (opComen.equalsIgnoreCase("s")) {
                 System.out.println("Qual seu comentario");
                 String coment = scanner.nextLine();
-               boolean comentarioSucesso = streaming.getClienteLogado().comentar((IComentarista) streaming.getClienteLogado().getTipoCliente(),
+                boolean comentarioSucesso = streaming.getClienteLogado().comentar(
+                        (IComentarista) streaming.getClienteLogado().getTipoCliente(),
                         avaliacao, coment);
 
                 avaliacao.addComentario(coment);
@@ -386,15 +388,15 @@ public class Aplicacao {
 
             streaming.criarAvaliacao(avaliacao, midia);
             System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
-        }catch(InvalidAvaliacaoException e){
+        } catch (InvalidAvaliacaoException e) {
             System.out.println(e.getMessage());
-        }    catch(ArrayIndexOutOfBoundsException e){
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Informe um dos números indicados na lista");
-         }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             System.out.println("Você não pode comentar!");
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Erro ao salvar no arquivo!");
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

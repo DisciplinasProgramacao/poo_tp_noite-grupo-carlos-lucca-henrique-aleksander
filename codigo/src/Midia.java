@@ -164,19 +164,22 @@ public class Midia {
         sb.append("Gênero: ").append(genero).append("\n");
         sb.append("Data: ").append(getData()).append("\n");
         sb.append("Assista por: ").append(assistidaPorClientes).append(" pessoas").append("\n");
-        sb.append("Avaliação média: ").append(calculaMediaAvaliacoes()).append(" estrelas").append("\n");
+        sb.append("Avaliação média: ").append(String.format("%.2f", calculaMediaAvaliacoes()).replace(",", "."))
+                .append(" estrelas")
+                .append("\n");
         return sb.toString();
     }
+
     @Override
     public boolean equals(Object object) {
-         if (!(object instanceof Midia)) {
+        if (!(object instanceof Midia)) {
             return false;
         }
         if (object == this) {
-                    return true;
-                }  
+            return true;
+        }
         Midia compare = (Midia) object;
 
         return compare.getNome() == this.getNome();
-}
+    }
 }
