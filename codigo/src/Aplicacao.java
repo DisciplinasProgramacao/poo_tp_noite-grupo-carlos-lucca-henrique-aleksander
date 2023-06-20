@@ -211,7 +211,11 @@ public class Aplicacao {
     }
 
     private static void listarAvaliacoes() {
-        streaming.getClienteLogado().getAvaliacoes().stream().forEach(avaliacao -> System.out.println(avaliacao));
+        ArrayList<Avaliacao> avaliacoesCliente = streaming.fetchListaAvaliacao();
+        if(avaliacoesCliente.isEmpty()){
+            System.out.println("Você ainda não possui nenhuma avaliação.");
+        }
+        avaliacoesCliente.stream().forEach(avaliacao -> System.out.println(avaliacao));
     }
 
     private static void verMidiaAssistida() {

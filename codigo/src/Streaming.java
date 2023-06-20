@@ -350,6 +350,16 @@ public class Streaming {
         throw new IncorrectUserNameOrPasswordException();
     }
 
+        /**
+     * Adiciona uma mídia futura para o cliente logado no sistema de streaming.
+     *
+     * @param midia a mídia futura a ser adicionada.
+     * @throws IOException
+     */
+    public ArrayList<Avaliacao> fetchListaAvaliacao() {
+        return clienteLogado.getAvaliacoes();
+    }
+
     /**
      * Adiciona uma mídia futura para o cliente logado no sistema de streaming.
      *
