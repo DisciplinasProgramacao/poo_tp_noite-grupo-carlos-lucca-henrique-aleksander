@@ -331,6 +331,10 @@ public class Aplicacao {
             System.out.println(e.getMessage());
             pausa();
             exibirMenuCliente();
+        } catch (IOException e) {
+            System.out.println("Não foi possível salvar sua alteração no arquivo, mas fique tranquilo, você poderá utilizar essa informação enquanto o aplicativo não fechar!");
+            pausa();
+            exibirMenuCliente();
         }
         System.out.println("\u001B[32mMídia terminada e adiciona a lista de assistidas. \u001B[37m");
     }
