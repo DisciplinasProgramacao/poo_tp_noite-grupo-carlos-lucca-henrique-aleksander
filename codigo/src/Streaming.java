@@ -193,9 +193,7 @@ public class Streaming {
     public void iniciar() throws IOException, ReadFileError {
         lerArquivoClientes();
         lerArquivoSeries();
-
         lerArquivoFilmes();
-
         lerArquivoAudiencia();
         lerArquivoAvaliacao();
     }
@@ -356,9 +354,15 @@ public class Streaming {
      * Adiciona uma mídia futura para o cliente logado no sistema de streaming.
      *
      * @param midia a mídia futura a ser adicionada.
+     * @throws IOException
      */
-    public void adicionarMidiaFutura(Midia midia) {
+    public void adicionarMidiaFutura(Midia midia) throws IOException {
         clienteLogado.adicionarMidiaFutura(midia);
+        String str = clienteLogado.getNomeUsuario()+";F;"+midia.getIdentificador();
+        BufferedWriter writer = new BufferedWriter(new FileWriter("audiencia.csv", true));
+        writer.newLine();
+        writer.append(str);
+        writer.close();
         // Illegal argument aqui
     }
 

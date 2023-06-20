@@ -297,9 +297,16 @@ public class Aplicacao {
            throw new InvalidMidiaException("Mídia inválida, tente novamente");
         }
         try {
-            streaming.getClienteLogado().adicionarMidiaFutura(retorno);
-        } catch(ArrayIndexOutOfBoundsException e){
+            streaming.adicionarMidiaFutura(retorno);
+        }catch(IOException e){
+            System.out.println("Não foi possível salvar sua alteração no arquivo, mas fique tranquilo, você poderá utilizar essa informação enquanto o aplicativo não fechar!");
+            pausa();
+            exibirMenuCliente();
+        } 
+        catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Insira um valor mostrado na lista de mídias!");
+            pausa();
+            exibirMenuCliente();
         }catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
