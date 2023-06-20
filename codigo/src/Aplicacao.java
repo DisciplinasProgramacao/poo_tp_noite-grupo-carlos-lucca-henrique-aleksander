@@ -109,6 +109,8 @@ public class Aplicacao {
             System.out.println("\u001B[32m" + resultado + "\u001B[37m");
         } catch (NameUserExistsException e) {
             System.out.println("\u001B[31mErro: " + e.getMessage() + "\u001B[37m");
+        } catch (IOException e) {
+            System.out.println("\u001B[31mErro: " + e.getMessage() + "\u001B[37m");
         }
     }
 
@@ -200,6 +202,10 @@ public class Aplicacao {
         } catch (InputMismatchException e) {
             System.out.println("Insira um valor válido");
             exibirMenuPrincipal();
+        } catch (InvalidMidiaException e){
+            System.out.println(e.getMessage());
+            pausa();
+            exibirMenuCliente();
         }
     }
 
@@ -287,8 +293,7 @@ public class Aplicacao {
         System.out.println("\u001B[32m== Adicionar Mídia Futura ==\u001B[37m");
         Midia retorno = buscaMidiaTituloParaMetodos();
         if (retorno == null) {
-            System.out.println("Mídia inválida, tente novamente");
-            exibirMenuCliente();
+           throw new InvalidMidiaException("Mídia inválida, tente novamente");
         }
         try {
             streaming.getClienteLogado().adicionarMidiaFutura(retorno);
