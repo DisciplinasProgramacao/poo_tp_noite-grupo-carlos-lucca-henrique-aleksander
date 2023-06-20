@@ -349,7 +349,6 @@ public class Aplicacao {
             int nota = scanner.nextInt();
             System.out.println();
             avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado(), LocalDate.now());
-            streaming.getClienteLogado().avaliar(avaliacao, midia);
             System.out.println("Deseja comentar ? s - sim / n - nao");
             scanner.nextLine();
             String opComen = scanner.nextLine();

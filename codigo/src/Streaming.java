@@ -197,9 +197,7 @@ public class Streaming {
         lerArquivoFilmes();
 
         lerArquivoAudiencia();
-
         lerArquivoAvaliacao();
-
     }
 
     /**
@@ -228,7 +226,7 @@ public class Streaming {
     private void criarAvaliacaoArquivo(Avaliacao avaliacao, Midia midia, Cliente cliente) {
         try {
             if (midia != null && cliente != null) {
-                cliente.terminarMidia(midia);
+                cliente.adicionarMidiaAssistida(midia);
                 cliente.avaliar(avaliacao, midia);
                 midia.addAvaliacaoToAvaliacoesList(avaliacao);
             }
@@ -270,7 +268,7 @@ public class Streaming {
         Cliente cliente = new Cliente(nome, senha, nomeUsuario);
         boolean sucesso = verificarEAdicionarCliente(cliente);
         if(sucesso){
-        String str = nome+";"+nomeUsuario+";"+senha+";P";
+        String str = nome+";"+nomeUsuario+";"+senha+";R";
         BufferedWriter writer = new BufferedWriter(new FileWriter("espectadores.csv", true));
         writer.newLine();
         writer.append(str);
