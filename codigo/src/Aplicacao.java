@@ -298,7 +298,7 @@ public class Aplicacao {
         try {
             streaming.getClienteLogado().adicionarMidiaFutura(retorno);
         } catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Insira um valor mostrado na lista de filmes!");
+            System.out.println("Insira um valor mostrado na lista de mídias!");
         }catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
@@ -316,7 +316,7 @@ public class Aplicacao {
         try {
             streaming.terminarMidia(retorno);
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Insira um valor mostrado na lista de filmes!");
+            System.out.println("Insira um valor mostrado na lista de mídias!");
         }catch (RuntimeException e) {
             System.out.println(e.getMessage());
             pausa();
