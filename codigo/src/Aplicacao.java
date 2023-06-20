@@ -21,6 +21,7 @@ public class Aplicacao {
     public static final DateTimeFormatter DATA_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     static Scanner scanner = new Scanner(System.in);
     private static boolean sair = false;
+    private static Cliente eu;
 
     public static void main(String[] args) {
         streaming = new Streaming();
@@ -72,6 +73,7 @@ public class Aplicacao {
                         break;
                     case 2:
                         fazerLogin();
+                        eu = streaming.getClienteLogado();
                         break;
                     case 3:
                         System.out.println("Saindo do programa...");
@@ -204,14 +206,14 @@ public class Aplicacao {
     }
 
     private static void listarAvaliacoes() {
-        streaming.getClienteLogado().getAvaliacoes().stream().forEach(avaliacao -> System.out.println(avaliacao));
+        eu.getAvaliacoes().stream().forEach(avaliacao -> System.out.println(avaliacao));
     }
 
     private static void verMidiaAssistida() {
         limparTela();
         System.out.println("\u001B[32m== Mídias Assistidas ==\u001B[37m \n");
-        System.out.println(streaming.getClienteLogado()
-                .MostrarListaEspecifica(streaming.getClienteLogado().getMidiasAssistidas()));
+        System.out.println(eu
+                .MostrarListaEspecifica(eu.getMidiasAssistidas()));
         System.out.println("\u001B[32m== Fim da lista ==\u001B[37m ");
     }
 
@@ -219,7 +221,7 @@ public class Aplicacao {
         limparTela();
         System.out.println("\u001B[32m== Mídias Futuras ==\u001B[37m \n");
         System.out.println(
-                streaming.getClienteLogado().MostrarListaEspecifica(streaming.getClienteLogado().getMidiasFuturas()));
+                eu.MostrarListaEspecifica(eu.getMidiasFuturas()));
         System.out.println("\u001B[32m== Fim da lista ==\u001B[37m ");
     }
 
@@ -291,7 +293,7 @@ public class Aplicacao {
             exibirMenuCliente();
         }
         try {
-            streaming.getClienteLogado().adicionarMidiaFutura(retorno);
+            eu.adicionarMidiaFutura(retorno);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
@@ -308,7 +310,7 @@ public class Aplicacao {
             exibirMenuCliente();
         }
         try {
-            streaming.getClienteLogado().terminarMidia(retorno);
+            eu.terminarMidia(retorno);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             exibirMenuCliente();
@@ -321,7 +323,7 @@ public class Aplicacao {
             limparTela();
             Avaliacao avaliacao;
             System.out.println("\u001B[32m== Avaliar Mídia ==\u001B[37m");
-            ArrayList<Midia> midias = streaming.getClienteLogado().getMidiasAssistidas();
+            ArrayList<Midia> midias = eu.getMidiasAssistidas();
             int contador = 1;
             for (Midia midia : midias) {
                 System.out.println(contador + ": " + midia);
@@ -329,12 +331,12 @@ public class Aplicacao {
             }
             System.out.println("Qual a sua escolha? Digite o numero dela");
             int op = scanner.nextInt();
-            Midia midia = streaming.getClienteLogado().getMidiasAssistidas().get(op - 1);
+            Midia midia = eu.getMidiasAssistidas().get(op - 1);
             System.out.println("Escolha uma nota de 1 a 5");
             int nota = scanner.nextInt();
             System.out.println();
-            avaliacao = new Avaliacao(nota, midia, streaming.getClienteLogado(), LocalDate.now());
-            streaming.getClienteLogado().avaliar(avaliacao, midia);
+            avaliacao = new Avaliacao(nota, midia, eu, LocalDate.now());
+            eu.avaliar(avaliacao, midia);
             System.out.println("Deseja comentar ? s - sim / n - nao");
             scanner.nextLine();
             String opComen = scanner.nextLine();
@@ -347,11 +349,11 @@ public class Aplicacao {
             if (opComen.equalsIgnoreCase("s")) {
                 System.out.println("Qual seu comentario");
                 String coment = scanner.nextLine();
-                streaming.getClienteLogado().comentar((IComentarista) streaming.getClienteLogado().getTipoCliente(),
+                eu.comentar((IComentarista) eu.getTipoCliente(),
                         avaliacao, coment);
             }
 
-            streaming.criarAvaliacao(avaliacao, midia, streaming.getClienteLogado());
+            streaming.criarAvaliacao(avaliacao, midia, eu);
             System.out.println("\u001B[32mMídia avaliada com sucesso. \u001B[37m");
         } catch (Exception e) {
             System.out.println(e.getMessage());
